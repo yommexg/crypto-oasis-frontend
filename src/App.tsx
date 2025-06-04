@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Header } from "./components";
+import { Header, Spinner } from "./components";
 import { TermsOfService } from "./pages";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
   };
 
   if (appLoading) {
-    return <div>Loading....</div>;
+    return <Spinner />;
   }
 
   return (

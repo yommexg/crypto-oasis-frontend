@@ -4,7 +4,7 @@ import icon from "../assets/icon.png";
 import { LuUserRound } from "react-icons/lu";
 import { PiWalletFill } from "react-icons/pi";
 
-const Header = () => {
+const Header: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Who we are");
 
   const user = false;
