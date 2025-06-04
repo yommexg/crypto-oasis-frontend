@@ -6,17 +6,19 @@ type TermsOfServiceProps = {
 
 const TermsOfService: React.FC<TermsOfServiceProps> = ({ onAccept }) => {
   return (
-    <div className="fixed inset-0  flex items-center justify-center z-50">
-      <div className="bg-[#0e0e13] text-white p-6 rounded-md w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-lg border border-gray-700">
-        <h2 className="text-4xl font-bold mb-4 text-center">Privacy Policy</h2>
+    <div className="fixed inset-0 text-xs md:text-base flex items-center justify-center z-50">
+      <div className="bg-[#0e0e13] text-white p-6 rounded-md w-full max-w-2xl max-h-[90vh] mx-4 overflow-y-auto shadow-lg border border-gray-700">
+        <h2 className="text-xl md:text-4xl font-bold mb-4 text-center">
+          Privacy Policy
+        </h2>
 
-        <div className="space-y-4 leading-6 text-[#A6A6A6]">
+        <div className="space-y-4 text-xs md:text-base leading-6 text-[#A6A6A6]">
           <p>
             <strong>Crypto Oasis</strong> is a multigaming platform for NFT
             communities to come together, compete, and have fun.
           </p>
 
-          <h3 className="text-2xl font-semibold mt-4 text-white">
+          <h3 className="text-lg md:text-2xl font-semibold mt-4 text-white">
             General Information
           </h3>
 

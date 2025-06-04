@@ -31,7 +31,7 @@ function App() {
     <div className="relative">
       <div
         className={`${
-          !acceptedTerms && !user ? "opacity-0 pointer-events-none" : ""
+          !acceptedTerms && !user ? "opacity-70 pointer-events-none" : ""
         } transition-opacity duration-300`}>
         <div className="bg-[#0e0e13] text-white min-h-screen p-4">
           <Header />

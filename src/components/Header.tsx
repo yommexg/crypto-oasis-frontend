@@ -14,13 +14,13 @@ const Header: React.FC = () => {
       {!user && (
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-12">
-            <div className="w-32">
+            <div className="w-24 md:w-32">
               <img
                 src={icon}
                 className="w-full h-full"
               />
             </div>
-            <div className="flex items-center gap-10 font-semibold">
+            <div className="hidden md:flex flex-wrap justify-center gap-y-1 items-center gap-x-10 font-semibold">
               {["Who we are", "Features", "Roadmap", "Team", "FAQ"].map(
                 (tab) => (
                   <div
