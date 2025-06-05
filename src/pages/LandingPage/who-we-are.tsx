@@ -29,28 +29,25 @@ const WhoWeAre: React.FC = () => {
         />
       </div>
 
-      {/* About Section */}
-      {/* <div className="bg-black text-white py-16 px-4 sm:px-6 text-center">
+      <div className="bg-[#202029] py-10 md:py-16 px-4 sm:px-6 text-center">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">WHO WE ARE</h2>
-          <p className="text-gray-300 text-lg leading-relaxed">
+          <h2 className="text-lg md:text-2xl font-bold mb-4">WHO WE ARE</h2>
+          <p className="text-[#9FA0AF] text-[9px] md:text-base leading-relaxed">
             Crypto Oasis is a{" "}
-            <span className="font-semibold text-white">
+            <span className="font-extrabold">
               multigaming platform for NFT communities
             </span>{" "}
             to come together, compete, and have fun. A big driving factor at
             Crypto Oasis is to help projects in the NFT space by providing
             marketing and exposure through{" "}
-            <span className="font-semibold text-white">branded games</span>,{" "}
-            <span className="font-semibold text-white">
-              collabing tournament style
-            </span>
-            , and bringing back added value to everyone with the{" "}
-            <span className="text-lime-400 font-bold">$CCCoin</span> and access
-            to The Lab.
+            <span className="font-extrabold">branded games</span>,{" "}
+            <span className="font-extrabold">collabing tournament style</span>,
+            and bringing back added value to everyone with the{" "}
+            <span className="font-extrabold">$CCCoin</span> and access to The
+            Lab.
           </p>
         </div>
-      </div> */}
+      </div>
     </section>
   );
 };

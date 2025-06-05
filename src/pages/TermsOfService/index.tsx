@@ -18,7 +18,7 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onAccept }) => {
             communities to come together, compete, and have fun.
           </p>
 
-          <h3 className="text-lg md:text-2xl font-semibold mt-4 text-white">
+          <h3 className="text-base md:text-2xl font-semibold mt-4 text-white">
             General Information
           </h3>
 
