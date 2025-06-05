@@ -22,7 +22,7 @@ const Features: React.FC = () => {
   return (
     <section
       id="Features"
-      className="pt-6 md:pt-10 px-10">
+      className="pt-6 md:pt-10 px-4">
       <h1 className="uppercase text-2xl font-bold md:text-3xl text-center mb-8 md:mb-4">
         Features
       </h1>
