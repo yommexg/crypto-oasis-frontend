@@ -4,7 +4,7 @@ import mock from "../../assets/landing/mock.png";
 
 const WhoWeAre: React.FC = () => {
   return (
-    <section className="relative pt-28 overflow-hidden">
+    <section className="relative pt-28 md:pt-16 overflow-hidden">
       {/* Hero Section */}
       <div className="px-4 md:pt-14 sm:px-6 text-center">
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight animate-fade-in-up">

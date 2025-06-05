@@ -27,7 +27,7 @@ const Header: React.FC = () => {
                 } else {
                   const section = document.getElementById(tab);
                   if (section) {
-                    const yOffset = -110;
+                    const yOffset = -100;
                     const y =
                       section.getBoundingClientRect().top +
                       window.pageYOffset +
