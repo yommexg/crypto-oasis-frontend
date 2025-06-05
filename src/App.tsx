@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { Header, Spinner } from "./components";
-import { TermsOfService } from "./pages";
+import { Spinner } from "./components";
+import { LandingPage, TermsOfService } from "./pages";
 
 function App() {
   const user = false;
@@ -33,9 +33,8 @@ function App() {
         className={`${
           !acceptedTerms && !user ? "opacity-70 pointer-events-none" : ""
         } transition-opacity duration-300`}>
-        <div className="bg-[#0e0e13] text-white min-h-screen p-4">
-          <Header />
-          {/* Main content goes here */}
+        <div className="bg-[#0e0e13] text-white">
+          {!user && <LandingPage />}
         </div>
       </div>
 
