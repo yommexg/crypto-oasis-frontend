@@ -16,7 +16,7 @@ const Header: React.FC = () => {
             className="w-full h-full"
           />
         </div>
-        <div className="hidden md:flex flex-wrap justify-center gap-y-1 items-center gap-x-10 font-semibold">
+        <div className="hidden md:flex flex-wrap justify-center gap-y-2 items-center gap-x-6 lg:gap-x-10 font-semibold">
           {["Who we are", "Features", "Roadmap", "Team", "FAQ"].map((tab) => (
             <div
               key={tab}
@@ -27,11 +27,16 @@ const Header: React.FC = () => {
                 } else {
                   const section = document.getElementById(tab);
                   if (section) {
-                    section.scrollIntoView({ behavior: "smooth" });
+                    const yOffset = -110;
+                    const y =
+                      section.getBoundingClientRect().top +
+                      window.pageYOffset +
+                      yOffset;
+                    window.scrollTo({ top: y, behavior: "smooth" });
                   }
                 }
               }}
-              className={`cursor-pointer pb-3 ${
+              className={`cursor-pointer pb-2 ${
                 activeTab === tab
                   ? "border-b-3 border-[#CCE919] "
                   : "text-[#A4A6A4]"
