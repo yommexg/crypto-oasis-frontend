@@ -71,7 +71,7 @@ const RoadMap: React.FC = () => {
               key={item.id}
               className="border-b border-t md:h-[200px] border-[#292929] flex justify-between py-2 pb-6">
               <div className="flex flex-row md:gap-28">
-                <h1 className="text-lg md:text-8xl font-chakra-petch w-10 md:w-20 text-[#CCE919]">
+                <h1 className="text-lg md:text-8xl font-chakra-petch font-bold w-10 md:w-20 text-[#CCE919]">
                   {item.id}
                 </h1>
                 <div>
