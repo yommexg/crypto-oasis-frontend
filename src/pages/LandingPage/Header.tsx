@@ -9,14 +9,14 @@ const Header: React.FC = () => {
 
   return (
     <div className="flex justify-between items-center fixed top-0 z-40 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
-      <div className="flex items-center gap-12">
+      <div className="flex items-center md:gap-8 lg:gap-12">
         <div className="w-24 md:w-32">
           <img
             src={icon}
             className="w-full h-full"
           />
         </div>
-        <div className="hidden md:flex flex-wrap justify-center gap-y-2 items-center gap-x-6 lg:gap-x-10 font-semibold">
+        <div className="hidden md:flex flex-wrap justify-center gap-y-2 items-center gap-x-6 lg:gap-x-10 font-semibold text-sm lg:text-base">
           {["Who we are", "Features", "Roadmap", "Team", "FAQ"].map((tab) => (
             <div
               key={tab}

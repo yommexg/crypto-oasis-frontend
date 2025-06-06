@@ -49,7 +49,7 @@ const roadMapArray = [
     desc: [
       "This will be a “shop” on the Cryptooasis.io website.",
       "The shop will be populated with:",
-      "items/NFTs bought with secondary sales from the NFTs.",
+      "Items/NFTs bought with secondary sales from the NFTs.",
       "WL spots provided by communities",
       "Merchandise (provided by communities or merch)",
     ],
@@ -69,19 +69,21 @@ const RoadMap: React.FC = () => {
           return (
             <div
               key={item.id}
-              className="border-b border-t md:h-[200px] border-[#292929] flex justify-between py-2 pb-6">
-              <div className="flex flex-row md:gap-28">
-                <h1 className="text-lg md:text-8xl font-chakra-petch font-bold w-10 md:w-20 text-[#CCE919]">
+              className="border-b border-t lg:h-[200px] border-[#292929] flex justify-between py-2 pb-6">
+              <div className="flex flex-row md:gap-8 lg:gap-28">
+                <h1 className="text-lg md:text-4xl lg:text-8xl font-chakra-petch font-bold w-10 lg:w-20 text-[#CCE919]">
                   {item.id}
                 </h1>
                 <div>
-                  <h3 className="md:text-xl uppercase">{item.title}</h3>
+                  <h3 className="w-20 md:w-full text-[10px] md:text-lg lg:text-xl uppercase">
+                    {item.title}
+                  </h3>
                   <p className="text-[9px] md:text-xs text-[#A4A6A4]">
                     {item.date}
                   </p>
                 </div>
               </div>
-              <div className="w-[150px] md:w-[350px] text-[9px] md:text-sm text-[#A6A6A6]">
+              <div className="w-[150px] md:w-[250px] lg:w-[350px] text-[8px] md:text-sm text-[#A6A6A6]">
                 {item.desc.map((des) => {
                   let modifiedText = des;
 
