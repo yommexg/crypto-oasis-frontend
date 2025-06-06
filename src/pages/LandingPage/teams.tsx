@@ -38,6 +38,11 @@ const teamArray = [
     role: "Developer",
     img: pro,
   },
+  {
+    name: "TifeBadass",
+    role: "Developer",
+    img: pro,
+  },
 ];
 
 const Teams: React.FC = () => {
@@ -55,23 +60,33 @@ const Teams: React.FC = () => {
         </p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 mt-10">
-        {teamArray.map((mem, index) => (
-          <div
-            key={mem.name + index}
-            className="flex flex-col items-center text-center">
-            <div className="w-24 md:w-32 lg:w-44 mb-4">
-              <img
-                src={mem.img}
-                alt={mem.name}
-                className="w-full h-full rounded-full"
-              />
+        {teamArray.map((mem, index) => {
+          const total = teamArray.length;
+
+          const shouldCenterIn2Cols = total % 2 === 1 && index === total - 1;
+          const shouldCenterIn3Cols = total % 3 === 1 && index === total - 1;
+
+          return (
+            <div
+              key={mem.name + index}
+              className={`flex flex-col items-center text-center 
+          ${shouldCenterIn2Cols ? "col-span-2" : ""} 
+          ${shouldCenterIn3Cols ? "md:col-span-3" : ""}
+        `}>
+              <div className="w-24 md:w-32 lg:w-44 mb-4">
+                <img
+                  src={mem.img}
+                  alt={mem.name}
+                  className="w-full h-full rounded-full"
+                />
+              </div>
+              <h2 className="text-[#CCE919] uppercase font-bold text-[10px] md:text-lg">
+                {mem.name}
+              </h2>
+              <p className="text-[8px] md:text-xs">{mem.role}</p>
             </div>
-            <h2 className="text-[#CCE919] uppercase font-bold text-[10px] md:text-lg">
-              {mem.name}
-            </h2>
-            <p className="text-[8px] md:text-xs">{mem.role}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

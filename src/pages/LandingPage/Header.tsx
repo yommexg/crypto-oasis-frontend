@@ -1,11 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import icon from "../../assets/icon.png";
 import { LuUserRound } from "react-icons/lu";
 import { PiWalletFill } from "react-icons/pi";
 
+const sectionsArray = ["Who we are", "Features", "Roadmap", "Team", "FAQ"];
+
 const Header: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Who we are");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = 110;
+      let found = false;
+
+      for (let i = sectionsArray.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sectionsArray[i]);
+        if (section) {
+          const top = section.getBoundingClientRect().top;
+          if (top < offset) {
+            setActiveTab(sectionsArray[i]);
+            found = true;
+            break;
+          }
+        }
+      }
+
+      if (!found) {
+        setActiveTab(sectionsArray[0]);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === "Who we are") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const section = document.getElementById(tab);
+      if (section) {
+        const yOffset = -100;
+        const y =
+          section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }
+  };
 
   return (
     <div className="flex justify-between items-center fixed top-0 z-40 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
@@ -17,25 +60,10 @@ const Header: React.FC = () => {
           />
         </div>
         <div className="hidden md:flex flex-wrap justify-center gap-y-2 items-center gap-x-6 lg:gap-x-10 font-semibold text-sm lg:text-base">
-          {["Who we are", "Features", "Roadmap", "Team", "FAQ"].map((tab) => (
+          {sectionsArray.map((tab) => (
             <div
               key={tab}
-              onClick={() => {
-                setActiveTab(tab);
-                if (tab === "Who we are") {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                } else {
-                  const section = document.getElementById(tab);
-                  if (section) {
-                    const yOffset = -100;
-                    const y =
-                      section.getBoundingClientRect().top +
-                      window.pageYOffset +
-                      yOffset;
-                    window.scrollTo({ top: y, behavior: "smooth" });
-                  }
-                }
-              }}
+              onClick={() => scrollToSection(tab)}
               className={`cursor-pointer pb-2 ${
                 activeTab === tab
                   ? "border-b-3 border-[#CCE919] "
