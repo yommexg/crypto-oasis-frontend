@@ -55,7 +55,7 @@ const Features: React.FC = () => {
                 {item.desc}
               </p>
 
-              <button className="hidden md:block px-4 py-3 bg-[#30B943] rounded-md shadow shadow-[#30B943] hover:shadow-lg hover:opacity-70 transition-shadow duration-300 font-semibold text-white text-xs cursor-pointer">
+              <button className="hidden md:block px-4 py-3 bg-[#30B943] rounded-md shadow-lg shadow-[#30B943] hover:shadow hover:opacity-70 transition-shadow duration-300 font-semibold text-white text-xs cursor-pointer">
                 GET STARTED
               </button>
             </div>

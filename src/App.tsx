@@ -43,9 +43,7 @@ function App() {
   }
 
   return (
-    <div
-      className="relative"
-      id="app">
+    <div className="relative font-montserrat">
       <div
         className={`${
           !acceptedTerms && !user ? "opacity-70 pointer-events-none" : ""
