@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { Spinner } from "./components";
+import { CookieFooter, Spinner } from "./components";
 import { LandingPage, TermsOfService } from "./pages";
+import Cookies from "js-cookie";
 
 function App() {
   const user = false;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedCookies, setAcceptedCookies] = useState(false);
   const [appLoading, setAppLoading] = useState(true);
 
   useEffect(() => {
@@ -33,6 +35,18 @@ function App() {
     };
   }, [acceptedTerms, user]);
 
+  useEffect(() => {
+    const cookieAccepted = Cookies.get("cookiesAccepted");
+    if (cookieAccepted === "true") {
+      setAcceptedCookies(true);
+    }
+  }, []);
+
+  const handleAcceptCookies = (value: boolean) => {
+    // Cookies.set("cookiesAccepted", "true", { expires: 365 });
+    setAcceptedCookies(value);
+  };
+
   const handleAccept = () => {
     localStorage.setItem("acceptedTerms", "true");
     setAcceptedTerms(true);
@@ -43,16 +57,21 @@ function App() {
   }
 
   return (
-    <div className="relative font-montserrat">
+    <div
+      className={`relative font-montserrat ${
+        !acceptedCookies ? "pb-24 lg:pb-20" : ""
+      }`}>
       <div
         className={`${
           !acceptedTerms && !user ? "opacity-70 pointer-events-none" : ""
         } transition-opacity duration-300`}>
         <div className="bg-[#0e0e13] text-white">
           {!user && <LandingPage />}
+          {!acceptedCookies && (
+            <CookieFooter handleAcceptCookies={handleAcceptCookies} />
+          )}
         </div>
       </div>
-
       {!acceptedTerms && !user && <TermsOfService onAccept={handleAccept} />}
     </div>
   );
