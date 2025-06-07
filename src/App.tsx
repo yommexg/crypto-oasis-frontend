@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 
 import { CookieFooter, Spinner } from "./components";
-import { LandingPage, TermsOfService } from "./pages";
+import { LandingPage } from "./pages";
 import Cookies from "js-cookie";
+import { Login, TermsOfService } from "./modals";
 
 function App() {
   const user = false;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [appLoading, setAppLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +23,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!acceptedTerms && !user) {
+    if (!acceptedTerms || showModal) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     } else {
@@ -33,7 +35,7 @@ function App() {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
     };
-  }, [acceptedTerms, user]);
+  }, [acceptedTerms, showModal]);
 
   useEffect(() => {
     const cookieAccepted = Cookies.get("cookiesAccepted");
@@ -43,7 +45,7 @@ function App() {
   }, []);
 
   const handleAcceptCookies = (value: boolean) => {
-    // Cookies.set("cookiesAccepted", "true", { expires: 365 });
+    Cookies.set("cookiesAccepted", "true", { expires: 365 });
     setAcceptedCookies(value);
   };
 
@@ -51,6 +53,9 @@ function App() {
     localStorage.setItem("acceptedTerms", "true");
     setAcceptedTerms(true);
   };
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   if (appLoading) {
     return <Spinner />;
@@ -63,16 +68,26 @@ function App() {
       }`}>
       <div
         className={`${
-          !acceptedTerms && !user ? "opacity-70 pointer-events-none" : ""
+          !acceptedTerms || showModal ? "opacity-70 pointer-events-none" : ""
         } transition-opacity duration-300`}>
         <div className="bg-[#0e0e13] text-white">
-          {!user && <LandingPage />}
+          {!user && (
+            <>
+              <LandingPage handleShowModal={handleShowModal} />
+            </>
+          )}
           {!acceptedCookies && (
             <CookieFooter handleAcceptCookies={handleAcceptCookies} />
           )}
         </div>
       </div>
       {!acceptedTerms && !user && <TermsOfService onAccept={handleAccept} />}
+      {acceptedTerms && !user && (
+        <Login
+          isOpen={showModal}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }

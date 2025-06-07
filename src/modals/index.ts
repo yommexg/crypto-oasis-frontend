@@ -1,0 +1,8 @@
+export { default as TermsOfService } from "./TermsOfService";
+export { default as ForgetOTP } from "./Auth/forget-otp";
+export { default as ForgetVerify } from "./Auth/forget-verify";
+export { default as Login } from "./Auth/login";
+export { default as NewDeviceLogin } from "./Auth/new-device-login-otp";
+export { default as Register } from "./Auth/register";
+export { default as ResetPassword } from "./Auth/reset-password";
+export { default as VerifyEmail } from "./Auth/verify-email";

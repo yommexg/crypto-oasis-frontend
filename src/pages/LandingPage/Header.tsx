@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 
 import icon from "../../assets/icon.png";
 import { LuUserRound } from "react-icons/lu";
-import { PiWalletFill } from "react-icons/pi";
 
 const sectionsArray = ["Who we are", "Features", "Roadmap", "Team", "FAQ"];
 
-const Header: React.FC = () => {
+interface HeaderType {
+  handleShowModal: () => void;
+}
+
+const Header: React.FC<HeaderType> = ({ handleShowModal }) => {
   const [activeTab, setActiveTab] = useState("Who we are");
 
   useEffect(() => {
@@ -79,12 +82,13 @@ const Header: React.FC = () => {
           size={40}
           color="#8A939B"
           className="bg-[#262831] p-2 rounded-full cursor-pointer"
+          onClick={handleShowModal}
         />
-        <PiWalletFill
+        {/* <PiWalletFill
           size={40}
           color="#8A939B"
           className="bg-[#262831] p-2 rounded-full cursor-pointer"
-        />
+        /> */}
       </div>
     </div>
   );
