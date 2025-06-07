@@ -83,7 +83,7 @@ const FAQ: React.FC = () => {
             <div
               key={item.question + index}
               onClick={() => toggleAnswer(index)}
-              className={`bg-[#17161B] mb-1 px-4 py-3 rounded-lg cursor-pointer transition-all duration-300 md:w-[500px] ${
+              className={`bg-[#17161B] mb-1 px-4 py-3 rounded-lg cursor-pointer transition-all duration-300 md:w-[700px] lg:w-[850px] ${
                 isActive ? "border border-[#CCE919] bg-[#1F1F26]" : ""
               }`}>
               <div className="flex items-center justify-between">
@@ -111,7 +111,7 @@ const FAQ: React.FC = () => {
       </div>
 
       <div className="border-t border-[#3F3F3F] mt-20 pt-8">
-        <div className="bg-[#CCE919] text-black py-5 px-6 rounded-lg flex flex-col gap-6 md:flex-row items-center justify-between">
+        <div className="bg-[#CCE919] text-black py-5 px-6 rounded-lg flex flex-col gap-6 md:flex-row items-center justify-between md:w-[700px] lg:w-[850px]">
           <div className="md:w-[450px] mr-16">
             <div className="w-28 mb-2">
               <img
