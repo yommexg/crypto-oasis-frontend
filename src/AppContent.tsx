@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 import { CookieFooter, Spinner } from "./components";
 import { LandingPage } from "./pages";
-import Cookies from "js-cookie";
 import {
   Login,
   NewDeviceLogin,
@@ -15,35 +15,41 @@ import {
   VerifyForgetOTP,
 } from "./modals";
 
+const authModalRoutes = {
+  "/login": Login,
+  "/send-verification-link": SendVerificationLink,
+  "/register": Register,
+  "/new-device-login": NewDeviceLogin,
+  "/send-forget-otp": SendForgetOTP,
+  "/verify-forget-otp": VerifyForgetOTP,
+  "/reset-password": ResetPassword,
+} as const;
+
+type ModalPath = keyof typeof authModalRoutes;
+
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const user = false;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
   const [appLoading, setAppLoading] = useState(true);
 
+  const user = false;
+  const path = location.pathname;
+
+  const isAuthModalPath = (path: string): path is ModalPath =>
+    path in authModalRoutes;
+
   useEffect(() => {
-    const accepted = localStorage.getItem("acceptedTerms");
-    if (accepted === "true") {
+    if (localStorage.getItem("acceptedTerms") === "true") {
       setAcceptedTerms(true);
     }
     setAppLoading(false);
   }, []);
 
   useEffect(() => {
-    if (
-      !acceptedTerms ||
-      location.pathname === "/login" ||
-      location.pathname === "/send-verification-link" ||
-      location.pathname === "/register" ||
-      location.pathname === "/new-device-login" ||
-      location.pathname === "/send-forget-otp" ||
-      location.pathname === "/verify-forget-otp" ||
-      location.pathname === "/reset-password"
-    ) {
+    if (!acceptedTerms || isAuthModalPath(path)) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     } else {
@@ -55,11 +61,10 @@ function AppContent() {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
     };
-  }, [acceptedTerms, location.pathname]);
+  }, [acceptedTerms, path]);
 
   useEffect(() => {
-    const cookieAccepted = Cookies.get("cookiesAccepted");
-    if (cookieAccepted === "true") {
+    if (Cookies.get("cookiesAccepted") === "true") {
       setAcceptedCookies(true);
     }
   }, []);
@@ -74,9 +79,11 @@ function AppContent() {
     setAcceptedTerms(true);
   };
 
-  if (appLoading) {
-    return <Spinner />;
-  }
+  if (appLoading) return <Spinner />;
+
+  const AuthModalComponent = isAuthModalPath(path)
+    ? authModalRoutes[path]
+    : null;
 
   return (
     <div
@@ -84,18 +91,11 @@ function AppContent() {
         !acceptedCookies ? "pb-24 lg:pb-20" : ""
       }`}>
       <div
-        className={`${
-          !acceptedTerms ||
-          location.pathname === "/login" ||
-          location.pathname === "/register" ||
-          location.pathname === "/send-verification-link" ||
-          location.pathname === "/new-device-login" ||
-          location.pathname === "/send-forget-otp" ||
-          location.pathname === "/verify-forget-otp" ||
-          location.pathname === "/reset-password"
+        className={`transition-opacity duration-300 ${
+          !acceptedTerms || isAuthModalPath(path)
             ? "opacity-80 pointer-events-none"
             : ""
-        } transition-opacity duration-300`}>
+        }`}>
         <div className="bg-[#0e0e13] text-white">
           {!user && <LandingPage />}
           {!acceptedCookies && (
@@ -108,53 +108,8 @@ function AppContent() {
         <TermsOfService onAccept={handleAcceptTerms} />
       )}
 
-      {/* Modal Route */}
-      {acceptedTerms && !user && location.pathname === "/login" && (
-        <Login
-          isOpen={true}
-          onClose={() => navigate("/")}
-        />
-      )}
-
-      {acceptedTerms &&
-        !user &&
-        location.pathname === "/send-verification-link" && (
-          <SendVerificationLink
-            isOpen={true}
-            onClose={() => navigate("/")}
-          />
-        )}
-
-      {acceptedTerms && !user && location.pathname === "/register" && (
-        <Register
-          isOpen={true}
-          onClose={() => navigate("/")}
-        />
-      )}
-
-      {acceptedTerms && !user && location.pathname === "/new-device-login" && (
-        <NewDeviceLogin
-          isOpen={true}
-          onClose={() => navigate("/")}
-        />
-      )}
-
-      {acceptedTerms && !user && location.pathname === "/send-forget-otp" && (
-        <SendForgetOTP
-          isOpen={true}
-          onClose={() => navigate("/")}
-        />
-      )}
-
-      {acceptedTerms && !user && location.pathname === "/verify-forget-otp" && (
-        <VerifyForgetOTP
-          isOpen={true}
-          onClose={() => navigate("/")}
-        />
-      )}
-
-      {acceptedTerms && !user && location.pathname === "/reset-password" && (
-        <ResetPassword
+      {acceptedTerms && !user && AuthModalComponent && (
+        <AuthModalComponent
           isOpen={true}
           onClose={() => navigate("/")}
         />
