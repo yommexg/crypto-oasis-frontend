@@ -1,12 +1,11 @@
 import React from "react";
 
 import mock from "../../assets/landing/mock.png";
+import { useNavigate } from "react-router-dom";
 
-interface WhoweareType {
-  handleShowModal: () => void;
-}
+const WhoWeAre: React.FC = () => {
+  const navigate = useNavigate();
 
-const WhoWeAre: React.FC<WhoweareType> = ({ handleShowModal }) => {
   return (
     <section className="relative pt-28 md:pt-16 overflow-hidden">
       {/* Hero Section */}
@@ -20,7 +19,7 @@ const WhoWeAre: React.FC<WhoweareType> = ({ handleShowModal }) => {
           together, compete, and have fun.
         </p>
         <button
-          onClick={handleShowModal}
+          onClick={() => navigate("/login")}
           className="mt-6 py-3 px-5 md:py-4 md:px-10 bg-[#30B943] rounded-md shadow-lg shadow-[#30B943] hover:shadow hover:opacity-70
         transition-shadow duration-300 font-semibold text-white text-[9px] md:text-sm cursor-pointer">
           GET STARTED

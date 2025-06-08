@@ -2,10 +2,7 @@ import React from "react";
 
 import featureImg1 from "../../assets/landing/feature1.png";
 import featureImg2 from "../../assets/landing/feature2.jpg";
-
-interface FeatureType {
-  handleShowModal: () => void;
-}
+import { useNavigate } from "react-router-dom";
 
 const featureArray = [
   {
@@ -22,7 +19,9 @@ const featureArray = [
   },
 ];
 
-const Features: React.FC<FeatureType> = ({ handleShowModal }) => {
+const Features: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section
       id="Features"
@@ -60,7 +59,7 @@ const Features: React.FC<FeatureType> = ({ handleShowModal }) => {
               </p>
 
               <button
-                onClick={handleShowModal}
+                onClick={() => navigate("/login")}
                 className="hidden md:block px-4 py-3 bg-[#30B943] rounded-md shadow-lg shadow-[#30B943] hover:shadow hover:opacity-70 transition-shadow duration-300 font-semibold text-white text-xs cursor-pointer">
                 GET STARTED
               </button>
@@ -70,7 +69,7 @@ const Features: React.FC<FeatureType> = ({ handleShowModal }) => {
 
         <div className="flex items-center justify-center">
           <button
-            onClick={handleShowModal}
+            onClick={() => navigate("/login")}
             className="md:hidden px-6 py-3 bg-[#30B943] rounded-md shadow shadow-[#30B943] hover:shadow-lg hover:opacity-70
         transition-shadow duration-300 font-semibold text-white text-[9px] cursor-pointer">
             GET STARTED

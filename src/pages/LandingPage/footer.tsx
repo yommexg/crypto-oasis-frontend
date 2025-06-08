@@ -3,12 +3,11 @@ import { SiOpensea } from "react-icons/si";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
 
 import icon from "../../assets/icon.png";
+import { useNavigate } from "react-router-dom";
 
-interface FooterType {
-  handleShowModal: () => void;
-}
+const Footer: React.FC = () => {
+  const navigate = useNavigate();
 
-const Footer: React.FC<FooterType> = ({ handleShowModal }) => {
   return (
     <section className="flex flex-col items-center bg-[#15151B] py-4 px-6">
       <div className="md:w-[700px] lg:w-[850px]">
@@ -49,7 +48,7 @@ const Footer: React.FC<FooterType> = ({ handleShowModal }) => {
               consectetur adipiscing elit, sed do eiusmod .
             </p>
             <button
-              onClick={handleShowModal}
+              onClick={() => navigate("/login")}
               className="mt-4 py-3 px-5 md:py-3 md:px-10 bg-[#30B943] rounded-md shadow-[#30B943] hover:shadow hover:opacity-70
         transition-shadow duration-300 font-semibold text-white text-[9px] md:text-xs cursor-pointer">
               GET STARTED

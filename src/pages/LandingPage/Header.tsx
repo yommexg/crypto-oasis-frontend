@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 
 import icon from "../../assets/icon.png";
 import { LuUserRound } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 const sectionsArray = ["Who we are", "Features", "Roadmap", "Team", "FAQ"];
 
-interface HeaderType {
-  handleShowModal: () => void;
-}
-
-const Header: React.FC<HeaderType> = ({ handleShowModal }) => {
+const Header: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Who we are");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,7 +80,7 @@ const Header: React.FC<HeaderType> = ({ handleShowModal }) => {
           size={40}
           color="#8A939B"
           className="bg-[#262831] p-2 rounded-full cursor-pointer"
-          onClick={handleShowModal}
+          onClick={() => navigate("/login")}
         />
         {/* <PiWalletFill
           size={40}
