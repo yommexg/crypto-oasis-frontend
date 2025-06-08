@@ -36,7 +36,7 @@ const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.warn("Psaaword does not match");
+      toast.warn("Passsword does not match");
       return;
     }
 

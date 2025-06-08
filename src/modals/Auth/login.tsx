@@ -115,8 +115,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
             <div>
               <button
                 onClick={() => {
-                  // This should open forgot password modal or route
-                  console.log("Redirect to forgot password");
+                  navigate("/send-forget-otp");
                 }}
                 className="text-[#CCE919] hover:underline">
                 Forgot password?

@@ -111,10 +111,10 @@ const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
           <div className="mt-6 text-[10px] md:text-sm text-center text-gray-400">
             <button
               onClick={() => {
-                navigate("/resend-otp");
+                navigate("/login");
               }}
               className="text-[#CCE919] hover:underline">
-              Didn’t receive code? Resend
+              Didn’t receive code? , Go back to login
             </button>
           </div>
         </div>

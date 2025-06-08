@@ -8,8 +8,11 @@ import {
   Login,
   NewDeviceLogin,
   Register,
+  ResetPassword,
+  SendForgetOTP,
   SendVerificationLink,
   TermsOfService,
+  VerifyForgetOTP,
 } from "./modals";
 
 function AppContent() {
@@ -36,7 +39,10 @@ function AppContent() {
       location.pathname === "/login" ||
       location.pathname === "/send-verification-link" ||
       location.pathname === "/register" ||
-      location.pathname === "/new-device-login"
+      location.pathname === "/new-device-login" ||
+      location.pathname === "/send-forget-otp" ||
+      location.pathname === "/verify-forget-otp" ||
+      location.pathname === "/reset-password"
     ) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
@@ -83,7 +89,10 @@ function AppContent() {
           location.pathname === "/login" ||
           location.pathname === "/register" ||
           location.pathname === "/send-verification-link" ||
-          location.pathname === "/new-device-login"
+          location.pathname === "/new-device-login" ||
+          location.pathname === "/send-forget-otp" ||
+          location.pathname === "/verify-forget-otp" ||
+          location.pathname === "/reset-password"
             ? "opacity-80 pointer-events-none"
             : ""
         } transition-opacity duration-300`}>
@@ -125,6 +134,27 @@ function AppContent() {
 
       {acceptedTerms && !user && location.pathname === "/new-device-login" && (
         <NewDeviceLogin
+          isOpen={true}
+          onClose={() => navigate("/")}
+        />
+      )}
+
+      {acceptedTerms && !user && location.pathname === "/send-forget-otp" && (
+        <SendForgetOTP
+          isOpen={true}
+          onClose={() => navigate("/")}
+        />
+      )}
+
+      {acceptedTerms && !user && location.pathname === "/verify-forget-otp" && (
+        <VerifyForgetOTP
+          isOpen={true}
+          onClose={() => navigate("/")}
+        />
+      )}
+
+      {acceptedTerms && !user && location.pathname === "/reset-password" && (
+        <ResetPassword
           isOpen={true}
           onClose={() => navigate("/")}
         />
