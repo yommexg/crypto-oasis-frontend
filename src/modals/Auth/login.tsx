@@ -3,6 +3,7 @@ import CenteredModal from "../CentralModal";
 import { MdOutlineMail } from "react-icons/md";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { RxLockClosed } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,8 +101,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
               <span>Don’t have an account? </span>
               <button
                 onClick={() => {
-                  // This should trigger the sign-up modal or route
-                  console.log("Redirect to signup");
+                  navigate("/send-verification-link");
                 }}
                 className="text-[#CCE919] hover:underline">
                 Create one

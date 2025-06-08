@@ -5,4 +5,4 @@ export { default as Login } from "./Auth/login";
 export { default as NewDeviceLogin } from "./Auth/new-device-login-otp";
 export { default as Register } from "./Auth/register";
 export { default as ResetPassword } from "./Auth/reset-password";
-export { default as VerifyEmail } from "./Auth/verify-email";
+export { default as SendVerificationLink } from "./Auth/send-verification-link";

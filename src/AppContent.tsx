@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { CookieFooter, Spinner } from "./components";
 import { LandingPage } from "./pages";
 import Cookies from "js-cookie";
-import { Login, TermsOfService } from "./modals";
+import { Login, SendVerificationLink, TermsOfService } from "./modals";
 
 function AppContent() {
   const location = useLocation();
@@ -25,7 +25,11 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    if (!acceptedTerms || location.pathname === "/login") {
+    if (
+      !acceptedTerms ||
+      location.pathname === "/login" ||
+      location.pathname === "/send-verification-link"
+    ) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     } else {
@@ -67,8 +71,10 @@ function AppContent() {
       }`}>
       <div
         className={`${
-          !acceptedTerms || location.pathname === "/login"
-            ? "opacity-70 pointer-events-none"
+          !acceptedTerms ||
+          location.pathname === "/login" ||
+          location.pathname === "/send-verification-link"
+            ? "opacity-50 pointer-events-none"
             : ""
         } transition-opacity duration-300`}>
         <div className="bg-[#0e0e13] text-white">
@@ -90,6 +96,15 @@ function AppContent() {
           onClose={() => navigate("/")}
         />
       )}
+
+      {acceptedTerms &&
+        !user &&
+        location.pathname === "/send-verification-link" && (
+          <SendVerificationLink
+            isOpen={true}
+            onClose={() => navigate("/")}
+          />
+        )}
     </div>
   );
 }
