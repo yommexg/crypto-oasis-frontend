@@ -19,7 +19,6 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Add login logic
     console.log("Logging in with", { email, password });
   };
 
@@ -91,7 +90,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
             <button
               type="submit"
               className="px-6 mt-2 py-2 bg-[#30B943] rounded-md shadow shadow-[#30B943] hover:shadow-lg hover:opacity-70
-              transition-shadow duration-300 font-semibold text-lg text-white cursor-pointer w-full">
+              transition-shadow duration-300 font-semibold text-white cursor-pointer w-full">
               Sign In
             </button>
           </form>
