@@ -1,10 +1,12 @@
 import { useState } from "react";
-import CenteredModal from "../CentralModal";
 import { MdOutlineMail } from "react-icons/md";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { RxLockClosed } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import CenteredModal from "../CentralModal";
+import { useAuthStore } from "../../store/useAuthStore";
 
 interface LoginProps {
   isOpen: boolean;
@@ -18,14 +20,27 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const { login } = useAuthStore();
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !password) {
       toast.warn("Please enter both email and password");
       return;
     }
-    console.log("Logging in with", { email, password });
+
+    const { message, status } = await login(email, password);
+
+    if (status === "success") {
+      toast.success(message);
+      navigate("/dashboard");
+    } else if (status === "otp_required") {
+      toast.info(message);
+      navigate("/new-device-login", { state: { email } });
+    } else {
+      toast.error(message);
+    }
   };
 
   return (

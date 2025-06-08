@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 import CenteredModal from "../CentralModal";
 import { Spinner } from "../../components";
+import { useAuthStore } from "../../store/useAuthStore";
 
 interface NewDeviceLoginProps {
   isOpen: boolean;
@@ -14,10 +15,13 @@ const OTP_LENGTH = 6;
 
 const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
+  const [newDeviceLoginLoading, setNewDeviceLoginLoading] = useState(true);
+
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+
   const navigate = useNavigate();
 
-  const [newDeviceLoginLoading, setNewDeviceLoginLoading] = useState(true);
+  const { newDevicelogin } = useAuthStore();
 
   const location = useLocation();
   const email = location.state?.email;
@@ -48,7 +52,7 @@ const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const fullOtp = otp.join("");
 
@@ -57,7 +61,14 @@ const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    console.log("Logging in with", { email, otp: fullOtp });
+    const { message, status } = await newDevicelogin(email, fullOtp);
+
+    if (status === "success") {
+      toast.success(message);
+      navigate("/");
+    } else {
+      toast.error(message);
+    }
   };
 
   if (newDeviceLoginLoading) {

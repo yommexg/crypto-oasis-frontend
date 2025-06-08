@@ -14,6 +14,7 @@ import {
   TermsOfService,
   VerifyForgetOTP,
 } from "./modals";
+import { useAuthStore } from "./store/useAuthStore";
 
 const authModalRoutes = {
   "/login": Login,
@@ -30,6 +31,8 @@ type ModalPath = keyof typeof authModalRoutes;
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { isAuthLoading } = useAuthStore();
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
@@ -109,10 +112,13 @@ function AppContent() {
       )}
 
       {acceptedTerms && !user && AuthModalComponent && (
-        <AuthModalComponent
-          isOpen={true}
-          onClose={() => navigate("/")}
-        />
+        <>
+          {isAuthLoading && <Spinner />}
+          <AuthModalComponent
+            isOpen={true}
+            onClose={() => navigate("/")}
+          />
+        </>
       )}
     </div>
   );
