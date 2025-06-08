@@ -1,4 +1,4 @@
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   return (
     <div className="text-white p-6">
       <h1 className="text-2xl font-bold">Welcome to the Dashboard</h1>
