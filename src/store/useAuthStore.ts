@@ -26,7 +26,7 @@ interface AuthState {
   }>;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>((set) => ({
   isAuthLoading: false,
 
   accessToken: localStorage.getItem("accessToken"),
@@ -126,3 +126,5 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 }));
+
+export default useAuthStore;

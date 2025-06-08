@@ -1,7 +1,7 @@
 // axiosInstance.ts
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import { BASE_URL } from "./baseApi";
-import { useAuthStore } from "./useAuthStore";
+import { useAuth } from ".";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 // Attach token
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = useAuthStore.getState().accessToken;
+    const token = useAuth.getState().accessToken;
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -39,14 +39,14 @@ axiosInstance.interceptors.response.use(
 
         const newToken = res.data.token;
 
-        const { setAccessToken } = useAuthStore.getState();
+        const { setAccessToken } = useAuth.getState();
 
         setAccessToken(newToken);
 
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        const { logout } = useAuthStore.getState();
+        const { logout } = useAuth.getState();
 
         logout();
         return Promise.reject(refreshError);

@@ -1,50 +1,28 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 import { CookieFooter, Spinner } from "./components";
 import { LandingPage } from "./pages";
-import {
-  Login,
-  NewDeviceLogin,
-  Register,
-  ResetPassword,
-  SendForgetOTP,
-  SendVerificationLink,
-  TermsOfService,
-  VerifyForgetOTP,
-} from "./modals";
-import { useAuthStore } from "./store/useAuthStore";
-import { useUserStore } from "./store/useUserStore";
-import UsersRoutes from "./pages/Users";
 
-const authModalRoutes = {
-  "/login": Login,
-  "/send-verification-link": SendVerificationLink,
-  "/register": Register,
-  "/new-device-login": NewDeviceLogin,
-  "/send-forget-otp": SendForgetOTP,
-  "/verify-forget-otp": VerifyForgetOTP,
-  "/reset-password": ResetPassword,
-} as const;
+import { TermsOfService } from "./modals";
+import { isAuthModalPath } from "./modals/Auth";
 
-type ModalPath = keyof typeof authModalRoutes;
+import { useAuth, useUser } from "./store";
+
+import { AuthRoutes, UserRoutes } from "./routes";
 
 function AppContent() {
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const { isAuthLoading } = useAuthStore();
-  const { isUserLoading, user, setUser, getUser } = useUserStore();
+  const { isAuthLoading } = useAuth();
+  const { isUserLoading, user, setUser, getUser } = useUser();
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
   const [appLoading, setAppLoading] = useState(true);
 
   const path = location.pathname;
-
-  const isAuthModalPath = (path: string): path is ModalPath =>
-    path in authModalRoutes;
 
   useEffect(() => {
     if (localStorage.getItem("acceptedTerms") === "true") {
@@ -97,14 +75,10 @@ function AppContent() {
 
   if (appLoading) return <Spinner />;
 
-  const AuthModalComponent = isAuthModalPath(path)
-    ? authModalRoutes[path]
-    : null;
-
   return (
     <div
       className={`relative font-montserrat bg-[#0e0e13] text-white${
-        !acceptedCookies ? "pb-24 lg:pb-20" : ""
+        !acceptedCookies ? " pb-24 lg:pb-20" : ""
       }`}>
       <div
         className={`transition-opacity duration-300 ${
@@ -124,14 +98,10 @@ function AppContent() {
 
       <>
         {(isAuthLoading || isUserLoading) && <Spinner />}
-        {acceptedTerms && !user && AuthModalComponent && (
-          <AuthModalComponent
-            isOpen={true}
-            onClose={() => navigate("/")}
-          />
-        )}
 
-        {acceptedTerms && user && <UsersRoutes />}
+        {acceptedTerms && !user && <AuthRoutes />}
+
+        {acceptedTerms && user && <UserRoutes />}
       </>
     </div>
   );

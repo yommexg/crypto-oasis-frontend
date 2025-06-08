@@ -14,7 +14,7 @@ interface UserState {
   getUser: () => Promise<User | null>;
 }
 
-export const useUserStore = create<UserState>((set) => ({
+const useUserStore = create<UserState>((set) => ({
   isUserLoading: false,
   user: null,
 
@@ -29,7 +29,7 @@ export const useUserStore = create<UserState>((set) => ({
       });
       // console.log(res.data);
       const userData = res.data;
-      set({ user: userData });
+      // set({ user: userData });
       return userData;
     } catch (err) {
       console.error("Failed to fetch user", err);
@@ -39,3 +39,5 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 }));
+
+export default useUserStore;

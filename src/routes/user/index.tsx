@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "../Dashboard";
+import Dashboard from "../../pages/Dashboard";
 
 function UsersRoutes() {
   return (

@@ -6,9 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CenteredModal from "../CentralModal";
-
-import { useAuthStore } from "../../store/useAuthStore";
-import { useUserStore } from "../../store/useUserStore";
+import { useAuth, useUser } from "../../store";
 
 interface LoginProps {
   isOpen: boolean;
@@ -22,8 +20,8 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate();
 
-  const { login } = useAuthStore();
-  const { setUser, getUser } = useUserStore();
+  const { login } = useAuth();
+  const { setUser, getUser } = useUser();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
