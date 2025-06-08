@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CenteredModal from "../CentralModal";
+
 import { useAuthStore } from "../../store/useAuthStore";
+import { useUserStore } from "../../store/useUserStore";
 
 interface LoginProps {
   isOpen: boolean;
@@ -21,6 +23,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const { login } = useAuthStore();
+  const { setUser, getUser } = useUserStore();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +37,13 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
     if (status === "success") {
       toast.success(message);
-      navigate("/dashboard");
+      const res = await getUser();
+      if (res) {
+        setUser(res);
+      } else {
+        toast.error("Could not retrieve details. Kindly Refresh!!!");
+      }
+      navigate("/");
     } else if (status === "otp_required") {
       toast.info(message);
       navigate("/new-device-login", { state: { email } });

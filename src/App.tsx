@@ -1,20 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AppContent from "./AppContent";
-import { VerifyEmail } from "./modals";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { VerifyEmail } from "./modals";
+import AppContent from "./AppContent";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route
-          path="/verify-email"
-          element={<VerifyEmail />}
-        />
-        <Route
           path="*"
           element={<AppContent />}
+        />
+        <Route
+          path="/verify-email"
+          element={<VerifyEmail />}
         />
       </Routes>
 

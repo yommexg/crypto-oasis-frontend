@@ -15,6 +15,8 @@ import {
   VerifyForgetOTP,
 } from "./modals";
 import { useAuthStore } from "./store/useAuthStore";
+import { useUserStore } from "./store/useUserStore";
+import UsersRoutes from "./pages/Users";
 
 const authModalRoutes = {
   "/login": Login,
@@ -33,12 +35,12 @@ function AppContent() {
   const navigate = useNavigate();
 
   const { isAuthLoading } = useAuthStore();
+  const { isUserLoading, user, setUser, getUser } = useUserStore();
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
   const [appLoading, setAppLoading] = useState(true);
 
-  const user = false;
   const path = location.pathname;
 
   const isAuthModalPath = (path: string): path is ModalPath =>
@@ -48,8 +50,19 @@ function AppContent() {
     if (localStorage.getItem("acceptedTerms") === "true") {
       setAcceptedTerms(true);
     }
-    setAppLoading(false);
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await getUser();
+      if (res) {
+        setUser(res);
+      }
+    };
+
+    fetchUser();
+    setAppLoading(false);
+  }, [getUser, setUser]);
 
   useEffect(() => {
     if (!acceptedTerms || isAuthModalPath(path)) {
@@ -90,7 +103,7 @@ function AppContent() {
 
   return (
     <div
-      className={`relative font-montserrat ${
+      className={`relative font-montserrat bg-[#0e0e13] text-white${
         !acceptedCookies ? "pb-24 lg:pb-20" : ""
       }`}>
       <div
@@ -99,27 +112,27 @@ function AppContent() {
             ? "opacity-30 pointer-events-none"
             : ""
         }`}>
-        <div className="bg-[#0e0e13] text-white">
-          {!user && <LandingPage />}
-          {!acceptedCookies && (
-            <CookieFooter handleAcceptCookies={handleAcceptCookies} />
-          )}
-        </div>
+        {!user && <LandingPage />}
+        {!acceptedCookies && (
+          <CookieFooter handleAcceptCookies={handleAcceptCookies} />
+        )}
       </div>
 
       {!acceptedTerms && !user && (
         <TermsOfService onAccept={handleAcceptTerms} />
       )}
 
-      {acceptedTerms && !user && AuthModalComponent && (
-        <>
-          {isAuthLoading && <Spinner />}
+      <>
+        {(isAuthLoading || isUserLoading) && <Spinner />}
+        {acceptedTerms && !user && AuthModalComponent && (
           <AuthModalComponent
             isOpen={true}
             onClose={() => navigate("/")}
           />
-        </>
-      )}
+        )}
+
+        {acceptedTerms && user && <UsersRoutes />}
+      </>
     </div>
   );
 }
