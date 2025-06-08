@@ -18,7 +18,6 @@ const VerifyEmail: React.FC = () => {
 
     if (!token) {
       navigate("/");
-      setVerifyLoading(false);
       return;
     }
 
@@ -27,7 +26,7 @@ const VerifyEmail: React.FC = () => {
         //   const res = await axios.get(
         //     `${baseURL}/api/auth/verify-email?token=${token}`
         //   );
-        navigate("/register");
+        navigate("/register", { state: { isVerified: true, email: "abc" } });
       } catch (err) {
         console.log(err);
         navigate("/");
@@ -40,11 +39,7 @@ const VerifyEmail: React.FC = () => {
   }, [searchParams, navigate]);
 
   if (verifyLoading) {
-    return (
-      <div className="h-[100vh] bg-[#0e0e13] text-white flex flex-col items-center justify-center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner />;
   }
 };
 

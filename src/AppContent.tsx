@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { CookieFooter, Spinner } from "./components";
 import { LandingPage } from "./pages";
 import Cookies from "js-cookie";
-import { Login, SendVerificationLink, TermsOfService } from "./modals";
+import {
+  Login,
+  Register,
+  SendVerificationLink,
+  TermsOfService,
+} from "./modals";
 
 function AppContent() {
   const location = useLocation();
@@ -28,7 +33,8 @@ function AppContent() {
     if (
       !acceptedTerms ||
       location.pathname === "/login" ||
-      location.pathname === "/send-verification-link"
+      location.pathname === "/send-verification-link" ||
+      location.pathname === "/register"
     ) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
@@ -73,6 +79,7 @@ function AppContent() {
         className={`${
           !acceptedTerms ||
           location.pathname === "/login" ||
+          location.pathname === "/register" ||
           location.pathname === "/send-verification-link"
             ? "opacity-50 pointer-events-none"
             : ""
@@ -105,6 +112,12 @@ function AppContent() {
             onClose={() => navigate("/")}
           />
         )}
+      {acceptedTerms && !user && location.pathname === "/register" && (
+        <Register
+          isOpen={true}
+          onClose={() => navigate("/")}
+        />
+      )}
     </div>
   );
 }
