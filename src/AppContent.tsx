@@ -93,7 +93,7 @@ function AppContent() {
       <div
         className={`transition-opacity duration-300 ${
           !acceptedTerms || isAuthModalPath(path)
-            ? "opacity-80 pointer-events-none"
+            ? "opacity-30 pointer-events-none"
             : ""
         }`}>
         <div className="bg-[#0e0e13] text-white">
