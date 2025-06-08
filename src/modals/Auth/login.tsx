@@ -4,6 +4,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { RxLockClosed } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface LoginProps {
   isOpen: boolean;
@@ -19,6 +20,11 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      toast.warn("Please enter both email and password");
+      return;
+    }
     console.log("Logging in with", { email, password });
   };
 

@@ -6,6 +6,7 @@ import { LandingPage } from "./pages";
 import Cookies from "js-cookie";
 import {
   Login,
+  NewDeviceLogin,
   Register,
   SendVerificationLink,
   TermsOfService,
@@ -34,7 +35,8 @@ function AppContent() {
       !acceptedTerms ||
       location.pathname === "/login" ||
       location.pathname === "/send-verification-link" ||
-      location.pathname === "/register"
+      location.pathname === "/register" ||
+      location.pathname === "/new-device-login"
     ) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
@@ -80,8 +82,9 @@ function AppContent() {
           !acceptedTerms ||
           location.pathname === "/login" ||
           location.pathname === "/register" ||
-          location.pathname === "/send-verification-link"
-            ? "opacity-50 pointer-events-none"
+          location.pathname === "/send-verification-link" ||
+          location.pathname === "/new-device-login"
+            ? "opacity-80 pointer-events-none"
             : ""
         } transition-opacity duration-300`}>
         <div className="bg-[#0e0e13] text-white">
@@ -112,8 +115,16 @@ function AppContent() {
             onClose={() => navigate("/")}
           />
         )}
+
       {acceptedTerms && !user && location.pathname === "/register" && (
         <Register
+          isOpen={true}
+          onClose={() => navigate("/")}
+        />
+      )}
+
+      {acceptedTerms && !user && location.pathname === "/new-device-login" && (
+        <NewDeviceLogin
           isOpen={true}
           onClose={() => navigate("/")}
         />

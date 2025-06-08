@@ -5,6 +5,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Spinner } from "../../components";
+import { toast } from "react-toastify";
 
 interface RegisterProps {
   isOpen: boolean;
@@ -14,7 +15,6 @@ interface RegisterProps {
 const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isVerified = location.state?.isVerified ?? false;
   const email = location.state?.email;
 
   const [username, setUsername] = useState("");
@@ -22,29 +22,26 @@ const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState("");
   const [registerLoading, setRegisterLoading] = useState(true);
 
   useEffect(() => {
-    if (!isVerified) {
+    if (!email) {
       navigate("/");
       return;
     }
     setRegisterLoading(false);
-  }, [isVerified, navigate]);
+  }, [email, navigate]);
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      toast.warn("Psaaword does not match");
       return;
     }
 
-    setError("");
-    // TODO: Make API call
     console.log("Registering:", { email, username, password });
-    navigate("/login"); // or close modal if you prefer
+    navigate("/login");
   };
 
   if (registerLoading) {
@@ -147,11 +144,6 @@ const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
                 </button>
               </div>
             </div>
-
-            {/* Error */}
-            {error && (
-              <div className="text-sm text-red-400 text-center">{error}</div>
-            )}
 
             {/* Submit */}
             <button

@@ -26,7 +26,7 @@ const VerifyEmail: React.FC = () => {
         //   const res = await axios.get(
         //     `${baseURL}/api/auth/verify-email?token=${token}`
         //   );
-        navigate("/register", { state: { isVerified: true, email: "abc" } });
+        navigate("/register", { state: { email: "abc" } });
       } catch (err) {
         console.log(err);
         navigate("/");
