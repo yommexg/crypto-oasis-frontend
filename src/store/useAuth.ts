@@ -26,6 +26,11 @@ interface AuthState {
     status: "success" | "error";
     message: string;
   }>;
+
+  sendEmailVerification: (email: string) => Promise<{
+    status: "success" | "error";
+    message: string;
+  }>;
 }
 
 const getInitialToken = () => {
@@ -142,6 +147,41 @@ const useAuth = create<AuthState>((set) => ({
       if (isAxiosError(error)) {
         const message =
           error.response?.data?.message || "Login failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
+    } finally {
+      set({ isAuthLoading: false });
+    }
+  },
+
+  sendEmailVerification: async (email) => {
+    set({ isAuthLoading: true });
+
+    try {
+      const response = await axiosInstance.post(
+        "/auth/send-verification-token",
+        {
+          email,
+        }
+      );
+
+      if (response.data.success) {
+        return {
+          status: "success",
+          message:
+            response.data.message || "Email Verification Sent to your email",
+        };
+      }
+
+      return {
+        status: "error",
+        message: response.data.message || "Unknown Request error.",
+      };
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message || "Request failed. Please try again.";
         return { status: "error", message };
       }
       return { status: "error", message: "Unexpected error." };

@@ -2,6 +2,8 @@ import { useState } from "react";
 import CenteredModal from "../CentralModal";
 import { MdOutlineMail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../../store";
 
 interface SendVerificationLinkProps {
   isOpen: boolean;
@@ -13,11 +15,28 @@ const SendVerificationLink: React.FC<SendVerificationLinkProps> = ({
   onClose,
 }) => {
   const [email, setEmail] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSendVerificationLink = (e: React.FormEvent) => {
+  const { sendEmailVerification } = useAuth();
+
+  const handleSendVerificationLink = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email) {
+      toast.warn("Please enter both email and password");
+      return;
+    }
+
+    const { message, status } = await sendEmailVerification(email);
+
+    if (status === "success") {
+      setAlertMessage(message);
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
   };
 
   return (
@@ -31,6 +50,11 @@ const SendVerificationLink: React.FC<SendVerificationLinkProps> = ({
       }
       body={
         <div className="px-4 md:px-10 py-4">
+          {alertMessage && (
+            <p className="text-center py-2 font-bold uppercase text-[#CCE919]">
+              {alertMessage}
+            </p>
+          )}
           <form
             onSubmit={handleSendVerificationLink}
             className="space-y-4">
