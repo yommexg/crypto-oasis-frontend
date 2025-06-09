@@ -4,6 +4,16 @@ import { toast } from "react-toastify";
 
 import CenteredModal from "../CentralModal";
 import { Spinner } from "../../components";
+import { useAuth } from "../../store";
+
+const RESEND_TIMEOUT = 120;
+const RESEND_STORAGE_KEY = "otpResendTimestamp";
+
+const formatTime = (seconds: number) => {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
+};
 
 interface VerifyForgetOTPProps {
   isOpen: boolean;
@@ -21,9 +31,12 @@ const VerifyForgetOTP: React.FC<VerifyForgetOTPProps> = ({
   const navigate = useNavigate();
 
   const [verifyForgetOTPLoading, setVerifyForgetOTPLoading] = useState(true);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   const location = useLocation();
   const email = location.state?.email;
+
+  const { sendForgetOTP, verifyForgetOTP } = useAuth();
 
   useEffect(() => {
     if (!email) {
@@ -32,6 +45,59 @@ const VerifyForgetOTP: React.FC<VerifyForgetOTPProps> = ({
     }
     setVerifyForgetOTPLoading(false);
   }, [email, navigate]);
+
+  useEffect(() => {
+    const savedTimestamp = localStorage.getItem(RESEND_STORAGE_KEY);
+
+    if (savedTimestamp) {
+      const secondsLeft = Math.floor(
+        (parseInt(savedTimestamp) - Date.now()) / 1000
+      );
+
+      if (secondsLeft > 0) {
+        setResendCooldown(secondsLeft);
+        return;
+      } else {
+        localStorage.removeItem(RESEND_STORAGE_KEY);
+      }
+    }
+
+    const newExpiry = Date.now() + RESEND_TIMEOUT * 1000;
+    localStorage.setItem(RESEND_STORAGE_KEY, newExpiry.toString());
+    setResendCooldown(RESEND_TIMEOUT);
+  }, []);
+
+  useEffect(() => {
+    let timer: number;
+
+    if (resendCooldown > 0) {
+      timer = window.setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            localStorage.removeItem(RESEND_STORAGE_KEY);
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  const handleResendOTP = async () => {
+    if (!email || resendCooldown > 0) return;
+
+    const { message, status } = await sendForgetOTP(email);
+
+    if (status === "success") {
+      toast.success(message);
+      const expiry = Date.now() + RESEND_TIMEOUT * 1000;
+      localStorage.setItem(RESEND_STORAGE_KEY, expiry.toString());
+      setResendCooldown(RESEND_TIMEOUT);
+    } else {
+      toast.error(message);
+    }
+  };
 
   const handleChange = (value: string, index: number) => {
     if (!/^\d?$/.test(value)) return;
@@ -51,7 +117,7 @@ const VerifyForgetOTP: React.FC<VerifyForgetOTPProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const fullOtp = otp.join("");
 
@@ -59,8 +125,14 @@ const VerifyForgetOTP: React.FC<VerifyForgetOTPProps> = ({
       toast.warn("Please enter the complete OTP.");
       return;
     }
+    const { message, status } = await verifyForgetOTP(email, fullOtp);
 
-    console.log("Logging in with", { email, otp: fullOtp });
+    if (status === "success") {
+      navigate("/reset-password", { state: { email }, replace: true });
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
   };
 
   if (verifyForgetOTPLoading) {
@@ -107,17 +179,22 @@ const VerifyForgetOTP: React.FC<VerifyForgetOTPProps> = ({
             <button
               type="submit"
               className="px-6 mt-2 py-2 bg-[#30B943] rounded-md shadow shadow-[#30B943] hover:shadow-lg hover:opacity-70 transition-shadow duration-300 font-semibold text-white cursor-pointer w-full">
-              Send OTP
+              Verify OTP
             </button>
           </form>
 
           <div className="mt-6 text-[10px] md:text-sm text-center text-gray-400">
             <button
-              onClick={() => {
-                navigate("/send-forget-otp");
-              }}
-              className="text-[#CCE919] hover:underline">
-              Didn’t receive code? Resend
+              onClick={handleResendOTP}
+              disabled={resendCooldown > 0}
+              className={`${
+                resendCooldown > 0
+                  ? "text-gray-500 cursor-not-allowed"
+                  : "text-[#CCE919] hover:underline"
+              }`}>
+              {resendCooldown > 0
+                ? `Resend available in ${formatTime(resendCooldown)}`
+                : "Didn’t receive code? Resend"}
             </button>
           </div>
         </div>

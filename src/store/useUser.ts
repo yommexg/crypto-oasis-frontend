@@ -24,7 +24,7 @@ const useUser = create<UserState>((set) => ({
     try {
       const res = await axiosInstance.get("/user/me");
 
-      const userData = res.data;
+      const userData = res.data.user;
 
       set({ user: userData });
     } catch (err) {

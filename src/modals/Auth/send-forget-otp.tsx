@@ -2,6 +2,8 @@ import { useState } from "react";
 import CenteredModal from "../CentralModal";
 import { MdOutlineMail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../../store";
 
 interface SendForgetOTPProps {
   isOpen: boolean;
@@ -13,8 +15,24 @@ const SendForgetOTP: React.FC<SendForgetOTPProps> = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate();
 
-  const handleSendForgetOTP = (e: React.FormEvent) => {
+  const { sendForgetOTP } = useAuth();
+
+  const handleSendForgetOTP = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email) {
+      toast.warn("Please enter email");
+      return;
+    }
+
+    const { message, status } = await sendForgetOTP(email);
+
+    if (status === "success") {
+      navigate("/verify-forget-otp", { state: { email } });
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
   };
 
   return (
@@ -23,7 +41,7 @@ const SendForgetOTP: React.FC<SendForgetOTPProps> = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       header={
         <div className="text-center py-2 text-lg md:text-xl font-semibold text-white">
-          Forgotten Password
+          Forget Password
         </div>
       }
       body={

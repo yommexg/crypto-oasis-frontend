@@ -2,7 +2,7 @@ import { useAuth, useUser } from "../../store";
 
 const Dashboard: React.FC = () => {
   const { logout } = useAuth();
-  const { getUser } = useUser();
+  const { user, getUser } = useUser();
 
   const handleLogout = () => {
     logout();
@@ -10,10 +10,13 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="h-[100vh] flex flex-col justify-center items-center">
-      <h1 className="md:text-2xl font-bold">Welcome to the Dashboard</h1>
+    <div className="h-[100vh] flex flex-col justify-center items-center px-4">
+      <h1 className="md:text-2xl font-bold text-center">
+        Welcome to the Crypto Oasis Pocker Dashboard
+      </h1>
       <p className="text-[10px] my-4 md:text-base">
-        Your account is authenticated.
+        Hi <span className="capitalize font-bold">{user?.username}</span>, Your
+        account is authenticated.
       </p>
       <button
         onClick={handleLogout}

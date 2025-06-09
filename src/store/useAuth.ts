@@ -37,6 +37,36 @@ interface AuthState {
     message: string;
     email: string | null;
   }>;
+
+  register: (
+    email: string,
+    username: string,
+    password: string
+  ) => Promise<{
+    status: "success" | "error";
+    message: string;
+  }>;
+
+  sendForgetOTP: (email: string) => Promise<{
+    status: "success" | "error";
+    message: string;
+  }>;
+
+  verifyForgetOTP: (
+    email: string,
+    otp: string
+  ) => Promise<{
+    status: "success" | "error";
+    message: string;
+  }>;
+
+  resetPassword: (
+    email: string,
+    newPassword: string
+  ) => Promise<{
+    status: "success" | "error";
+    message: string;
+  }>;
 }
 
 const getInitialToken = () => {
@@ -228,6 +258,139 @@ const useAuth = create<AuthState>((set) => ({
         return { status: "error", message, email: null };
       }
       return { status: "error", message: "Unexpected error.", email: null };
+    } finally {
+      set({ isAuthLoading: false });
+    }
+  },
+
+  register: async (email, username, password) => {
+    set({ isAuthLoading: true });
+
+    try {
+      const response = await axiosInstance.post("/auth/register", {
+        email,
+        username,
+        password,
+      });
+
+      if (response.data.success) {
+        return {
+          status: "success",
+          message: response.data.message || "Registration was successful.",
+        };
+      }
+
+      return {
+        status: "error",
+        message: response.data.message || "Unknown Registration error.",
+      };
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message ||
+          "Registration failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
+    } finally {
+      set({ isAuthLoading: false });
+    }
+  },
+
+  sendForgetOTP: async (email) => {
+    set({ isAuthLoading: true });
+
+    try {
+      const response = await axiosInstance.post("/auth/request-forget-otp", {
+        email,
+      });
+
+      if (response.data.success) {
+        return {
+          status: "success",
+          message: response.data.message || "OTP Sent to your email",
+        };
+      }
+
+      return {
+        status: "error",
+        message: response.data.message || "Unknown Request error.",
+      };
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message || "Request failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
+    } finally {
+      set({ isAuthLoading: false });
+    }
+  },
+
+  verifyForgetOTP: async (email, otp) => {
+    set({ isAuthLoading: true });
+
+    try {
+      const response = await axiosInstance.post("/auth/verify-forget-otp", {
+        email,
+        otp,
+      });
+
+      if (response.data.success) {
+        return {
+          status: "success",
+          message:
+            response.data.message || "Forget OTP Verification was successful.",
+        };
+      }
+
+      return {
+        status: "error",
+        message:
+          response.data.message || "Unknown Forget OTP Verification error.",
+      };
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message ||
+          "Forget OTP Verification failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
+    } finally {
+      set({ isAuthLoading: false });
+    }
+  },
+
+  resetPassword: async (email, newPassword) => {
+    set({ isAuthLoading: true });
+
+    try {
+      const response = await axiosInstance.post("/auth/reset-password", {
+        email,
+        newPassword,
+      });
+
+      if (response.data.success) {
+        return {
+          status: "success",
+          message: response.data.message || "Password Reset was successful.",
+        };
+      }
+
+      return {
+        status: "error",
+        message: response.data.message || "Unknown Password Reset error.",
+      };
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message ||
+          "Password Reset failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
     } finally {
       set({ isAuthLoading: false });
     }

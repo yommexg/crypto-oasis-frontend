@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import CenteredModal from "../CentralModal";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { RxLockClosed } from "react-icons/rx";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useLocation, useNavigate } from "react-router-dom";
+
+import CenteredModal from "../CentralModal";
 import { Spinner } from "../../components";
-import { toast } from "react-toastify";
+import { useAuth } from "../../store";
 
 interface ResetPasswordProps {
   isOpen: boolean;
@@ -15,6 +17,8 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const email = location.state?.email;
+
+  const { resetPassword } = useAuth();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -30,7 +34,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ isOpen, onClose }) => {
     setResetPasswordLoading(false);
   }, [email, navigate]);
 
-  const handleResetPassword = (e: React.FormEvent) => {
+  const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -38,8 +42,14 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    console.log("ResetPassword:", { email, password });
-    navigate("/login");
+    const { message, status } = await resetPassword(email, password);
+
+    if (status === "success") {
+      toast.success(message);
+      navigate("/login", { replace: true });
+    } else {
+      toast.error(message);
+    }
   };
 
   if (resetPasswordLoading) {

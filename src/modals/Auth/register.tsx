@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Spinner } from "../../components";
 import { toast } from "react-toastify";
+import { useAuth } from "../../store";
 
 interface RegisterProps {
   isOpen: boolean;
@@ -17,12 +18,17 @@ const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const email = location.state?.email;
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [registerLoading, setRegisterLoading] = useState(true);
+
+  const { register } = useAuth();
 
   useEffect(() => {
     if (!email) {
@@ -32,7 +38,7 @@ const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
     setRegisterLoading(false);
   }, [email, navigate]);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -40,8 +46,14 @@ const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    console.log("Registering:", { email, username, password });
-    navigate("/login");
+    const { message, status } = await register(email, username, password);
+
+    if (status === "success") {
+      toast.success(message);
+      navigate("/login", { replace: true });
+    } else {
+      toast.error(message);
+    }
   };
 
   if (registerLoading) {

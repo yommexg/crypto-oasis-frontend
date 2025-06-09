@@ -35,6 +35,7 @@ const SendVerificationLink: React.FC<SendVerificationLinkProps> = ({
       setAlertMessage(message);
       toast.success(message);
     } else {
+      setAlertMessage("");
       toast.error(message);
     }
   };
