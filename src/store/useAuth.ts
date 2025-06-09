@@ -51,13 +51,20 @@ const useAuth = create<AuthState>((set) => ({
   },
 
   logout: () => {
+    set({ isAuthLoading: true });
+
     if (typeof window !== "undefined") {
       localStorage.removeItem(ACCESS_TOKEN_KEY);
     }
 
     set({ accessToken: null, isAuthLoading: false });
 
-    axiosInstance.post("/auth/logout").catch(() => {});
+    axiosInstance
+      .post("/auth/logout")
+      .catch(() => {})
+      .finally(() => {
+        set({ isAuthLoading: false });
+      });
   },
 
   login: async (email, password) => {

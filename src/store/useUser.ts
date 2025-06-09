@@ -27,7 +27,6 @@ const useUser = create<UserState>((set) => ({
       const userData = res.data;
 
       set({ user: userData });
-      console.log(userData);
     } catch (err) {
       set({ user: null });
       console.error("Failed to fetch user", err);
