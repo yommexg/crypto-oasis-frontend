@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 
 import { CookieFooter, Spinner } from "./components";
@@ -16,31 +16,31 @@ function AppContent() {
   const location = useLocation();
 
   const { isAuthLoading } = useAuth();
-  const { isUserLoading, user, setUser, getUser } = useUser();
+  const { isUserLoading, user, getUser } = useUser();
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
   const [appLoading, setAppLoading] = useState(true);
 
+  const hasFetched = useRef(false);
+
   const path = location.pathname;
 
   useEffect(() => {
-    if (localStorage.getItem("acceptedTerms") === "true") {
-      setAcceptedTerms(true);
-    }
+    const terms = localStorage.getItem("acceptedTerms") === "true";
+    const cookies = Cookies.get("cookiesAccepted") === "true";
+
+    setAcceptedTerms(terms);
+    setAcceptedCookies(cookies);
   }, []);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await getUser();
-      if (res) {
-        setUser(res);
-      }
-    };
-
-    fetchUser();
-    setAppLoading(false);
-  }, [getUser, setUser]);
+    if (!hasFetched.current) {
+      getUser();
+      setAppLoading(false);
+      hasFetched.current = true;
+    }
+  }, [getUser]);
 
   useEffect(() => {
     if (!acceptedTerms || isAuthModalPath(path)) {
@@ -56,12 +56,6 @@ function AppContent() {
       document.documentElement.style.overflow = "";
     };
   }, [acceptedTerms, path]);
-
-  useEffect(() => {
-    if (Cookies.get("cookiesAccepted") === "true") {
-      setAcceptedCookies(true);
-    }
-  }, []);
 
   const handleAcceptCookies = () => {
     Cookies.set("cookiesAccepted", "true", { expires: 365 });
@@ -101,7 +95,7 @@ function AppContent() {
 
         {acceptedTerms && !user && <AuthRoutes />}
 
-        {acceptedTerms && user && <UserRoutes />}
+        {user && <UserRoutes />}
       </>
     </div>
   );

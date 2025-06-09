@@ -21,7 +21,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const { login } = useAuth();
-  const { setUser, getUser } = useUser();
+  const { getUser } = useUser();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,12 +35,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
     if (status === "success") {
       toast.success(message);
-      const res = await getUser();
-      if (res) {
-        setUser(res);
-      } else {
-        toast.error("Could not retrieve details. Kindly Refresh!!!");
-      }
+      getUser();
       navigate("/");
     } else if (status === "otp_required") {
       toast.info(message);

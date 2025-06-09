@@ -1,15 +1,16 @@
-import { AxiosError } from "axios";
 import { create } from "zustand";
-
-import { BASE_URL } from "./baseApi";
 import axiosInstance from "./axiosinstance";
+import { isAxiosError } from "axios";
+
+const ACCESS_TOKEN_KEY = "accessToken";
 
 interface AuthState {
   isAuthLoading: boolean;
   accessToken: string | null;
 
-  setAccessToken: (token: string) => void;
+  setAccessToken: (token: string | null) => void;
   logout: () => void;
+
   login: (
     email: string,
     password: string
@@ -17,6 +18,7 @@ interface AuthState {
     status: "success" | "otp_required" | "error";
     message: string;
   }>;
+
   newDevicelogin: (
     email: string,
     otp: string
@@ -26,27 +28,43 @@ interface AuthState {
   }>;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
-  isAuthLoading: false,
+const getInitialToken = () => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem(ACCESS_TOKEN_KEY);
+  }
+  return null;
+};
 
-  accessToken: localStorage.getItem("accessToken"),
+const useAuth = create<AuthState>((set) => ({
+  isAuthLoading: false,
+  accessToken: getInitialToken(),
 
   setAccessToken: (token) => {
-    localStorage.setItem("accessToken", token);
+    if (typeof window !== "undefined") {
+      if (token) {
+        localStorage.setItem(ACCESS_TOKEN_KEY, token);
+      } else {
+        localStorage.removeItem(ACCESS_TOKEN_KEY);
+      }
+    }
     set({ accessToken: token });
   },
 
   logout: () => {
-    localStorage.removeItem("accessToken");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(ACCESS_TOKEN_KEY);
+    }
+
     set({ accessToken: null, isAuthLoading: false });
-    // axiosInstance.post("/auth/logout").catch(() => {});
+
+    axiosInstance.post("/auth/logout").catch(() => {});
   },
 
   login: async (email, password) => {
     set({ isAuthLoading: true });
 
     try {
-      const response = await axiosInstance.post(`${BASE_URL}/auth/login`, {
+      const response = await axiosInstance.post("/auth/login", {
         email,
         password,
       });
@@ -60,7 +78,10 @@ const useAuthStore = create<AuthState>((set) => ({
 
       if (response.status === 200) {
         const token = response.data.token;
-        useAuthStore.getState().setAccessToken(token);
+        set({ accessToken: token });
+        if (typeof window !== "undefined") {
+          localStorage.setItem(ACCESS_TOKEN_KEY, token);
+        }
 
         return {
           status: "success",
@@ -73,14 +94,12 @@ const useAuthStore = create<AuthState>((set) => ({
         message: response.data.message || "Unknown login error.",
       };
     } catch (error) {
-      const err = error as AxiosError<{ message: string }>;
-      const message =
-        err.response?.data?.message || "Login failed. Please try again.";
-
-      return {
-        status: "error",
-        message,
-      };
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message || "Login failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
     } finally {
       set({ isAuthLoading: false });
     }
@@ -90,17 +109,17 @@ const useAuthStore = create<AuthState>((set) => ({
     set({ isAuthLoading: true });
 
     try {
-      const response = await axiosInstance.post(
-        `${BASE_URL}/auth/verify-and-login`,
-        {
-          email,
-          otp,
-        }
-      );
+      const response = await axiosInstance.post("/auth/verify-and-login", {
+        email,
+        otp,
+      });
 
       if (response.status === 200) {
         const token = response.data.token;
-        useAuthStore.getState().setAccessToken(token);
+        set({ accessToken: token });
+        if (typeof window !== "undefined") {
+          localStorage.setItem(ACCESS_TOKEN_KEY, token);
+        }
 
         return {
           status: "success",
@@ -113,18 +132,16 @@ const useAuthStore = create<AuthState>((set) => ({
         message: response.data.message || "Unknown login error.",
       };
     } catch (error) {
-      const err = error as AxiosError<{ message: string }>;
-      const message =
-        err.response?.data?.message || "Login failed. Please try again.";
-
-      return {
-        status: "error",
-        message,
-      };
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message || "Login failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
     } finally {
       set({ isAuthLoading: false });
     }
   },
 }));
 
-export default useAuthStore;
+export default useAuth;

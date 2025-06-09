@@ -1,2 +1,2 @@
-export { default as useAuth } from "./useAuthStore";
-export { default as useUser } from "./useUserStore";
+export { default as useAuth } from "./useAuth";
+export { default as useUser } from "./useUser";

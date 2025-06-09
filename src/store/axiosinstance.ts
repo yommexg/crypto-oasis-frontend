@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Refresh on 401
+// Refresh on 403
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {

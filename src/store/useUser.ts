@@ -10,34 +10,31 @@ interface User {
 interface UserState {
   isUserLoading: boolean;
   user: User | null;
-  setUser: (user: User) => void;
-  getUser: () => Promise<User | null>;
+
+  getUser: () => void;
 }
 
-const useUserStore = create<UserState>((set) => ({
+const useUser = create<UserState>((set) => ({
   isUserLoading: false,
   user: null,
-
-  setUser: (user) => set({ user }),
 
   getUser: async () => {
     set({ isUserLoading: true });
 
     try {
-      const res = await axiosInstance.get("/user/me", {
-        withCredentials: true,
-      });
-      // console.log(res.data);
+      const res = await axiosInstance.get("/user/me");
+
       const userData = res.data;
-      // set({ user: userData });
-      return userData;
+
+      set({ user: userData });
+      console.log(userData);
     } catch (err) {
+      set({ user: null });
       console.error("Failed to fetch user", err);
-      return null;
     } finally {
       set({ isUserLoading: false });
     }
   },
 }));
 
-export default useUserStore;
+export default useUser;
