@@ -31,6 +31,12 @@ interface AuthState {
     status: "success" | "error";
     message: string;
   }>;
+
+  verifyNewEmail: (token: string) => Promise<{
+    status: "success" | "error";
+    message: string;
+    email: string | null;
+  }>;
 }
 
 const getInitialToken = () => {
@@ -65,7 +71,7 @@ const useAuth = create<AuthState>((set) => ({
     set({ accessToken: null, isAuthLoading: false });
 
     axiosInstance
-      .post("/auth/logout")
+      .get("/auth/logout")
       .catch(() => {})
       .finally(() => {
         set({ isAuthLoading: false });
@@ -88,7 +94,7 @@ const useAuth = create<AuthState>((set) => ({
         };
       }
 
-      if (response.status === 200) {
+      if (response.data.success) {
         const token = response.data.token;
         set({ accessToken: token });
         if (typeof window !== "undefined") {
@@ -126,7 +132,7 @@ const useAuth = create<AuthState>((set) => ({
         otp,
       });
 
-      if (response.status === 200) {
+      if (response.data.success) {
         const token = response.data.token;
         set({ accessToken: token });
         if (typeof window !== "undefined") {
@@ -185,6 +191,43 @@ const useAuth = create<AuthState>((set) => ({
         return { status: "error", message };
       }
       return { status: "error", message: "Unexpected error." };
+    } finally {
+      set({ isAuthLoading: false });
+    }
+  },
+
+  verifyNewEmail: async (token) => {
+    set({ isAuthLoading: true });
+
+    try {
+      const response = await axiosInstance.get(
+        `/auth/verify-token?token=${token}`
+      );
+
+      if (response.data.success) {
+        const email = response.data.email;
+
+        return {
+          status: "success",
+          message: response.data.message || "Verification was successful.",
+          email,
+        };
+      }
+
+      return {
+        status: "error",
+        message: response.data.message || "Unknown Verification error.",
+        email: null,
+      };
+    } catch (error) {
+      console.log("verify Email Error ", error);
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message ||
+          "Verification failed. Please try again.";
+        return { status: "error", message, email: null };
+      }
+      return { status: "error", message: "Unexpected error.", email: null };
     } finally {
       set({ isAuthLoading: false });
     }

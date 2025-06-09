@@ -25,7 +25,7 @@ const SendVerificationLink: React.FC<SendVerificationLinkProps> = ({
     e.preventDefault();
 
     if (!email) {
-      toast.warn("Please enter both email and password");
+      toast.warn("Please enter email");
       return;
     }
 
@@ -51,7 +51,7 @@ const SendVerificationLink: React.FC<SendVerificationLinkProps> = ({
       body={
         <div className="px-4 md:px-10 py-4">
           {alertMessage && (
-            <p className="text-center py-2 font-bold uppercase text-[#CCE919]">
+            <p className="text-center py-2 text-lg font-bold uppercase text-[#CCE919]">
               {alertMessage}
             </p>
           )}

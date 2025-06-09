@@ -15,8 +15,8 @@ interface RegisterProps {
 const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const email = location.state?.email;
 
+  const email = location.state?.email;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

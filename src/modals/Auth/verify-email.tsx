@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { Spinner } from "../../components";
-// import axios from "axios";
-
-// import logo from "../assets/logo.png";
-
-// const baseURL = import.meta.env.VITE_API_URL;
+import { useAuth } from "../../store";
+import { toast } from "react-toastify";
 
 const VerifyEmail: React.FC = () => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
-  const [verifyLoading, setVerifyLoading] = useState(true);
+  const { isAuthLoading, verifyNewEmail } = useAuth();
+
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     const token = searchParams.get("token");
@@ -22,23 +22,24 @@ const VerifyEmail: React.FC = () => {
     }
 
     const verify = async () => {
-      try {
-        //   const res = await axios.get(
-        //     `${baseURL}/api/auth/verify-email?token=${token}`
-        //   );
-        navigate("/register", { state: { email: "abc" } });
-      } catch (err) {
-        console.log(err);
+      const { email, message, status } = await verifyNewEmail(token);
+
+      if (status === "success") {
+        navigate("/register", { state: { email } });
+        toast.success(message);
+      } else {
         navigate("/");
-      } finally {
-        setVerifyLoading(false);
+        toast.error(message);
       }
     };
 
-    verify();
-  }, [searchParams, navigate]);
+    if (!hasFetched.current) {
+      verify();
+      hasFetched.current = true;
+    }
+  }, [searchParams, navigate, verifyNewEmail]);
 
-  if (verifyLoading) {
+  if (isAuthLoading) {
     return <Spinner />;
   }
 };
