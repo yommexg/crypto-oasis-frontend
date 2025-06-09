@@ -77,13 +77,13 @@ function AppContent() {
 
   return (
     <div
-      className={`relative font-montserrat bg-[#0e0e13] text-white${
+      className={`relative font-montserrat bg-[#0e0e13] text-white ${
         !acceptedCookies ? " pb-24 lg:pb-20" : ""
       }`}>
       <div
         className={`transition-opacity duration-300 ${
           !acceptedTerms || isAuthModalPath(path)
-            ? "opacity-30 pointer-events-none"
+            ? "opacity-10 pointer-events-none"
             : ""
         }`}>
         {!user && <LandingPage />}
