@@ -1,5 +1,128 @@
-const Header: React.FC = () => {
-  return <div>Auth User Header</div>;
+import { useState } from "react";
+import { CiSearch } from "react-icons/ci";
+import { LuUserRound } from "react-icons/lu";
+import { PiWalletFill } from "react-icons/pi";
+import { FaArrowLeft } from "react-icons/fa";
+import { BiSolidUpArrow } from "react-icons/bi";
+import { IoCreateOutline } from "react-icons/io5";
+import { FiMenu } from "react-icons/fi";
+
+import { motion, AnimatePresence } from "framer-motion";
+
+import icon from "../assets/icon.png";
+
+type HeaderProps = {
+  onMenuClick: () => void;
+};
+
+const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+  const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
+
+  const walletConnected = false;
+
+  return (
+    <nav className="flex justify-between items-center fixed top-0 z-40 gap-[50px] lg:gap-32 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
+      <div className="flex items-center gap-4">
+        <FiMenu
+          size={24}
+          className="md:hidden text-white cursor-pointer"
+          onClick={onMenuClick}
+        />
+
+        <div className="w-16 md:w-24">
+          <img
+            src={icon}
+            className="w-full h-full"
+          />
+        </div>
+      </div>
+
+      <div className="hidden md:block w-full max-w-1/2  relative">
+        <input
+          type="text"
+          placeholder="Search..."
+          className=" w-full rounded-md border-[#34343F] bg-[#19191E] px-4 py-3 text-[10px] md:text-sm text-white focus:border focus:border-gray-600 focus:outline-none"
+        />
+        <CiSearch className="text-white absolute text-lg right-4 top-3" />
+      </div>
+
+      <div className="flex items-center gap-3 md:gap-4">
+        <div className="md:hidden">
+          <CiSearch
+            size={22}
+            color="#ffffff"
+            className="cursor-pointer"
+            onClick={() => setMobileSearchVisible((prev) => !prev)}
+          />
+        </div>
+
+        {walletConnected && (
+          <div className="flex items-center gap-2 bg-[#30B9B1] px-2 md:px-4 cursor-pointer py-1 md:py-2 rounded-sm md:rounded-full hover:opacity-70 font-semibold md:w-[180px]">
+            <IoCreateOutline className="text-xl" />
+            <p className="text-sm hidden md:block">Create a game</p>
+          </div>
+        )}
+
+        <LuUserRound
+          color="#8A939B"
+          className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-2xl md:text-4xl"
+        />
+        {!walletConnected && (
+          <div className="relative">
+            <PiWalletFill
+              color="#8A939B"
+              className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-2xl md:text-4xl"
+            />
+            {!mobileSearchVisible && (
+              <div className="absolute -bottom-24 -right-3 md:-bottom-26 md:-right-2 ">
+                <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
+                <div className="bg-[#31323E] py-3 rounded-lg w-[200px] md:w-[250px] px-4">
+                  <h3 className="font-semibold text-xs md:text-base">
+                    Welcome to Crypto Oasis!
+                  </h3>
+                  <p className="mt-2 text-[9px] md:text-xs">
+                    To create or play games, <br />
+                    please{" "}
+                    <span className="text-[#CCE919] font-semibold">
+                      Connect your wallet
+                    </span>
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <AnimatePresence>
+        {mobileSearchVisible && (
+          <motion.div
+            initial={{ y: -80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -80, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 left-0 right-0 bg-[#0e0e13] z-50 p-4 flex items-center gap-3">
+            <FaArrowLeft
+              size={24}
+              color="#ffffff"
+              className="cursor-pointer"
+              onClick={() => setMobileSearchVisible(false)}
+            />
+            <input
+              autoFocus
+              type="text"
+              placeholder="Search..."
+              className="w-full rounded-md border-[#34343F] bg-[#19191E] px-4 py-3 text-sm text-white focus:border focus:border-gray-600 focus:outline-none"
+            />
+            <CiSearch
+              size={28}
+              color="#ffffff"
+              className="cursor-pointer"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
 };
 
 export default Header;

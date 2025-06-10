@@ -52,7 +52,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-between items-center fixed top-0 z-40 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
+    <nav className="flex justify-between items-center fixed top-0 z-40 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
       <div className="flex items-center md:gap-8 lg:gap-12">
         <div className="w-24 md:w-32">
           <img
@@ -88,7 +88,7 @@ const Header: React.FC = () => {
           className="bg-[#262831] p-2 rounded-full cursor-pointer"
         /> */}
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -9,16 +9,15 @@ import { TermsOfService } from "./modals";
 import { isAuthModalPath } from "./modals/Auth";
 
 import { useAuth, useUser } from "./store";
-
 import { AuthRoutes, UserRoutes } from "./routes";
 
 function AppContent() {
   const location = useLocation();
 
   const { isAuthLoading } = useAuth();
-  const { isUserLoading, getUser, user } = useUser();
+  const { isUserLoading, getUser } = useUser();
 
-  // const user = true;
+  const user = true;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
@@ -76,9 +75,12 @@ function AppContent() {
       className={`relative font-montserrat bg-[#0e0e13] text-white ${
         !acceptedCookies ? " pb-24 lg:pb-20" : ""
       }`}>
+      {!acceptedTerms && <TermsOfService onAccept={handleAcceptTerms} />}
+
       {!acceptedCookies && (
         <CookieFooter handleAcceptCookies={handleAcceptCookies} />
       )}
+
       <div
         className={`transition-opacity duration-300 ${
           !acceptedTerms || isAuthModalPath(path)
@@ -88,16 +90,16 @@ function AppContent() {
         {!user && <LandingPage />}
       </div>
 
-      {!acceptedTerms && !user && (
-        <TermsOfService onAccept={handleAcceptTerms} />
-      )}
-
       <>
         {(isAuthLoading || isUserLoading) && <Spinner />}
 
         {acceptedTerms && !user && <AuthRoutes />}
 
-        {user && <UserRoutes />}
+        {user && (
+          <div className="bg-[#202029]">
+            <UserRoutes />
+          </div>
+        )}
       </>
     </div>
   );
