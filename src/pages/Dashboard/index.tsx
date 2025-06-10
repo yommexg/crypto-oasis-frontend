@@ -1,4 +1,5 @@
 import { useAuth, useUser } from "../../store";
+import Header from "./Heaader";
 
 const Dashboard: React.FC = () => {
   const { logout } = useAuth();
@@ -11,6 +12,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="h-[100vh] flex flex-col justify-center items-center px-4">
+      <Header />
+
       <h1 className="md:text-2xl font-bold text-center">
         Welcome to the Crypto Oasis Pocker Dashboard
       </h1>

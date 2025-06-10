@@ -16,7 +16,9 @@ function AppContent() {
   const location = useLocation();
 
   const { isAuthLoading } = useAuth();
-  const { isUserLoading, user, getUser } = useUser();
+  const { isUserLoading, getUser, user } = useUser();
+
+  // const user = true;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
@@ -74,6 +76,9 @@ function AppContent() {
       className={`relative font-montserrat bg-[#0e0e13] text-white ${
         !acceptedCookies ? " pb-24 lg:pb-20" : ""
       }`}>
+      {!acceptedCookies && (
+        <CookieFooter handleAcceptCookies={handleAcceptCookies} />
+      )}
       <div
         className={`transition-opacity duration-300 ${
           !acceptedTerms || isAuthModalPath(path)
@@ -81,9 +86,6 @@ function AppContent() {
             : ""
         }`}>
         {!user && <LandingPage />}
-        {!acceptedCookies && (
-          <CookieFooter handleAcceptCookies={handleAcceptCookies} />
-        )}
       </div>
 
       {!acceptedTerms && !user && (
