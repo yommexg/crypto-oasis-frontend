@@ -94,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             <PiWalletFill
               onClick={() => setshowWallets(true)}
               color="#8A939B"
-              className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-2xl md:text-4xl"
+              className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-3xl md:text-[40px]"
             />
             {showWallets ? (
               <HeaderWallet onCloseWallet={() => setshowWallets(false)} />

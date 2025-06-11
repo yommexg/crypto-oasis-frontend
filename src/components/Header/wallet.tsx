@@ -72,7 +72,7 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className="absolute bg-white text-black top-12 md:top-16 right-1 w-[250px] md:w-[350px] py-1 rounded-2xl z-50">
+        className="absolute bg-white text-black top-12 md:top-16 right-1 w-[300px] md:w-[350px] py-1 rounded-2xl z-50">
         <div className="flex items-center justify-between bg-white shadow py-2 px-4 rounded-t-2xl">
           <h3 className="text-sm font-semibold">Connect to Wallet</h3>
           <FiX
