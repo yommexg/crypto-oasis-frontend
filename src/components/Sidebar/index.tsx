@@ -6,7 +6,8 @@ import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX } from "react-icons/fi";
 
-import icon from "../assets/icon.png";
+import icon from "../../assets/icon.png";
+import { useEffect } from "react";
 
 type SidebarProps = {
   isOpen: boolean;
@@ -21,6 +22,21 @@ const pages = [
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const sidebarContent = (
     <div className="flex flex-col justify-between h-full px-4 pt-6 md:pt-24 pb-6 bg-[#1B1C23] w-4/5  md:w-20 relative">
       <div>

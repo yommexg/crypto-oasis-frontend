@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { Dashboard, Games, Profile, Settings } from "../../pages";
 import { Header, Sidebar } from "../../components";
-import { useState } from "react";
 
 function UsersRoutes() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

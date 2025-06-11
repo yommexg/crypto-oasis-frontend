@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { LuUserRound } from "react-icons/lu";
 import { PiWalletFill } from "react-icons/pi";
 import { FaArrowLeft } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
 import { IoCreateOutline } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import icon from "../assets/icon.png";
+import icon from "../../assets/icon.png";
+import profile from "../../assets/profile.png";
+import HeaderWallet from "./wallet";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -17,8 +19,24 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
+  const [showWallets, setshowWallets] = useState(false);
 
   const walletConnected = false;
+
+  useEffect(() => {
+    if (showWallets) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [showWallets]);
 
   return (
     <nav className="flex justify-between items-center fixed top-0 z-40 gap-[50px] lg:gap-32 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
@@ -28,7 +46,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           className="md:hidden text-white cursor-pointer"
           onClick={onMenuClick}
         />
-
         <div className="w-16 md:w-24">
           <img
             src={icon}
@@ -63,32 +80,44 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           </div>
         )}
 
-        <LuUserRound
-          color="#8A939B"
-          className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-2xl md:text-4xl"
-        />
+        <div className="flex items-center bg-[#262831] pr-[2px] py-[2px] gap-[2px] rounded-full cursor-pointer">
+          <div className="w-6 md:w-8">
+            <img
+              src={profile}
+              className="w-full h-full rounded-full"
+            />
+          </div>
+          <MdOutlineKeyboardArrowDown className="text-sm" />
+        </div>
         {!walletConnected && (
           <div className="relative">
             <PiWalletFill
+              onClick={() => setshowWallets(true)}
               color="#8A939B"
               className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-2xl md:text-4xl"
             />
-            {!mobileSearchVisible && (
-              <div className="absolute -bottom-24 -right-3 md:-bottom-26 md:-right-2 ">
-                <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
-                <div className="bg-[#31323E] py-3 rounded-lg w-[200px] md:w-[250px] px-4">
-                  <h3 className="font-semibold text-xs md:text-base">
-                    Welcome to Crypto Oasis!
-                  </h3>
-                  <p className="mt-2 text-[9px] md:text-xs">
-                    To create or play games, <br />
-                    please{" "}
-                    <span className="text-[#CCE919] font-semibold">
-                      Connect your wallet
-                    </span>
-                  </p>
-                </div>
-              </div>
+            {showWallets ? (
+              <HeaderWallet onCloseWallet={() => setshowWallets(false)} />
+            ) : (
+              <>
+                {!mobileSearchVisible && (
+                  <div className="absolute -bottom-24 -right-3 md:-bottom-26 md:-right-2 ">
+                    <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
+                    <div className="bg-[#31323E] py-3 rounded-lg w-[200px] md:w-[250px] px-4">
+                      <h3 className="font-semibold text-xs md:text-base">
+                        Welcome to Crypto Oasis!
+                      </h3>
+                      <p className="mt-2 text-[9px] md:text-xs">
+                        To create or play games, <br />
+                        please{" "}
+                        <span className="text-[#CCE919] font-semibold">
+                          Connect your wallet
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}

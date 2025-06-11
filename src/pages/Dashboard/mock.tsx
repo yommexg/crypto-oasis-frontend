@@ -10,7 +10,7 @@ const DashboardMock: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 md:pl-20 pb-6 flex flex-col justify-center items-center px-4 h-screen">
+    <div className="pt-24 md:pl-20 pb-6 flex flex-col justify-center items-center px-4">
       <h1 className="md:text-2xl font-bold text-center">
         Welcome to the Crypto Oasis Pocker Dashboard
       </h1>
@@ -18,6 +18,16 @@ const DashboardMock: React.FC = () => {
         Hi <span className="capitalize font-bold">{user?.username}</span>, Your
         account is authenticated.
       </p>
+
+      <div className="flex flex-col gap-2">
+        {[...Array(50)].map((_, i) => (
+          <div
+            key={i}
+            className="text-sm">
+            This is the {i + 1} best
+          </div>
+        ))}
+      </div>
 
       <button
         onClick={handleLogout}

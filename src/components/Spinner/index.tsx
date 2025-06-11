@@ -1,5 +1,5 @@
 import React from "react";
-import ologo from "../assets/o-logo.png";
+import ologo from "../../assets/o-logo.png";
 
 const Spinner: React.FC = () => {
   return (
