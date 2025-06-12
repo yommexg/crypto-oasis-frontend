@@ -15,7 +15,7 @@ function AppContent() {
   const location = useLocation();
 
   const { isAuthLoading } = useAuth();
-  const { isUserLoading, getUser, user } = useUser();
+  const { getUser, user } = useUser();
 
   // const user = true;
 
@@ -91,7 +91,7 @@ function AppContent() {
       </div>
 
       <>
-        {(isAuthLoading || isUserLoading) && <Spinner />}
+        {isAuthLoading && <Spinner />}
 
         {acceptedTerms && !user && <AuthRoutes />}
 

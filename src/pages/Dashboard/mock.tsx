@@ -1,8 +1,10 @@
+import { useWallet } from "../../context/Wallet";
 import { useAuth, useUser } from "../../store";
 
 const DashboardMock: React.FC = () => {
   const { logout } = useAuth();
   const { user, getUser } = useUser();
+  const { address } = useWallet();
 
   const handleLogout = () => {
     logout();
@@ -10,7 +12,7 @@ const DashboardMock: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 md:pl-20 pb-6 flex flex-col justify-center items-center px-4">
+    <div className="pt-24 md:pl-20 pb-6 flex flex-col justify-center items-center px-4 h-screen">
       <h1 className="md:text-2xl font-bold text-center">
         Welcome to the Crypto Oasis Pocker Dashboard
       </h1>
@@ -19,15 +21,15 @@ const DashboardMock: React.FC = () => {
         account is authenticated.
       </p>
 
-      <div className="flex flex-col gap-2">
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="text-sm">
-            This is the {i + 1} best
-          </div>
-        ))}
-      </div>
+      {address ? (
+        <p className="text-[10px] my-4 md:text-base">
+          Wallet Connected with Address {address}
+        </p>
+      ) : (
+        <p className="text-[10px] my-4 md:text-base">
+          No Wallet Address Availiable
+        </p>
+      )}
 
       <button
         onClick={handleLogout}

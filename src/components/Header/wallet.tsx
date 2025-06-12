@@ -6,7 +6,7 @@ import {
   metaMask,
   walletConnect,
 } from "wagmi/connectors";
-import { useConnect } from "wagmi";
+import { useConnect, useDisconnect } from "wagmi";
 import Fortmatic from "fortmatic";
 import Web3 from "web3";
 import Portis from "@portis/web3";
@@ -17,6 +17,7 @@ import metamaskIcon from "../../assets/wallets/metamask.png";
 import portisIcon from "../../assets/wallets/portis.png";
 import walletConnectIcon from "../../assets/wallets/wallet-connect.png";
 import { walletConnectProjectID } from "../../config/env";
+import { useWallet } from "../../context/Wallet";
 
 type HeaderWalletProps = {
   onCloseWallet: () => void;
@@ -64,36 +65,48 @@ const wallets: walletType[] = [
     logo: portisIcon,
   },
 ];
+
 const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
   const { connect } = useConnect();
+
+  const { disconnect } = useDisconnect();
+  const { setAddress } = useWallet();
 
   const handleWalletClicked = (wallet: walletType) => {
     if (wallet.connector) {
       connect({ connector: wallet.connector });
-      return;
     }
 
     if (wallet.name == "Fortmatic") {
       const fm = new Fortmatic("YOUR_API_KEY");
       window.ethereum = new Web3(fm.getProvider());
-      return;
     }
 
     if (wallet.name == "Portis") {
       const portis = new Portis("YOUR_DAPP_ID", "mainnet");
       const web3 = new Web3(portis.provider);
-      web3.eth
-        .getAccounts()
-        .then((accounts) => {
-          if (accounts.length > 0) {
-            console.log("Connected Portis account:", accounts[0]);
-          } else {
-            console.log("No Portis account found.");
-          }
-        })
-        .catch(console.error);
-      return;
+      console.log(web3);
+
+      // web3.eth
+      //   .getAccounts()
+      //   .then((accounts) => {
+      //     if (accounts.length > 0) {
+      //       console.log("Connected Portis account:", accounts[0]);
+      //     } else {
+      //       console.log("No Portis account found.");
+      //     }
+      //   })
+      //   .catch(console.error)
     }
+
+    onCloseWallet();
+  };
+
+  const handleDisconnectWallet = async () => {
+    disconnect();
+    setAddress(null);
+    delete window.ethereum;
+    onCloseWallet();
   };
 
   return (
@@ -143,6 +156,13 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
             Learn more about wallet
           </span>
         </p>
+        <div
+          onClick={handleDisconnectWallet}
+          className="flex items-center justify-center mt-6 bg-red-600 mx-16 my-4 py-2 cursor-pointer rounded-lg hover:opacity-70">
+          <p className="text-center text-sm text-white font-semibold">
+            Disconnect Wallets
+          </p>
+        </div>
       </motion.div>
     </div>
   );
