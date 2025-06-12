@@ -1,63 +1,101 @@
 import { FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
+import {
+  coinbaseWallet,
+  injected,
+  metaMask,
+  walletConnect,
+} from "wagmi/connectors";
+import { useConnect } from "wagmi";
+import Fortmatic from "fortmatic";
+import Web3 from "web3";
+import Portis from "@portis/web3";
 
-import braveIcon from "../../assets/wallets/brave.png";
 import coinbaseIcon from "../../assets/wallets/coinbase.png";
 import fortmaticIcon from "../../assets/wallets/fortmatic.png";
 import metamaskIcon from "../../assets/wallets/metamask.png";
 import portisIcon from "../../assets/wallets/portis.png";
-import rainbowIcon from "../../assets/wallets/rainbow.png";
-import trustIcon from "../../assets/wallets/trust.png";
 import walletConnectIcon from "../../assets/wallets/wallet-connect.png";
+import { walletConnectProjectID } from "../../config/env";
 
 type HeaderWalletProps = {
   onCloseWallet: () => void;
 };
 
-const wallets = [
+type walletType = {
+  name: string;
+  logo: string;
+  connector?:
+    | ReturnType<typeof metaMask>
+    | ReturnType<typeof walletConnect>
+    | ReturnType<typeof coinbaseWallet>
+    | ReturnType<typeof injected>;
+};
+
+const wallets: walletType[] = [
   {
     name: "MetaMask",
     logo: metamaskIcon,
-    connectorId: "injected",
+    connector: metaMask(),
   },
+
   {
     name: "WalletConnect",
     logo: walletConnectIcon,
-    connectorId: "walletConnect",
+    connector: walletConnect({
+      projectId: walletConnectProjectID,
+      showQrModal: true,
+    }),
   },
+
   {
     name: "Coinbase Wallet",
     logo: coinbaseIcon,
-    connectorId: "coinbaseWallet",
+    connector: coinbaseWallet({ appName: "Crypto Oasis" }),
   },
-  {
-    name: "Trust Wallet",
-    logo: trustIcon,
-    connectorId: "injected",
-  },
-  {
-    name: "Rainbow",
-    logo: rainbowIcon,
-    connectorId: "walletConnect",
-  },
-  {
-    name: "Brave Wallet",
-    logo: braveIcon,
-    connectorId: "injected",
-  },
+
   {
     name: "Fortmatic",
     logo: fortmaticIcon,
-    connectorId: "injected",
   },
+
   {
     name: "Portis",
     logo: portisIcon,
-    connectorId: "injected",
   },
 ];
-
 const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
+  const { connect } = useConnect();
+
+  const handleWalletClicked = (wallet: walletType) => {
+    if (wallet.connector) {
+      connect({ connector: wallet.connector });
+      return;
+    }
+
+    if (wallet.name == "Fortmatic") {
+      const fm = new Fortmatic("YOUR_API_KEY");
+      window.ethereum = new Web3(fm.getProvider());
+      return;
+    }
+
+    if (wallet.name == "Portis") {
+      const portis = new Portis("YOUR_DAPP_ID", "mainnet");
+      const web3 = new Web3(portis.provider);
+      web3.eth
+        .getAccounts()
+        .then((accounts) => {
+          if (accounts.length > 0) {
+            console.log("Connected Portis account:", accounts[0]);
+          } else {
+            console.log("No Portis account found.");
+          }
+        })
+        .catch(console.error);
+      return;
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-40">
       <motion.div
@@ -84,7 +122,9 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
         <div className="flex flex-col my-4 gap-2 px-6">
           {wallets.map((item, index) => (
             <div
-              key={item.connectorId + index + item.name}
+              onClick={() => handleWalletClicked(item)}
+              // onClick={() => connect({ connector: metaMask() })}
+              key={index + item.name}
               className="bg-white shadow rounded-lg px-3 py-1 flex items-center justify-between cursor-pointer hover:border-2 hover:border-[#cc8aaf]">
               <p className="text-xs font-bold">{item.name}</p>
               <div className="w-8 h-8">

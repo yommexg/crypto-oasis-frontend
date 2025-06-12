@@ -7,7 +7,7 @@ type TermsOfServiceProps = {
 const TermsOfService: React.FC<TermsOfServiceProps> = ({ onAccept }) => {
   return (
     <div className="fixed inset-0 text-xs md:text-base flex items-center justify-center z-50">
-      <div className="bg-[#0e0e13] text-white p-6 rounded-md w-full max-w-2xl max-h-[90vh] mx-4 overflow-y-auto shadow-lg border border-gray-700">
+      <div className="bg-[#0e0e13] text-white p-6 rounded-md w-full max-w-2xl max-h-[95vh] mx-4 overflow-y-auto shadow-lg border border-gray-700">
         <h2 className="text-xl md:text-4xl font-bold mb-4 text-center">
           Privacy Policy
         </h2>
