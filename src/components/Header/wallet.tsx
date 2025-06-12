@@ -1,7 +1,6 @@
 import { FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
-
-import { useConnect, useDisconnect } from "wagmi";
+import { useConnect } from "wagmi";
 import Fortmatic from "fortmatic";
 import Web3 from "web3";
 import Portis from "@portis/web3";
@@ -15,9 +14,8 @@ type HeaderWalletProps = {
 
 const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
   const { connect } = useConnect();
-  const { disconnect } = useDisconnect();
 
-  const { activeWallet, setAddress, setActiveWallet } = useWallet();
+  const { activeWallet, setActiveWallet } = useWallet();
 
   const handleWalletClicked = (wallet: walletType) => {
     if (wallet.connector) {
@@ -47,13 +45,6 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
       //   })
       //   .catch(console.error)
     }
-    onCloseWallet();
-  };
-
-  const handleDisconnectWallet = async () => {
-    disconnect();
-    setAddress(undefined);
-    setActiveWallet(null);
     onCloseWallet();
   };
 
@@ -88,7 +79,7 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
               className={`bg-white shadow rounded-lg px-3 py-1 flex items-center justify-between cursor-pointer 
                 ${
                   activeWallet === item.name
-                    ? "border-2 border-pink-500"
+                    ? "border-2 border-[#cc8aaf]"
                     : "hover:border-2 hover:border-[#cc8aaf]"
                 }`}>
               <p className="text-xs font-bold">{item.name}</p>
@@ -108,13 +99,6 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
             Learn more about wallet
           </span>
         </p>
-        <div
-          onClick={handleDisconnectWallet}
-          className="flex items-center justify-center mt-6 bg-red-600 mx-16 my-4 py-2 cursor-pointer rounded-lg hover:opacity-70">
-          <p className="text-center text-sm text-white font-semibold">
-            Disconnect Wallets
-          </p>
-        </div>
       </motion.div>
     </div>
   );

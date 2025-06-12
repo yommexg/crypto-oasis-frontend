@@ -25,12 +25,17 @@ const DashboardMock: React.FC = () => {
         <>
           {address ? (
             <p className="text-[10px] my-4 md:text-base text-center">
-              Wallet Connected with {activeWallet} at
-              <br /> {address}
+              Wallet Connected with{" "}
+              <span className="font-bold">{activeWallet}</span> at
+              <br />{" "}
+              <span className="text-green-500 font-bold text-[9px] md:text-sm">
+                {address}
+              </span>
             </p>
           ) : (
             <p className="text-[10px] my-4 md:text-base">
-              No Wallet Address Availiable for {activeWallet}
+              No Wallet Address Availiable for{" "}
+              <span className="font-bold">{activeWallet}</span>
             </p>
           )}
         </>

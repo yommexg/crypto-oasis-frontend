@@ -37,8 +37,6 @@ function RoutesLayout() {
       } else {
         setActiveWallet("WalletConnect");
       }
-
-      console.log("Connected Wallet:", walletName);
     } else if (isDisconnected) {
       setAddress(undefined);
     }

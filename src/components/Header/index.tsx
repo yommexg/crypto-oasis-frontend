@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import icon from "../../assets/icon.png";
 import profile from "../../assets/profile.png";
 import HeaderWallet from "./wallet";
+import { useWallet } from "../../context/Wallet";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -21,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
   const [showWallets, setshowWallets] = useState(false);
 
-  const walletConnected = false;
+  const { address } = useWallet();
 
   useEffect(() => {
     if (showWallets) {
@@ -40,6 +41,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
   return (
     <nav className="flex justify-between items-center fixed top-0 z-40 gap-[50px] lg:gap-32 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
+      {!mobileSearchVisible && address && (
+        <div className="absolute right-2 -bottom-6 md:-bottom-8 bg-[#30B943] px-4 py-1 rounded-md font-bold text-xs md:text-base">
+          {`${address.slice(0, 6)}...${address.slice(-6)}`}
+        </div>
+      )}
       <div className="flex items-center gap-4">
         <FiMenu
           size={24}
@@ -73,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           />
         </div>
 
-        {walletConnected && (
+        {address && (
           <div className="flex items-center gap-2 bg-[#30B9B1] px-2 md:px-4 cursor-pointer py-1 md:py-2 rounded-sm md:rounded-full hover:opacity-70 font-semibold md:w-[180px]">
             <IoCreateOutline className="text-xl" />
             <p className="text-sm hidden md:block">Create a game</p>
@@ -89,7 +95,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           </div>
           <MdOutlineKeyboardArrowDown className="text-sm" />
         </div>
-        {!walletConnected && (
+        {!address && (
           <div className="relative">
             <PiWalletFill
               onClick={() => setshowWallets(true)}
@@ -118,6 +124,19 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   </div>
                 )}
               </>
+            )}
+          </div>
+        )}
+        {address && (
+          <div className="relative">
+            <PiWalletFill
+              onClick={() => setshowWallets(true)}
+              color="#8A939B"
+              className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-3xl md:text-[40px]"
+            />
+
+            {showWallets && (
+              <HeaderWallet onCloseWallet={() => setshowWallets(false)} />
             )}
           </div>
         )}
