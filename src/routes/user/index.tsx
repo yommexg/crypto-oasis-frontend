@@ -16,29 +16,44 @@ function RoutesLayout() {
 
   const { isUserLoading } = useUser();
 
-  const { walletLoading, setAddress } = useWallet();
+  const { walletLoading, setAddress, setActiveWallet } = useWallet();
 
   const {
     address: wagmiAddress,
     isConnected,
-    isConnecting,
-    isReconnecting,
     isDisconnected,
+    connector,
   } = useAccount();
 
   useEffect(() => {
     if (isConnected && wagmiAddress) {
       setAddress(wagmiAddress);
+      const walletName = connector?.name;
+
+      if (walletName === "Injected") {
+        setActiveWallet("MetaMask");
+      } else if (walletName === "Coinbase Wallet") {
+        setActiveWallet("Coinbase Wallet");
+      } else {
+        setActiveWallet("WalletConnect");
+      }
+
+      console.log("Connected Wallet:", walletName);
     } else if (isDisconnected) {
-      setAddress(null);
+      setAddress(undefined);
     }
-  }, [isConnected, wagmiAddress, setAddress, isDisconnected]);
+  }, [
+    isConnected,
+    wagmiAddress,
+    setAddress,
+    isDisconnected,
+    connector,
+    setActiveWallet,
+  ]);
 
   return (
     <>
-      {(walletLoading || isUserLoading || isConnecting || isReconnecting) && (
-        <Spinner />
-      )}
+      {(walletLoading || isUserLoading) && <Spinner />}
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <Sidebar
         isOpen={isSidebarOpen}

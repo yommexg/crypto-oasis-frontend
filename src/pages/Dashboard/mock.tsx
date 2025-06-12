@@ -4,7 +4,7 @@ import { useAuth, useUser } from "../../store";
 const DashboardMock: React.FC = () => {
   const { logout } = useAuth();
   const { user, getUser } = useUser();
-  const { address } = useWallet();
+  const { address, activeWallet } = useWallet();
 
   const handleLogout = () => {
     logout();
@@ -21,14 +21,21 @@ const DashboardMock: React.FC = () => {
         account is authenticated.
       </p>
 
-      {address ? (
-        <p className="text-[10px] my-4 md:text-base">
-          Wallet Connected with Address {address}
-        </p>
+      {activeWallet ? (
+        <>
+          {address ? (
+            <p className="text-[10px] my-4 md:text-base text-center">
+              Wallet Connected with {activeWallet} at
+              <br /> {address}
+            </p>
+          ) : (
+            <p className="text-[10px] my-4 md:text-base">
+              No Wallet Address Availiable for {activeWallet}
+            </p>
+          )}
+        </>
       ) : (
-        <p className="text-[10px] my-4 md:text-base">
-          No Wallet Address Availiable
-        </p>
+        <p className="text-[10px] my-4 md:text-base">No Wallet Connected</p>
       )}
 
       <button

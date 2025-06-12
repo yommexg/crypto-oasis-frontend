@@ -1,8 +1,10 @@
 import { createContext } from "react";
 
 type WalletContextType = {
-  address: string | null;
-  setAddress: (address: string | null) => void;
+  address: `0x${string}` | undefined;
+  setAddress: (address: `0x${string}` | undefined) => void;
+  activeWallet: string | null;
+  setActiveWallet: (walletName: string | null) => void;
   walletLoading: boolean;
   setWalletLoading: (loading: boolean) => void;
 };

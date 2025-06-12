@@ -1,76 +1,23 @@
 import { FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
-import {
-  coinbaseWallet,
-  injected,
-  metaMask,
-  walletConnect,
-} from "wagmi/connectors";
+
 import { useConnect, useDisconnect } from "wagmi";
 import Fortmatic from "fortmatic";
 import Web3 from "web3";
 import Portis from "@portis/web3";
 
-import coinbaseIcon from "../../assets/wallets/coinbase.png";
-import fortmaticIcon from "../../assets/wallets/fortmatic.png";
-import metamaskIcon from "../../assets/wallets/metamask.png";
-import portisIcon from "../../assets/wallets/portis.png";
-import walletConnectIcon from "../../assets/wallets/wallet-connect.png";
-import { walletConnectProjectID } from "../../config/env";
 import { useWallet } from "../../context/Wallet";
+import { wallets, type walletType } from "../../utils/walletArray";
 
 type HeaderWalletProps = {
   onCloseWallet: () => void;
 };
 
-type walletType = {
-  name: string;
-  logo: string;
-  connector?:
-    | ReturnType<typeof metaMask>
-    | ReturnType<typeof walletConnect>
-    | ReturnType<typeof coinbaseWallet>
-    | ReturnType<typeof injected>;
-};
-
-const wallets: walletType[] = [
-  {
-    name: "MetaMask",
-    logo: metamaskIcon,
-    connector: metaMask(),
-  },
-
-  {
-    name: "WalletConnect",
-    logo: walletConnectIcon,
-    connector: walletConnect({
-      projectId: walletConnectProjectID,
-      showQrModal: true,
-    }),
-  },
-
-  {
-    name: "Coinbase Wallet",
-    logo: coinbaseIcon,
-    connector: coinbaseWallet({ appName: "Crypto Oasis" }),
-  },
-
-  {
-    name: "Fortmatic",
-    logo: fortmaticIcon,
-  },
-
-  {
-    name: "Portis",
-    logo: portisIcon,
-  },
-];
-
 const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
   const { connect } = useConnect();
-
   const { disconnect } = useDisconnect();
-  const { setAddress } = useWallet();
+
+  const { activeWallet, setAddress, setActiveWallet } = useWallet();
 
   const handleWalletClicked = (wallet: walletType) => {
     if (wallet.connector) {
@@ -80,12 +27,14 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
     if (wallet.name == "Fortmatic") {
       const fm = new Fortmatic("YOUR_API_KEY");
       window.ethereum = new Web3(fm.getProvider());
+      setActiveWallet(wallet.name);
     }
 
     if (wallet.name == "Portis") {
       const portis = new Portis("YOUR_DAPP_ID", "mainnet");
       const web3 = new Web3(portis.provider);
       console.log(web3);
+      setActiveWallet(wallet.name);
 
       // web3.eth
       //   .getAccounts()
@@ -98,14 +47,13 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
       //   })
       //   .catch(console.error)
     }
-
     onCloseWallet();
   };
 
   const handleDisconnectWallet = async () => {
     disconnect();
-    setAddress(null);
-    delete window.ethereum;
+    setAddress(undefined);
+    setActiveWallet(null);
     onCloseWallet();
   };
 
@@ -136,9 +84,13 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
           {wallets.map((item, index) => (
             <div
               onClick={() => handleWalletClicked(item)}
-              // onClick={() => connect({ connector: metaMask() })}
               key={index + item.name}
-              className="bg-white shadow rounded-lg px-3 py-1 flex items-center justify-between cursor-pointer hover:border-2 hover:border-[#cc8aaf]">
+              className={`bg-white shadow rounded-lg px-3 py-1 flex items-center justify-between cursor-pointer 
+                ${
+                  activeWallet === item.name
+                    ? "border-2 border-pink-500"
+                    : "hover:border-2 hover:border-[#cc8aaf]"
+                }`}>
               <p className="text-xs font-bold">{item.name}</p>
               <div className="w-8 h-8">
                 <img
