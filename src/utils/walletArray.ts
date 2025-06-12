@@ -27,7 +27,7 @@ export const wallets: walletType[] = [
   {
     name: "MetaMask",
     logo: metamaskIcon,
-    connector: injected(),
+    connector: metaMask(),
   },
 
   {

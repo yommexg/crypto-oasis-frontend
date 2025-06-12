@@ -15,24 +15,25 @@ type HeaderWalletProps = {
 const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
   const { connect } = useConnect();
 
-  const { activeWallet, setActiveWallet } = useWallet();
+  const { activeWallet } = useWallet();
 
   const handleWalletClicked = (wallet: walletType) => {
     if (wallet.connector) {
       connect({ connector: wallet.connector });
+      onCloseWallet();
     }
 
     if (wallet.name == "Fortmatic") {
       const fm = new Fortmatic("YOUR_API_KEY");
       window.ethereum = new Web3(fm.getProvider());
-      setActiveWallet(wallet.name);
+      // setActiveWallet(wallet.name);
     }
 
     if (wallet.name == "Portis") {
       const portis = new Portis("YOUR_DAPP_ID", "mainnet");
       const web3 = new Web3(portis.provider);
       console.log(web3);
-      setActiveWallet(wallet.name);
+      // setActiveWallet(wallet.name);
 
       // web3.eth
       //   .getAccounts()
@@ -45,7 +46,6 @@ const HeaderWallet: React.FC<HeaderWalletProps> = ({ onCloseWallet }) => {
       //   })
       //   .catch(console.error)
     }
-    onCloseWallet();
   };
 
   return (

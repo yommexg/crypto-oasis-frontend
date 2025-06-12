@@ -10,7 +10,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 
 import icon from "../../assets/icon.png";
-import profile from "../../assets/profile.png";
+import noProfile from "../../assets/no-profile.png";
 import HeaderWallet from "./wallet";
 import { useWallet } from "../../context/Wallet";
 
@@ -89,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         <div className="flex items-center bg-[#262831] pr-[2px] py-[2px] gap-[2px] rounded-full cursor-pointer">
           <div className="w-6 md:w-8">
             <img
-              src={profile}
+              src={noProfile}
               className="w-full h-full rounded-full"
             />
           </div>
