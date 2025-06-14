@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { isAxiosError } from "axios";
+
 import axiosInstance from "./axiosinstance";
 
 interface User {
@@ -17,6 +19,17 @@ interface UserState {
   user: User | null;
 
   getUser: () => void;
+
+  updateUserInfo: (
+    username: string,
+    bio?: string | null,
+    XUrl?: string | null,
+    discordUrl?: string | null,
+    websiteUrl?: string | null
+  ) => Promise<{
+    status: "success" | "error";
+    message: string;
+  }>;
 }
 
 const useUser = create<UserState>((set) => ({
@@ -35,6 +48,43 @@ const useUser = create<UserState>((set) => ({
     } catch (err) {
       set({ user: null });
       console.error("Failed to fetch user", err);
+    } finally {
+      set({ isUserLoading: false });
+    }
+  },
+
+  updateUserInfo: async (username, bio, XUrl, discordUrl, websiteUrl) => {
+    set({ isUserLoading: true });
+
+    try {
+      const response = await axiosInstance.patch("/user/update-info", {
+        username,
+        bio,
+        XUrl,
+        discordUrl,
+        websiteUrl,
+      });
+
+      if (response.data.success) {
+        return {
+          status: "success",
+          message: response.data.message || "User Info Update was successful.",
+        };
+      }
+
+      return {
+        status: "error",
+        message: response.data.message || "Unknown User Info error.",
+      };
+    } catch (error) {
+      console.log(error);
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message ||
+          "User Info failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
     } finally {
       set({ isUserLoading: false });
     }

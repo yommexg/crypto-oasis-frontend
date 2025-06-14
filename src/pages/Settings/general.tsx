@@ -2,17 +2,40 @@ import { useState } from "react";
 import { FaDiscord, FaGlobe } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { RiEditFill } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 import { useUser } from "../../store";
 
 const GeneralSettings: React.FC = () => {
-  const { user } = useUser();
+  const { user, updateUserInfo, getUser } = useUser();
 
   const [username, setUsername] = useState(user?.username ?? "");
   const [bio, setBio] = useState(user?.bio ?? "");
   const [xUrl, setXUrl] = useState(user?.XUrl ?? "");
   const [discordUrl, setDiscordUrl] = useState(user?.discordUrl ?? "");
   const [websiteUrl, setWebsiteUrl] = useState(user?.websiteUrl ?? "");
+
+  const handleUpdateUserInfo = async () => {
+    if (!username) {
+      toast.warn("Display name is required");
+      return;
+    }
+
+    const { message, status } = await updateUserInfo(
+      username,
+      bio,
+      xUrl,
+      discordUrl,
+      websiteUrl
+    );
+
+    if (status === "success") {
+      getUser();
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
+  };
 
   return (
     <div className="px-6 py-4 md:h-[calc(100vh-6rem)] overflow-auto scrollbar-hide">
@@ -115,7 +138,9 @@ const GeneralSettings: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <button className="px-4 py-2 bg-[#30B943] rounded-lg text-xs shadow shadow-[#30B943] hover:opacity-60 transition-opacity font-semibold text-white cursor-pointer">
+          <button
+            onClick={handleUpdateUserInfo}
+            className="px-4 py-2 bg-[#30B943] rounded-lg text-xs shadow shadow-[#30B943] hover:opacity-60 transition-opacity font-semibold text-white cursor-pointer">
             Save
           </button>
         </div>
