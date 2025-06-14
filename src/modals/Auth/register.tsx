@@ -90,7 +90,7 @@ const Register: React.FC<RegisterProps> = ({ isOpen, onClose }) => {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   className="w-full pl-12 bg-[#19191E] px-4 py-3 rounded-md text-white text-[10px] md:text-sm focus:outline-none focus:border focus:border-gray-600"
-                  placeholder="yourusername"
+                  placeholder="Enter Username"
                 />
               </div>
             </div>

@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   return (
     <nav className="flex justify-between items-center fixed top-0 z-40 gap-[50px] lg:gap-32 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
       {!mobileSearchVisible && address && (
-        <div className="absolute right-2 -bottom-6 md:-bottom-8 bg-[#30B943] px-4 py-1 rounded-md font-bold text-xs md:text-base">
+        <div className="absolute right-2 -bottom-6 md:-bottom-8 bg-[#30B943] px-2 md:px-4 py-1 rounded-md font-bold text-[10px] md:text-base">
           {`${address.slice(0, 6)}...${address.slice(-6)}`}
         </div>
       )}
@@ -107,13 +107,13 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             {showWallets ? (
               <HeaderWallet onCloseWallet={() => setshowWallets(false)} />
             ) : (
-              <div className="hidden md:block absolute -bottom-24 -right-3 md:-bottom-26 md:-right-2 ">
+              <div className="lg:block absolute -bottom-17 -right-3 md:-bottom-26 md:-right-3">
                 <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
-                <div className="bg-[#31323E] py-3 rounded-lg w-[200px] md:w-[250px] px-4">
-                  <h3 className="font-semibold text-xs md:text-base">
+                <div className="bg-[#31323E] py-2 px-2 md:py-3 rounded-lg w-[120px] md:w-[250px] md:px-4">
+                  <h3 className="font-semibold text-[7px] md:text-base">
                     Welcome to Crypto Oasis!
                   </h3>
-                  <p className="mt-2 text-[9px] md:text-xs">
+                  <p className="mt-2 text-[6px] md:text-xs">
                     To create or play games, <br />
                     please{" "}
                     <span className="text-[#CCE919] font-semibold">
