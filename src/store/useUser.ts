@@ -30,6 +30,14 @@ interface UserState {
     status: "success" | "error";
     message: string;
   }>;
+
+  updateUserImages: (
+    avatarFile?: File,
+    bannerFile?: File
+  ) => Promise<{
+    status: "success" | "error";
+    message: string;
+  }>;
 }
 
 const useUser = create<UserState>((set) => ({
@@ -82,6 +90,49 @@ const useUser = create<UserState>((set) => ({
         const message =
           error.response?.data?.message ||
           "User Info failed. Please try again.";
+        return { status: "error", message };
+      }
+      return { status: "error", message: "Unexpected error." };
+    } finally {
+      set({ isUserLoading: false });
+    }
+  },
+
+  updateUserImages: async (avatarFile, bannerFile) => {
+    set({ isUserLoading: true });
+
+    try {
+      const formData = new FormData();
+      if (avatarFile) formData.append("avatar", avatarFile);
+      if (bannerFile) formData.append("banner", bannerFile);
+
+      const response = await axiosInstance.post(
+        "/user/upload-user-images",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        return {
+          status: "success",
+          message: response.data.message || "User images updated successfully.",
+        };
+      }
+
+      return {
+        status: "error",
+        message: response.data.message || "Unknown image update error.",
+      };
+    } catch (error) {
+      console.log(error);
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message ||
+          "Image update failed. Please try again.";
         return { status: "error", message };
       }
       return { status: "error", message: "Unexpected error." };

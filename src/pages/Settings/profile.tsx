@@ -7,10 +7,13 @@ import noBanner from "../../assets/no-banner.png";
 import { toast } from "react-toastify";
 
 const ProfileSettings: React.FC = () => {
-  const { user } = useUser();
+  const { user, updateUserImages, getUser } = useUser();
 
   const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl ?? noProfile);
   const [bannerUrl, setBannerUrl] = useState(user?.bannerUrl ?? noBanner);
+
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
 
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const bannerInputRef = useRef<HTMLInputElement>(null);
@@ -23,6 +26,7 @@ const ProfileSettings: React.FC = () => {
         e.target.value = "";
         return;
       }
+      setAvatarFile(file);
       const reader = new FileReader();
       reader.onload = (event) => {
         setAvatarUrl(event.target?.result as string);
@@ -39,11 +43,31 @@ const ProfileSettings: React.FC = () => {
         e.target.value = "";
         return;
       }
+      setBannerFile(file);
       const reader = new FileReader();
       reader.onload = (event) => {
         setBannerUrl(event.target?.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUpdateUserImage = async () => {
+    if (!avatarFile && !bannerFile) {
+      toast.warn("No Image Changes Detected");
+      return;
+    }
+
+    const { status, message } = await updateUserImages(
+      avatarFile ?? undefined,
+      bannerFile ?? undefined
+    );
+
+    if (status === "success") {
+      getUser();
+      toast.success(message);
+    } else {
+      toast.error(message);
     }
   };
 
@@ -114,7 +138,9 @@ const ProfileSettings: React.FC = () => {
       </div>
 
       <div className="flex justify-end mt-6 mb-2">
-        <button className="px-4 py-2 bg-[#30B943] rounded-lg text-xs shadow shadow-[#30B943] hover:opacity-60 transition-opacity font-semibold text-white cursor-pointer">
+        <button
+          onClick={handleUpdateUserImage}
+          className="px-4 py-2 bg-[#30B943] rounded-lg text-xs shadow shadow-[#30B943] hover:opacity-60 transition-opacity font-semibold text-white cursor-pointer">
           Save
         </button>
       </div>
