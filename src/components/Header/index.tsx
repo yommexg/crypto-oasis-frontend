@@ -82,9 +82,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </div>
 
         {address && (
-          <div className="flex items-center gap-2 bg-[#30B9B1] px-2 md:px-4 cursor-pointer py-1 md:py-2 rounded-sm md:rounded-full hover:opacity-70 font-semibold md:w-[180px]">
+          <div className="flex items-center gap-2 bg-[#30B9B1] px-2 md:px-4 cursor-pointer py-1 md:py-[6px] rounded-sm md:rounded-full hover:opacity-70 font-semibold md:w-[160px]">
             <IoCreateOutline className="text-xl" />
-            <p className="text-sm hidden md:block">Create a game</p>
+            <p className="text-xs hidden md:block">Create a game</p>
           </div>
         )}
 
