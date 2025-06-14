@@ -2,7 +2,6 @@ import { create } from "zustand";
 import axiosInstance from "./axiosinstance";
 
 interface User {
-  id: string;
   email: string;
   username: string;
   bio?: string | null;

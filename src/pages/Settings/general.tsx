@@ -15,7 +15,7 @@ const GeneralSettings: React.FC = () => {
   const [websiteUrl, setWebsiteUrl] = useState(user?.websiteUrl ?? "");
 
   return (
-    <div className="px-6 py-4">
+    <div className="px-6 py-4 md:h-[calc(100vh-6rem)] overflow-auto scrollbar-hide">
       <h1 className="font-semibold">General Settings</h1>
       <div className="space-y-6 my-6">
         {/* Username */}

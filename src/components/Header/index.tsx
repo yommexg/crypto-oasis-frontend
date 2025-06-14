@@ -107,13 +107,13 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             {showWallets ? (
               <HeaderWallet onCloseWallet={() => setshowWallets(false)} />
             ) : (
-              <div className="lg:block absolute -bottom-17 -right-3 md:-bottom-26 md:-right-3">
+              <div className="lg:block absolute -bottom-17 -right-3 md:-bottom-22 md:-right-2">
                 <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
-                <div className="bg-[#31323E] py-2 px-2 md:py-3 rounded-lg w-[120px] md:w-[250px] md:px-4">
-                  <h3 className="font-semibold text-[7px] md:text-base">
+                <div className="bg-[#31323E] py-2 px-2 md:py-3 rounded-lg w-[120px] md:w-[180px] md:px-4">
+                  <h3 className="font-semibold text-[7px] md:text-[11px]">
                     Welcome to Crypto Oasis!
                   </h3>
-                  <p className="mt-2 text-[6px] md:text-xs">
+                  <p className="mt-2 text-[6px] md:text-[9px]">
                     To create or play games, <br />
                     please{" "}
                     <span className="text-[#CCE919] font-semibold">
