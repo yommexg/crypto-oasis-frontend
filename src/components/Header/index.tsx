@@ -13,6 +13,7 @@ import icon from "../../assets/icon.png";
 import noProfile from "../../assets/no-profile.png";
 import HeaderWallet from "./wallet";
 import { useWallet } from "../../context/Wallet";
+import { useUser } from "../../store";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -23,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [showWallets, setshowWallets] = useState(false);
 
   const { address } = useWallet();
+  const { user } = useUser();
 
   useEffect(() => {
     if (showWallets) {
@@ -87,9 +89,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         )}
 
         <div className="flex items-center bg-[#262831] pr-[2px] py-[2px] gap-[2px] rounded-full cursor-pointer">
-          <div className="w-6 md:w-8">
+          <div className="w-6 h-6 md:w-8 md:h-8">
             <img
-              src={noProfile}
+              src={user?.avatarUrl ? user?.avatarUrl : noProfile}
               className="w-full h-full rounded-full"
             />
           </div>
@@ -105,25 +107,21 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             {showWallets ? (
               <HeaderWallet onCloseWallet={() => setshowWallets(false)} />
             ) : (
-              <>
-                {!mobileSearchVisible && (
-                  <div className="absolute -bottom-24 -right-3 md:-bottom-26 md:-right-2 ">
-                    <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
-                    <div className="bg-[#31323E] py-3 rounded-lg w-[200px] md:w-[250px] px-4">
-                      <h3 className="font-semibold text-xs md:text-base">
-                        Welcome to Crypto Oasis!
-                      </h3>
-                      <p className="mt-2 text-[9px] md:text-xs">
-                        To create or play games, <br />
-                        please{" "}
-                        <span className="text-[#CCE919] font-semibold">
-                          Connect your wallet
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </>
+              <div className="hidden md:block absolute -bottom-24 -right-3 md:-bottom-26 md:-right-2 ">
+                <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
+                <div className="bg-[#31323E] py-3 rounded-lg w-[200px] md:w-[250px] px-4">
+                  <h3 className="font-semibold text-xs md:text-base">
+                    Welcome to Crypto Oasis!
+                  </h3>
+                  <p className="mt-2 text-[9px] md:text-xs">
+                    To create or play games, <br />
+                    please{" "}
+                    <span className="text-[#CCE919] font-semibold">
+                      Connect your wallet
+                    </span>
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         )}

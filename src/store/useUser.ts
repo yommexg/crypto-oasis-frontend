@@ -5,6 +5,12 @@ interface User {
   id: string;
   email: string;
   username: string;
+  bio?: string | null;
+  XUrl?: string | null;
+  discordUrl?: string | null;
+  websiteUrl?: string | null;
+  avatarUrl?: string | null;
+  bannerUrl?: string | null;
 }
 
 interface UserState {

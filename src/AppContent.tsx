@@ -15,9 +15,9 @@ function AppContent() {
   const location = useLocation();
 
   const { isAuthLoading } = useAuth();
-  const { getUser, isUserLoading, user } = useUser();
+  const { getUser, isUserLoading } = useUser();
 
-  // const user = true;
+  const user = true;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
