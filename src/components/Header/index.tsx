@@ -14,6 +14,7 @@ import noProfile from "../../assets/no-profile.png";
 import HeaderWallet from "./wallet";
 import { useWallet } from "../../context/Wallet";
 import { useUser } from "../../store";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -26,8 +27,19 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const { address } = useWallet();
   const { user } = useUser();
 
+  const location = useLocation();
+  const path = location.pathname;
+
+  const navigate = useNavigate();
+
+  const handleCreateGameClick = () => {
+    navigate("/create-game", {
+      state: { background: location },
+    });
+  };
+
   useEffect(() => {
-    if (showWallets) {
+    if (showWallets || path === "/create-game") {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     } else {
@@ -39,12 +51,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
     };
-  }, [showWallets]);
+  }, [showWallets, path]);
 
   return (
     <nav className="flex justify-between items-center fixed top-0 z-40 gap-[50px] lg:gap-32 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
       {!mobileSearchVisible && address && (
-        <div className="absolute right-2 -bottom-6 md:-bottom-8 bg-[#30B943] px-2 md:px-4 py-1 rounded-md font-bold text-[10px] md:text-base">
+        <div className="absolute right-2 -bottom-6 md:-bottom-4 bg-[#30B943] px-2 md:px-4 py-1 rounded-md font-bold text-[10px] md:text-xs">
           {`${address.slice(0, 6)}...${address.slice(-6)}`}
         </div>
       )}
@@ -82,7 +94,10 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </div>
 
         {address && (
-          <div className="flex items-center gap-2 bg-[#30B9B1] px-2 md:px-4 cursor-pointer py-1 md:py-[6px] rounded-sm md:rounded-full hover:opacity-70 font-semibold md:w-[160px]">
+          <div
+            onClick={handleCreateGameClick}
+            className="flex items-center gap-2 bg-[#30B9B1] px-2 md:px-4 cursor-pointer py-1 md:py-[6px] 
+            rounded-sm md:rounded-full hover:opacity-70 font-semibold md:w-[160px]">
             <IoCreateOutline className="text-xl" />
             <p className="text-xs hidden md:block">Create a game</p>
           </div>

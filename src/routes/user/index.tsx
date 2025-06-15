@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useAccount, WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -8,6 +14,7 @@ import { Header, Sidebar, Spinner } from "../../components";
 import { wagmiConfig } from "../../config/wagmi";
 import { useWallet, WalletProvider } from "../../context/Wallet";
 import { useUser } from "../../store";
+import CreateGame from "../../modals/Game/Create";
 
 const queryClient = new QueryClient();
 
@@ -93,11 +100,38 @@ function RoutesLayout() {
 }
 
 function UsersRoutes() {
+  const location = useLocation();
+  const state = location.state as { background?: Location };
+  const background = state?.background;
+  const path = location.pathname;
+  const navigate = useNavigate();
+
   return (
     <WalletProvider>
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
-          <RoutesLayout />
+          <Routes location={background || location}>
+            <Route
+              path="/*"
+              element={
+                <div
+                  className={`transition-opacity duration-300 ${
+                    path === "/create-game"
+                      ? "opacity-30 pointer-events-none"
+                      : ""
+                  }`}>
+                  <RoutesLayout />
+                </div>
+              }
+            />
+          </Routes>
+
+          {path === "/create-game" && (
+            <CreateGame
+              isOpen={true}
+              onClose={() => navigate(-1)}
+            />
+          )}
         </QueryClientProvider>
       </WagmiProvider>
     </WalletProvider>

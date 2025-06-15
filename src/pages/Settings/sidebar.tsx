@@ -29,7 +29,7 @@ const SidebarSettings: React.FC<SidebarSettingsProps> = ({
   const { user } = useUser();
 
   return (
-    <div className="md:w-1/4 md:h-screen fixed w-[100vw] z-30 bg-[#202029] md:flex md:justify-end px-4 py-4 border-b md:border-b-0 md:border-r border-[#31323E]">
+    <div className="md:w-1/4 md:h-screen fixed w-[100vw] z-20 bg-[#202029] md:flex md:justify-end px-4 py-4 border-b md:border-b-0 md:border-r border-[#31323E]">
       <div className="flex items-center flex-col">
         <div className="w-24 h-24 md:block md:w-24 md:h-24">
           <img

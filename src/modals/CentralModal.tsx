@@ -16,8 +16,8 @@ const CenteredModal: React.FC<CenteredModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 text-xs md:text-base flex items-center justify-center z-40">
-      <div className="w-full text-white max-w-2xl max-h-[90vh] mx-4 overflow-y-auto shadow-lg">
+    <div className="fixed inset-0 text-xs md:text-base flex items-center justify-center z-50">
+      <div className="w-full text-white max-w-2xl max-h-[90vh] mx-4 overflow-y-auto shadow-lg scrollbar-hide">
         <div className="bg-[#31323E] rounded-t-lg flex flex-col items-center py-2 relative">
           {header}
           <AiOutlineCloseCircle
