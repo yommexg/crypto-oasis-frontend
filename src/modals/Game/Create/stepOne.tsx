@@ -67,7 +67,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
 
   return (
     <div>
-      <h2 className="text-sm">Select Game Type</h2>
+      <h2 className="text-[10px] md:text-sm">Select Game Type</h2>
       <div className="w-full relative my-2">
         <input
           type="text"
@@ -80,7 +80,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
         <CiSearch className="text-white absolute text-lg right-3 top-3" />
       </div>
 
-      <div className="grid grid-cols-4 gap-x-4 gap-y-4 w-full max-h-[250px] overflow-y-auto pr-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 w-full max-h-[250px] overflow-y-auto pr-2">
         {filteredGames.length > 0 ? (
           filteredGames.map((item) => (
             <div
@@ -107,7 +107,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
       </div>
 
       <div className="flex justify-between items-center mt-2">
-        <p className="text-sm italic">
+        <p className="text-[10px] md:text-sm italic">
           Selected Game:{" "}
           <span className="text-[#30B943] capitalize font-bold">
             {gameType || "None"}
@@ -116,7 +116,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
         <button
           onClick={() => setStep(2)}
           disabled={!gameType}
-          className={`px-6 mt-2 py-2 rounded-md shadow font-semibold text-white transition-all duration-300
+          className={`px-4 py-[6px] rounded-md shadow font-semibold text-white transition-all duration-300
           ${
             gameType
               ? "bg-[#30B943] shadow-[#30B943] hover:shadow-lg hover:opacity-70 cursor-pointer"

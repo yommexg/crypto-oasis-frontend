@@ -27,11 +27,11 @@ const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
         isOpen={isOpen}
         header={
           <>
-            <div className="md:text-lg font-semibold text-white pt-2">
+            <div className="text-lg font-semibold text-white pt-2">
               Create a Game
             </div>
 
-            <div className="flex w-full justify-between px-4 md:px-16 py-2 relative items-center">
+            <div className="flex w-full justify-between px-4 md:px-16 py-8 md:py-2 relative items-center">
               {gameCreationProcessArray.map((label, index) => (
                 <div
                   key={label}

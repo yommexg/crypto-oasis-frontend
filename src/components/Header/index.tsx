@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   };
 
   useEffect(() => {
-    if (showWallets || path === "/create-game") {
+    if (showWallets) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     } else {

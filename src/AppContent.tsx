@@ -44,7 +44,7 @@ function AppContent() {
   }, [getUser]);
 
   useEffect(() => {
-    if (!acceptedTerms || isAuthModalPath(path)) {
+    if (!acceptedTerms || isAuthModalPath(path) || path === "/create-game") {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     } else {
