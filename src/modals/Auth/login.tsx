@@ -95,6 +95,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
                   required
                   className="w-full rounded-md pl-12 bg-[#19191E] px-3 py-3 text-[10px] md:text-sm focus:border focus:border-gray-600 text-white focus:black focus:outline-none"
                   placeholder="••••••••"
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"

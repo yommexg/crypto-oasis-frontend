@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
     <section className="flex flex-col items-center bg-[#15151B] py-4 px-6">
       <div className="md:w-[700px] lg:w-[850px]">
         <div className="flex justify-between items-center py-4">
-          <div className="w-24 md:w-28">
+          <div className="w-9 md:w-14">
             <img
               src={icon}
               alt="Yommex Genesis"
