@@ -5,6 +5,8 @@ import CenteredModal from "../../CentralModal";
 import CreateGameStepOne from "./stepOne";
 import CreateGameStepTwo from "./stepTwo";
 import CreateGameStepThree from "./stepThree";
+import { useGame } from "../../../store";
+import { toast } from "react-toastify";
 
 interface GameProps {
   isOpen: boolean;
@@ -30,8 +32,29 @@ const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
   const isCompleted = (index: number) => index < step - 1;
   const isActive = (index: number) => index === step - 1;
 
-  const handleCreateGame = () => {
-    setStep(4);
+  const { createGame } = useGame();
+
+  const handleCreateGame = async () => {
+    if (gameNFTImageFile) {
+      const res = await createGame(
+        gameTitle,
+        gameType,
+        maxNumOfPlayers,
+        gamePrivacy,
+        spectatorMode,
+        playDate,
+        gameNFTImageFile
+      );
+
+      const { message, status } = res;
+
+      if (status === "success") {
+        toast.success(message);
+        setStep(4);
+      } else {
+        toast.error(message);
+      }
+    }
   };
 
   return (

@@ -37,7 +37,7 @@ interface GameState {
     maxNumOfPlayers: number,
     privacy: string,
     spectatorMode: boolean,
-    startDarte: Date,
+    startDarte: string,
     gameImgFile: File
   ) => Promise<{
     status: "success" | "error";
@@ -71,7 +71,7 @@ const useGame = create<GameState>((set) => ({
       if (privacy) formData.append("privacy", privacy);
       if (spectatorMode)
         formData.append("spectatorMode", spectatorMode.toString());
-      if (startDate) formData.append("startDate", startDate.toISOString());
+      if (startDate) formData.append("startDate", startDate);
       if (gameImgFile) formData.append("game", gameImgFile);
 
       const response = await axiosInstance.post("/game/create", formData, {

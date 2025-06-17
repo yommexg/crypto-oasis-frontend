@@ -8,16 +8,17 @@ import { LandingPage } from "./pages";
 import { TermsOfService } from "./modals";
 import { isAuthModalPath } from "./modals/Auth";
 
-import { useAuth, useUser } from "./store";
+import { useAuth, useGame, useUser } from "./store";
 import { AuthRoutes, UserRoutes } from "./routes";
 
 function AppContent() {
   const location = useLocation();
 
   const { isAuthLoading } = useAuth();
-  const { getUser, isUserLoading } = useUser();
+  const { getUser, isUserLoading, user } = useUser();
+  const { isGameLoading } = useGame();
 
-  const user = true;
+  // const user = true;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
@@ -91,8 +92,7 @@ function AppContent() {
       </div>
 
       <>
-        {(isAuthLoading || isUserLoading) && <Spinner />}
-
+        {(isAuthLoading || isUserLoading || isGameLoading) && <Spinner />}
         {acceptedTerms && !user && <AuthRoutes />}
 
         {user && (

@@ -13,7 +13,7 @@ import { Dashboard, Games, Profile, Settings } from "../../pages";
 import { Header, Sidebar, Spinner } from "../../components";
 import { wagmiConfig } from "../../config/wagmi";
 import { useWallet, WalletProvider } from "../../context/Wallet";
-import { useUser } from "../../store";
+import { useGame, useUser } from "../../store";
 import CreateGame from "../../modals/Game/Create";
 
 const queryClient = new QueryClient();
@@ -22,6 +22,7 @@ function RoutesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { isUserLoading } = useUser();
+  const { isGameLoading } = useGame();
 
   const { walletLoading, setAddress, setActiveWallet } = useWallet();
 
@@ -58,7 +59,7 @@ function RoutesLayout() {
 
   return (
     <>
-      {(walletLoading || isUserLoading) && <Spinner />}
+      {(walletLoading || isUserLoading || isGameLoading) && <Spinner />}
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <Sidebar
         isOpen={isSidebarOpen}
