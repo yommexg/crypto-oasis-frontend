@@ -42,7 +42,7 @@ export const wallets: walletType[] = [
   {
     name: "Coinbase Wallet",
     logo: coinbaseIcon,
-    connector: coinbaseWallet({ appName: "Crypto Oasis" }),
+    connector: coinbaseWallet({ appName: "Yommex Genesis" }),
   },
 
   {

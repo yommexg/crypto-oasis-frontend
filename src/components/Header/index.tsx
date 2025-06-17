@@ -9,7 +9,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import icon from "../../assets/icon.png";
+import icon from "../../assets/logo.png";
 import noProfile from "../../assets/no-profile.png";
 import HeaderWallet from "./wallet";
 import { useWallet } from "../../context/Wallet";
@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           className="md:hidden text-white cursor-pointer"
           onClick={onMenuClick}
         />
-        <div className="w-16 md:w-24">
+        <div className="w-10 md:w-14">
           <img
             src={icon}
             className="w-full h-full"
@@ -126,7 +126,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
                 <div className="bg-[#31323E] py-2 px-2 md:py-3 rounded-lg w-[120px] md:w-[180px] md:px-4">
                   <h3 className="font-semibold text-[7px] md:text-[11px]">
-                    Welcome to Crypto Oasis!
+                    Welcome to Yommex Genesis!
                   </h3>
                   <p className="mt-2 text-[6px] md:text-[9px]">
                     To create or play games, <br />

@@ -14,7 +14,7 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onAccept }) => {
 
         <div className="space-y-4 text-xs md:text-base leading-6 text-[#A6A6A6]">
           <p>
-            <strong>Crypto Oasis</strong> is a multigaming platform for NFT
+            <strong>Yommex Genesis</strong> is a multigaming platform for NFT
             communities to come together, compete, and have fun.
           </p>
 

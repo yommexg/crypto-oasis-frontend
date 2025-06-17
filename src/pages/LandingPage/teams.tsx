@@ -55,7 +55,7 @@ const Teams: React.FC = () => {
           Meet the team
         </h1>
         <p className="text-[#A6A6A6] text-[9px] md:text-sm leading-relaxed text-center md:w-[500px]">
-          Crypto Oasis is a multigaming platform for NFT communities to come
+          Yommex Genesis is a multigaming platform for NFT communities to come
           together, compete, and have fun.
         </p>
       </div>

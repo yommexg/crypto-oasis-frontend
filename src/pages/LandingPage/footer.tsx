@@ -2,7 +2,7 @@ import React from "react";
 import { SiOpensea } from "react-icons/si";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
 
-import icon from "../../assets/icon.png";
+import icon from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 
 const Footer: React.FC = () => {
@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
           <div className="w-24 md:w-28">
             <img
               src={icon}
-              alt="Crypto Oasis"
+              alt="Yommex Genesis"
               className="w-full h-full"
             />
           </div>
@@ -40,11 +40,11 @@ const Footer: React.FC = () => {
         <div className="border-t border-b border-[#292929] flex flex-col gap-6 md:flex-row justify-between items-center pt-2 pb-8">
           <div className="md:max-w-[300px] flex flex-col items-center md:items-baseline">
             <h2 className="text-[#DCDCDC] md:text-lg font-semibold">
-              About Crypto Oasis
+              About Yommex Genesis
             </h2>
             <p className="text-[#A6A6A6] text-[9px] md:text-xs my-2 text-center md:text-left">
-              Crypto Oasis is a multigaming platform for NFT communities to come
-              together, compete, and have fun.Lorem ipsum dolor sit amet,
+              Yommex Genesis is a multigaming platform for NFT communities to
+              come together, compete, and have fun.Lorem ipsum dolor sit amet,
               consectetur adipiscing elit, sed do eiusmod .
             </p>
             <button
@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="py-3 px-2 flex flex-col items-center gap-1 md:flex-row justify-between text-[#A6A6A6] text-[10px] md:text-xs">
-          <p>© 2022 Crypto Oasis. All rights reserved.</p>
+          <p>© 2022 Yommex Genesis. All rights reserved.</p>
           <p>Term of Service | Privacy Policy</p>
         </div>
       </div>

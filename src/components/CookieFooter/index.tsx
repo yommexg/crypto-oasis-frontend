@@ -11,7 +11,7 @@ const CookieFooter: React.FC<CookieFooterProps> = ({ handleAcceptCookies }) => {
             We use cookies
           </h3>
           <p className="text-[7px] text-center md:text-left md:text-[11px] text-white">
-            Crypto Oasis uses cookies to provide necessary website
+            Yommex Genesis uses cookies to provide necessary website
             functionality, improve your experience and analyze our traffic. By
             using our website, you agree to our Privacy Policy and our Cookies
             Policy.

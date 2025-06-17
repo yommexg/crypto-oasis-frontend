@@ -15,7 +15,7 @@ const WhoWeAre: React.FC = () => {
           <span className="text-[#CCE919]">NFT Communities</span>
         </h1>
         <p className="mt-4 text-[#A6A6A6] max-w-lg mx-auto text-xs md:text-base">
-          Crypto Oasis is a multigaming platform for NFT communities to come
+          Yommex Genesis is a multigaming platform for NFT communities to come
           together, compete, and have fun.
         </p>
         <button
@@ -37,12 +37,12 @@ const WhoWeAre: React.FC = () => {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-lg md:text-2xl font-bold mb-4">WHO WE ARE</h2>
           <p className="text-[#9FA0AF] text-[9px] md:text-base leading-relaxed">
-            Crypto Oasis is a{" "}
+            Yommex Genesis is a{" "}
             <span className="font-extrabold">
               multigaming platform for NFT communities
             </span>{" "}
             to come together, compete, and have fun. A big driving factor at
-            Crypto Oasis is to help projects in the NFT space by providing
+            Yommex Genesis is to help projects in the NFT space by providing
             marketing and exposure through{" "}
             <span className="font-extrabold">branded games</span>,{" "}
             <span className="font-extrabold">collabing tournament style</span>,

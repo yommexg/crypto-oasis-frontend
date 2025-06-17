@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import icon from "../../assets/icon.png";
+import icon from "../../assets/logo.png";
 import { LuUserRound } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 

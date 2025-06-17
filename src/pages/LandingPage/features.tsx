@@ -9,7 +9,7 @@ const featureArray = [
     img: featureImg1,
     title1: "Make your game ",
     title2: "unique!",
-    desc: "Crypto Oasis is a multigaming platform for NFT communities to come together, compete, and have fun.",
+    desc: "Yommex Genesis is a multigaming platform for NFT communities to come together, compete, and have fun.",
   },
   {
     img: featureImg2,

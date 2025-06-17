@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX } from "react-icons/fi";
 
-import icon from "../../assets/icon.png";
+import icon from "../../assets/logo.png";
 import { useEffect } from "react";
 
 type SidebarProps = {
@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   const sidebarContent = (
     <div className="flex flex-col justify-between h-full px-4 pt-6 md:pt-24 pb-6 bg-[#1B1C23] w-4/5  md:w-20 relative">
       <div>
-        <div className="w-24 md:hidden mb-10">
+        <div className="w-16 md:hidden mb-10">
           <img
             src={icon}
             className="w-full h-full"

@@ -6,7 +6,7 @@ const roadMapArray = [
     title: "Beta",
     date: "Q2 2023",
     desc: [
-      "Beta will be a soft launch between 2-3 select communities to test the cryptooasis.io site.",
+      "Beta will be a soft launch between 2-3 select communities to test the yommexgenesis.io site.",
     ],
   },
 
@@ -16,7 +16,7 @@ const roadMapArray = [
     date: "Q2 2023",
     desc: [
       "Discord is open for all (will be closed once NFT launches and only holders will remain)",
-      "Cryptooasis.io will officially launched for all communities in the space.",
+      "yommexgenesis.io will officially launched for all communities in the space.",
       "They’ll be able to play b1. Within their community or 2. Community vs community.",
       "Branding capabilities",
     ],
@@ -47,7 +47,7 @@ const roadMapArray = [
     title: "nft",
     date: "Q2 2023",
     desc: [
-      "This will be a “shop” on the Cryptooasis.io website.",
+      "This will be a “shop” on the yommexgenesis.io website.",
       "The shop will be populated with:",
       "Items/NFTs bought with secondary sales from the NFTs.",
       "WL spots provided by communities",
