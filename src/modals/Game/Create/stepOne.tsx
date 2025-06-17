@@ -106,7 +106,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
         )}
       </div>
 
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-2 border-t border-[#31323E] pt-2">
         <p className="text-[10px] md:text-sm italic">
           Selected Game Type:{" "}
           <span className="text-[#30B943] capitalize font-bold">

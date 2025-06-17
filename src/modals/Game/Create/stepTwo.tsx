@@ -91,7 +91,7 @@ const CreateGameStepTwo: React.FC<GameStepTwoProps> = ({
           className="hidden"
         />
       </div>
-      <div className="flex justify-end gap-4 pt-10 py-2">
+      <div className="flex justify-end gap-4 mt-10 py-2 border-t border-[#31323E] pt-2">
         <button
           onClick={() => setStep(1)}
           className="px-4 py-2 bg-[#444553] rounded-md shadow shadow-[#444553] hover:shadow-lg hover:opacity-70

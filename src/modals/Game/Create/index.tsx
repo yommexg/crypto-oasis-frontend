@@ -22,8 +22,17 @@ const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
   const [gameNFTImageFile, setGameNFTImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  const [maxNumOfPlayers, setMaxNumOfPlayers] = useState(10);
+  const [gamePrivacy, setGamePrivacy] = useState("Public");
+  const [spectatorMode, setSpectatorMode] = useState(false);
+  const [playDate, setPlayDate] = useState<string>("");
+
   const isCompleted = (index: number) => index < step - 1;
   const isActive = (index: number) => index === step - 1;
+
+  const handleCreateGame = () => {
+    setStep(4);
+  };
 
   return (
     <div>
@@ -97,7 +106,33 @@ const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
                 setImagePreview={setImagePreview}
               />
             )}
-            {step === 3 && <CreateGameStepThree />}
+            {step === 3 && (
+              <CreateGameStepThree
+                maxNumOfPlayers={maxNumOfPlayers}
+                setMaxNumOfPlayers={setMaxNumOfPlayers}
+                setStep={setStep}
+                gamePrivacy={gamePrivacy}
+                setGamePrivacy={setGamePrivacy}
+                spectatorMode={spectatorMode}
+                setSpectatorMode={setSpectatorMode}
+                playDate={playDate}
+                setPlayDate={setPlayDate}
+                handleCreateGame={handleCreateGame}
+              />
+            )}
+
+            {step === 4 && (
+              <div className="text-center text-white py-10">
+                <h2 className="text-lg md:text-xl font-semibold mb-4">
+                  Game Created Successfully!
+                </h2>
+                <button
+                  className="mt-4 px-6 py-2 bg-[#30B943] text-white rounded cursor-pointer"
+                  onClick={onClose}>
+                  Close
+                </button>
+              </div>
+            )}
           </div>
         }
       />
