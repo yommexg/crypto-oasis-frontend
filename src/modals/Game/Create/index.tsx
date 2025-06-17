@@ -15,7 +15,12 @@ const gameCreationProcessArray = ["Select game", "Branding", "General"];
 
 const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
+
   const [gameType, setGameType] = useState("");
+
+  const [gameTitle, setGameTitle] = useState("");
+  const [gameNFTImageFile, setGameNFTImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const isCompleted = (index: number) => index < step - 1;
   const isActive = (index: number) => index === step - 1;
@@ -81,7 +86,17 @@ const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
                 setStep={setStep}
               />
             )}
-            {step === 2 && <CreateGameStepTwo />}
+            {step === 2 && (
+              <CreateGameStepTwo
+                gameTitle={gameTitle}
+                setGameTitle={setGameTitle}
+                setStep={setStep}
+                gameNFTImageFile={gameNFTImageFile}
+                setGameNFTImageFile={setGameNFTImageFile}
+                imagePreview={imagePreview}
+                setImagePreview={setImagePreview}
+              />
+            )}
             {step === 3 && <CreateGameStepThree />}
           </div>
         }

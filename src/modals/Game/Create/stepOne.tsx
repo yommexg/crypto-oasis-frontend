@@ -89,7 +89,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
               className={`cursor-pointer ${
                 gameType === item.type ? "border-2 border-[#30B943]" : ""
               }`}>
-              <div className="h-[200px]">
+              <div className="h-[150px]">
                 <img
                   src={item.img}
                   alt={item.type}
@@ -108,7 +108,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
 
       <div className="flex justify-between items-center mt-2">
         <p className="text-[10px] md:text-sm italic">
-          Selected Game:{" "}
+          Selected Game Type:{" "}
           <span className="text-[#30B943] capitalize font-bold">
             {gameType || "None"}
           </span>
