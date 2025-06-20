@@ -35,7 +35,7 @@ function RoutesLayout() {
       setAddress(wagmiAddress);
       const walletName = connector?.name;
 
-      if (walletName === "Injected") {
+      if (walletName === "MetaMask") {
         setActiveWallet("MetaMask");
       } else if (walletName === "Coinbase Wallet") {
         setActiveWallet("Coinbase Wallet");

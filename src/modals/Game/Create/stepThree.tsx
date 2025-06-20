@@ -97,6 +97,7 @@ const CreateGameStepThree: React.FC<GameStepThreeProps> = ({
             value={playDate}
             onChange={(e) => setPlayDate(e.target.value)}
             className="border border-[#4B4B54] text-white text-xs rounded px-3 py-2 cursor-pointer focus:outline-none"
+            min={new Date().toISOString().split("T")[0]}
           />
         </div>
       </div>
