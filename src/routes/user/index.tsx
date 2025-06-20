@@ -21,9 +21,6 @@ const queryClient = new QueryClient();
 function RoutesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const { isUserLoading } = useUser();
-  const { isGameLoading } = useGame();
-
   const { walletLoading, setAddress, setActiveWallet } = useWallet();
 
   const {
@@ -59,7 +56,7 @@ function RoutesLayout() {
 
   return (
     <>
-      {(walletLoading || isUserLoading || isGameLoading) && <Spinner />}
+      {walletLoading && <Spinner />}
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <Sidebar
         isOpen={isSidebarOpen}
@@ -107,10 +104,15 @@ function UsersRoutes() {
   const path = location.pathname;
   const navigate = useNavigate();
 
+  const { isUserLoading } = useUser();
+  const { isGameLoading } = useGame();
+
   return (
     <WalletProvider>
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
+          {(isUserLoading || isGameLoading) && <Spinner />}
+
           <Routes location={background || location}>
             <Route
               path="/*"

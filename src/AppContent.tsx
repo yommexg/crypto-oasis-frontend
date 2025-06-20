@@ -10,6 +10,8 @@ import { isAuthModalPath } from "./modals/Auth";
 
 import { useAuth, useGame, useUser } from "./store";
 import { AuthRoutes, UserRoutes } from "./routes";
+import { useFingerPrint } from "./context/Fingerprint";
+import { getFingerprint } from "./config/fingerprint";
 
 function AppContent() {
   const location = useLocation();
@@ -17,6 +19,8 @@ function AppContent() {
   const { isAuthLoading } = useAuth();
   const { getUser, isUserLoading, user } = useUser();
   const { isGameLoading } = useGame();
+
+  const { setFingerprint } = useFingerPrint();
 
   // const user = true;
 
@@ -27,6 +31,10 @@ function AppContent() {
   const hasFetched = useRef(false);
 
   const path = location.pathname;
+
+  useEffect(() => {
+    getFingerprint().then(setFingerprint);
+  }, [setFingerprint]);
 
   useEffect(() => {
     const terms = localStorage.getItem("acceptedTerms") === "true";

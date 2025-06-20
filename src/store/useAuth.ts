@@ -13,7 +13,8 @@ interface AuthState {
 
   login: (
     email: string,
-    password: string
+    password: string,
+    fingerprint: string
   ) => Promise<{
     status: "success" | "otp_required" | "error";
     message: string;
@@ -21,7 +22,8 @@ interface AuthState {
 
   newDevicelogin: (
     email: string,
-    otp: string
+    otp: string,
+    fingerprint: string
   ) => Promise<{
     status: "success" | "error";
     message: string;
@@ -108,13 +110,14 @@ const useAuth = create<AuthState>((set) => ({
       });
   },
 
-  login: async (email, password) => {
+  login: async (email, password, fingerprint) => {
     set({ isAuthLoading: true });
 
     try {
       const response = await axiosInstance.post("/auth/login", {
         email,
         password,
+        fingerprint,
       });
 
       if (response.status === 202) {
@@ -153,13 +156,14 @@ const useAuth = create<AuthState>((set) => ({
     }
   },
 
-  newDevicelogin: async (email, otp) => {
+  newDevicelogin: async (email, otp, fingerprint) => {
     set({ isAuthLoading: true });
 
     try {
       const response = await axiosInstance.post("/auth/verify-and-login", {
         email,
         otp,
+        fingerprint,
       });
 
       if (response.data.success) {

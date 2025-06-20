@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 import CenteredModal from "../CentralModal";
 import { useAuth, useUser } from "../../store";
+import { useFingerPrint } from "../../context/Fingerprint";
 
 interface LoginProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
   const { login } = useAuth();
   const { getUser } = useUser();
+  const { fingerprint } = useFingerPrint();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    const { message, status } = await login(email, password);
+    const { message, status } = await login(email, password, fingerprint);
 
     if (status === "success") {
       toast.success(message);
