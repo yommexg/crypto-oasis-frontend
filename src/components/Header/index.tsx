@@ -104,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         )}
 
         <div className="flex items-center bg-[#262831] pr-[2px] py-[2px] gap-[2px] rounded-full cursor-pointer">
-          <div className="w-6 h-6 md:w-8 md:h-8">
+          <div className="w-6 h-6 md:w-8 md:h-8 bg-white rounded-full">
             <img
               src={user?.avatarUrl ? user?.avatarUrl : noProfile}
               className="w-full h-full rounded-full"
