@@ -115,7 +115,19 @@ const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
                     value={digit}
                     onChange={(e) => handleChange(e.target.value, idx)}
                     onKeyDown={(e) => handleKeyDown(e, idx)}
-                    className="w-10 h-12 md:w-12 md:h-14 text-center rounded-md bg-[#19191E] text-white text-lg md:text-xl focus:border focus:border-gray-600 focus:outline-none"
+                    className="w-10 h-12 md:w-12 md:h-14 text-center rounded-md bg-[#19191E] text-white text-lg md:text-xl 
+                    focus:border focus:border-gray-600 focus:outline-none"
+                    onPaste={(e) => {
+                      const paste = e.clipboardData
+                        .getData("text")
+                        .replace(/\D/g, "");
+                      if (paste.length === OTP_LENGTH) {
+                        const newOtp = paste.split("").slice(0, OTP_LENGTH);
+                        setOtp(newOtp);
+                        inputRefs.current[OTP_LENGTH - 1]?.focus();
+                      }
+                      e.preventDefault();
+                    }}
                   />
                 ))}
               </div>
