@@ -12,6 +12,11 @@ interface User {
   websiteUrl?: string | null;
   avatarUrl?: string | null;
   bannerUrl?: string | null;
+  games: {
+    played: number;
+    hosted: number;
+    wins: number;
+  };
 }
 
 interface UserState {
