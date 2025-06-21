@@ -84,7 +84,7 @@ const ProfileSettings: React.FC = () => {
           <div className="w-[150px] h-[150px] md:w-[120px] md:h-[120px] lg:w-[200px] lg:h-[200px] flex mt-4 relative group hover:opacity-60">
             <img
               src={avatarUrl}
-              className="w-full h-full rounded-full"
+              className="w-full h-full rounded-full bg-white"
             />
             <button
               onClick={() => avatarInputRef.current?.click()}

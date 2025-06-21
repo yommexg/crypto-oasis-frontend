@@ -20,7 +20,7 @@ const ProfileInfo: React.FC = () => {
           <div className="w-20 h-20 md:w-30 md:h-30 border-4 border-[#202129] bg-white  rounded-full overflow-hidden">
             <img
               src={user?.avatarUrl ?? noProfile}
-              className="w-full h-full object-cover"
+              className="w-full h-full"
             />
           </div>
           <h1 className="text-center capitalize text-lg md:text-xl mt-1 font-bold">

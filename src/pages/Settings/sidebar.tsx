@@ -34,7 +34,7 @@ const SidebarSettings: React.FC<SidebarSettingsProps> = ({
         <div className="w-24 h-24 md:block md:w-24 md:h-24">
           <img
             src={user?.avatarUrl ? user?.avatarUrl : noProfile}
-            className="w-full h-full rounded-full"
+            className="w-full h-full rounded-full bg-white"
           />
         </div>
         <h2 className="md:block mt-2 capitalize font-semibold">

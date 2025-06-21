@@ -74,7 +74,7 @@ const useGame = create<GameState>((set) => ({
       if (startDate) formData.append("startDate", startDate);
       if (gameImgFile) formData.append("game", gameImgFile);
 
-      const response = await axiosInstance.post("/game/create", formData, {
+      const response = await axiosInstance.post("/games/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -108,7 +108,7 @@ const useGame = create<GameState>((set) => ({
     set({ isGameLoading: true });
 
     try {
-      const res = await axiosInstance.get("/game/all");
+      const res = await axiosInstance.get("/games/all");
 
       const gameData: Game[] = res.data.games;
 
