@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 
@@ -5,8 +6,8 @@ import CenteredModal from "../../CentralModal";
 import CreateGameStepOne from "./stepOne";
 import CreateGameStepTwo from "./stepTwo";
 import CreateGameStepThree from "./stepThree";
-import { useGame, useUser } from "../../../store";
-import { toast } from "react-toastify";
+import { useGame } from "../../../store";
+import { useLoadUserData } from "../../../utils/loadUserData";
 
 interface GameProps {
   isOpen: boolean;
@@ -33,7 +34,7 @@ const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
   const isActive = (index: number) => index === step - 1;
 
   const { createGame } = useGame();
-  const { getUser } = useUser();
+  const loadUserData = useLoadUserData();
 
   const handleCreateGame = async () => {
     if (gameNFTImageFile) {
@@ -50,9 +51,9 @@ const CreateGame: React.FC<GameProps> = ({ isOpen, onClose }) => {
       const { message, status } = res;
 
       if (status === "success") {
-        getUser();
         toast.success(message);
         setStep(4);
+        loadUserData();
       } else {
         toast.error(message);
       }

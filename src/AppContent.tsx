@@ -12,15 +12,18 @@ import { useAuth, useGame, useUser } from "./store";
 import { AuthRoutes, UserRoutes } from "./routes";
 import { useFingerPrint } from "./context/Fingerprint";
 import { getFingerprint } from "./config/fingerprint";
+import { useLoadUserData } from "./utils/loadUserData";
 
 function AppContent() {
   const location = useLocation();
 
-  const { isAuthLoading } = useAuth();
-  const { getUser, isUserLoading, user } = useUser();
+  const { isAuthLoading, accessToken } = useAuth();
+  const { isUserLoading, user } = useUser();
   const { isGameLoading } = useGame();
 
   const { setFingerprint } = useFingerPrint();
+
+  const loadUserData = useLoadUserData();
 
   // const user = true;
 
@@ -45,12 +48,12 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    if (!hasFetched.current) {
-      getUser();
-      setAppLoading(false);
+    if (!hasFetched.current && accessToken) {
+      loadUserData();
       hasFetched.current = true;
     }
-  }, [getUser]);
+    setAppLoading(false);
+  }, [loadUserData, accessToken]);
 
   useEffect(() => {
     if (!acceptedTerms || isAuthModalPath(path) || path === "/create-game") {
@@ -77,7 +80,7 @@ function AppContent() {
     setAcceptedTerms(true);
   };
 
-  if (appLoading) return <Spinner />;
+  if (appLoading) return <Spinner bg="bg-[#0e0e13]" />;
 
   return (
     <div

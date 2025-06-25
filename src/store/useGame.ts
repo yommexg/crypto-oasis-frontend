@@ -29,7 +29,10 @@ interface Game {
 
 interface GameState {
   isGameLoading: boolean;
-  game: Game[];
+  games: Game[];
+  currentGames: Game[];
+  hostedGames: Game[];
+  playedGames: Game[];
 
   createGame: (
     title: string,
@@ -44,12 +47,18 @@ interface GameState {
     message: string;
   }>;
 
-  getGame: () => void;
+  getGames: () => void;
+  getCurrentGames: () => void;
+  getHostedGames: () => void;
+  getPlayedGames: () => void;
 }
 
 const useGame = create<GameState>((set) => ({
   isGameLoading: false,
-  game: [],
+  games: [],
+  currentGames: [],
+  hostedGames: [],
+  playedGames: [],
 
   createGame: async (
     title,
@@ -104,7 +113,7 @@ const useGame = create<GameState>((set) => ({
     }
   },
 
-  getGame: async () => {
+  getGames: async () => {
     set({ isGameLoading: true });
 
     try {
@@ -112,9 +121,60 @@ const useGame = create<GameState>((set) => ({
 
       const gameData: Game[] = res.data.games;
 
-      set({ game: gameData });
+      set({ games: gameData });
     } catch (err) {
-      set({ game: [] });
+      set({ games: [] });
+      console.error("Failed to fetch Games", err);
+    } finally {
+      set({ isGameLoading: false });
+    }
+  },
+
+  getCurrentGames: async () => {
+    set({ isGameLoading: true });
+
+    try {
+      const res = await axiosInstance.get("/games/current");
+
+      const gameData: Game[] = res.data.games;
+
+      set({ currentGames: gameData });
+    } catch (err) {
+      set({ currentGames: [] });
+      console.error("Failed to fetch Games", err);
+    } finally {
+      set({ isGameLoading: false });
+    }
+  },
+
+  getHostedGames: async () => {
+    set({ isGameLoading: true });
+
+    try {
+      const res = await axiosInstance.get("/games/hosted");
+
+      const gameData: Game[] = res.data.games;
+
+      set({ hostedGames: gameData });
+    } catch (err) {
+      set({ hostedGames: [] });
+      console.error("Failed to fetch Games", err);
+    } finally {
+      set({ isGameLoading: false });
+    }
+  },
+
+  getPlayedGames: async () => {
+    set({ isGameLoading: true });
+
+    try {
+      const res = await axiosInstance.get("/games/played");
+
+      const gameData: Game[] = res.data.games;
+
+      set({ playedGames: gameData });
+    } catch (err) {
+      set({ playedGames: [] });
       console.error("Failed to fetch Games", err);
     } finally {
       set({ isGameLoading: false });

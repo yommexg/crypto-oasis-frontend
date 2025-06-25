@@ -60,28 +60,28 @@ const ProfileInfo: React.FC = () => {
       <p className="text-center text-[#9FA0AF] text-[10px] md:text-sm pb-2 px-4 md:px-20 font-semibold">
         {user?.bio}
       </p>
-      <div className="flex justify-center gap-4 my-2">
+      <div className="flex justify-center px-6 gap-2 md:gap-4 my-2">
         <div className="bg-[#292932] py-2 px-3 rounded-md w-26">
-          <h3 className="font-bold text-xl text-center mb-1">
+          <h3 className="font-bold text-base md:text-xl text-center mb-[2px] md:mb-1">
             {user?.games.played}
           </h3>
-          <p className="text-[#FFFFFF99] text-center font-semibold text-[10px]">
+          <p className="text-[#FFFFFF99] text-center font-semibold text-[8px] md:text-[10px]">
             Played Games
           </p>
         </div>
         <div className="bg-[#292932] py-2 px-3 rounded-md w-26">
-          <h3 className="font-bold text-xl text-center mb-1">
+          <h3 className="font-bold text-base md:text-xl text-center mb-[2px] md:mb-1">
             {user?.games.hosted}
           </h3>
-          <p className="text-[#FFFFFF99] text-center font-semibold text-[10px]">
+          <p className="text-[#FFFFFF99] text-center font-semibold text-[8px] md:text-[10px]">
             Hosted Games
           </p>
         </div>
         <div className="bg-[#292932] py-2 px-3 rounded-md w-26">
-          <h3 className="font-bold text-xl text-center mb-1">
+          <h3 className="font-bold text-base md:text-xl text-center mb-[2px] md:mb-1">
             {user?.games.wins}
           </h3>
-          <p className="text-[#FFFFFF99] text-center font-semibold text-[10px]">
+          <p className="text-[#FFFFFF99] text-center font-semibold text-[8px] md:text-[10px]">
             Total Wins
           </p>
         </div>
