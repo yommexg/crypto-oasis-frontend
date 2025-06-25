@@ -6,7 +6,7 @@ import noProfile from "../../assets/no-profile.png";
 
 type SidebarSettingsProps = {
   activeSettingsTab: string;
-  setactiveSettingsTab: (tab: string) => void;
+  setActiveSettingsTab: (tab: string) => void;
 };
 
 const sidebarSettingsArray = [
@@ -24,7 +24,7 @@ const sidebarSettingsArray = [
 
 const SidebarSettings: React.FC<SidebarSettingsProps> = ({
   activeSettingsTab,
-  setactiveSettingsTab,
+  setActiveSettingsTab,
 }) => {
   const { user } = useUser();
 
@@ -45,7 +45,7 @@ const SidebarSettings: React.FC<SidebarSettingsProps> = ({
             <div
               key={tab}
               onClick={() => {
-                setactiveSettingsTab(tab);
+                setActiveSettingsTab(tab);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               className={`flex items-center gap-2 px-4 py-2 rounded md:w-[150px] lg:w-[250px] text-sm cursor-pointer

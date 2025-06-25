@@ -5,7 +5,7 @@ const ProfileCurrentGames: React.FC = () => {
 
   return (
     <div className="px-4 md:px-10 xl:px-24 py-10">
-      <h2 className="font-semibold mb-2">Current Games</h2>
+      <h2 className="font-semibold text-xs md:text-base mb-2">Current Games</h2>
       <div className="flex gap-4 md:gap-8 overflow-x-auto flex-nowrap scrollbar-thin scrollbar-thumb-[#444553] scrollbar-hide">
         {currentGames.map((game) => (
           <div
@@ -31,7 +31,7 @@ const ProfileCurrentGames: React.FC = () => {
                   </h3>
                 </div>
 
-                <h2 className="font-semibold my-1 md:my-2 capitalize max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
+                <h2 className="font-semibold my-2 capitalize max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-xs md:text-base">
                   {game.title}
                 </h2>
 
