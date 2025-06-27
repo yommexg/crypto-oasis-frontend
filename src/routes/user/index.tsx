@@ -109,7 +109,9 @@ function UsersRoutes() {
 
   return (
     <WalletProvider>
-      <WagmiProvider config={wagmiConfig}>
+      <WagmiProvider
+        config={wagmiConfig}
+        reconnectOnMount={true}>
         <QueryClientProvider client={queryClient}>
           {(isUserLoading || isGameLoading) && <Spinner />}
 
