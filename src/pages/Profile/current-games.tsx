@@ -6,6 +6,11 @@ const ProfileCurrentGames: React.FC = () => {
   return (
     <div className="px-4 md:px-10 xl:px-24 py-10">
       <h2 className="font-semibold text-xs md:text-base mb-2">Current Games</h2>
+      {currentGames.length <= 0 && (
+        <div className="py-2 text-[9px] md:text-xs">
+          You have no Open or Hosting game
+        </div>
+      )}
       <div className="flex gap-4 md:gap-8 overflow-x-auto flex-nowrap scrollbar-thin scrollbar-thumb-[#444553] scrollbar-hide">
         {currentGames.map((game) => (
           <div

@@ -1,5 +1,9 @@
+import { useGame } from "../../store";
+
 const ProfileHostedGames: React.FC = () => {
-  return <div>ProfileHostedGames</div>;
+  const { hostedGames } = useGame();
+
+  return <div>ProfileHostedGames ({hostedGames.length})</div>;
 };
 
 export default ProfileHostedGames;

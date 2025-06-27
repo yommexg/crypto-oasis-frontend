@@ -46,9 +46,7 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        const { logout } = useAuth.getState();
-
-        logout();
+        console.log("Refresh Error", refreshError);
         return Promise.reject(refreshError);
       }
     }

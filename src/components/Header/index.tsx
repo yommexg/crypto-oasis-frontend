@@ -28,8 +28,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const { user } = useUser();
 
   const location = useLocation();
-  const path = location.pathname;
-
   const navigate = useNavigate();
 
   const handleCreateGameClick = () => {
@@ -51,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
     };
-  }, [showWallets, path]);
+  }, [showWallets]);
 
   return (
     <nav className="flex justify-between items-center fixed top-0 z-40 gap-[50px] lg:gap-32 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
