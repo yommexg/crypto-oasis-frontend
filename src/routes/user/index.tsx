@@ -22,6 +22,7 @@ function RoutesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { walletLoading, setAddress, setActiveWallet } = useWallet();
+  const location = useLocation();
 
   const {
     address: wagmiAddress,
@@ -52,6 +53,7 @@ function RoutesLayout() {
     isDisconnected,
     connector,
     setActiveWallet,
+    location,
   ]);
 
   return (
@@ -109,9 +111,7 @@ function UsersRoutes() {
 
   return (
     <WalletProvider>
-      <WagmiProvider
-        config={wagmiConfig}
-        reconnectOnMount={true}>
+      <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           {(isUserLoading || isGameLoading) && <Spinner />}
 
