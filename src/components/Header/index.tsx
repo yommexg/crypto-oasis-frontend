@@ -12,8 +12,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import icon from "../../assets/logo.png";
 import noProfile from "../../assets/no-profile.png";
 import HeaderWallet from "./wallet";
-import { useWallet } from "../../context/Wallet";
-import { useUser } from "../../store";
+//import { useWallet } from "../../context/Wallet";
+import { useUser, useWallet } from "../../store";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type HeaderProps = {

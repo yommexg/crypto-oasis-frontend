@@ -1,5 +1,5 @@
-import { useWallet } from "../../context/Wallet";
-import { useAuth, useUser } from "../../store";
+//import { useWallet } from "../../context/Wallet";
+import { useAuth, useUser, useWallet } from "../../store";
 
 const DashboardMock: React.FC = () => {
   const { logout } = useAuth();

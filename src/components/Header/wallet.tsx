@@ -5,8 +5,9 @@ import Fortmatic from "fortmatic";
 import Web3 from "web3";
 import Portis from "@portis/web3";
 
-import { useWallet } from "../../context/Wallet";
+//import { useWallet } from "../../context/Wallet";
 import { wallets, type walletType } from "../../utils/walletArray";
+import { useWallet } from "../../store";
 
 type HeaderWalletProps = {
   onCloseWallet: () => void;

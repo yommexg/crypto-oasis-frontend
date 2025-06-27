@@ -12,8 +12,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Dashboard, Games, Profile, Settings } from "../../pages";
 import { Header, Sidebar, Spinner } from "../../components";
 import { wagmiConfig } from "../../config/wagmi";
-import { useWallet, WalletProvider } from "../../context/Wallet";
-import { useGame, useUser } from "../../store";
+import { WalletProvider } from "../../context/Wallet";
+import { useGame, useUser, useWallet } from "../../store";
 import CreateGame from "../../modals/Game/Create";
 
 const queryClient = new QueryClient();
