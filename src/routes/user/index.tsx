@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Routes,
   Route,
@@ -6,59 +6,19 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { useAccount, WagmiProvider } from "wagmi";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { ThirdwebProvider } from "thirdweb/react";
 
 import { Dashboard, Games, Profile, Settings } from "../../pages";
 import { Header, Sidebar, Spinner } from "../../components";
-import { wagmiConfig } from "../../config/wagmi";
-import { WalletProvider } from "../../context/Wallet";
-import { useGame, useUser, useWallet } from "../../store";
+import { useGame, useUser } from "../../store";
 import CreateGame from "../../modals/Game/Create";
-
-const queryClient = new QueryClient();
 
 function RoutesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const { walletLoading, setAddress, setActiveWallet } = useWallet();
-  const location = useLocation();
-
-  const {
-    address: wagmiAddress,
-    isConnected,
-    isDisconnected,
-    connector,
-  } = useAccount();
-
-  useEffect(() => {
-    if (isConnected && wagmiAddress) {
-      setAddress(wagmiAddress);
-      const walletName = connector?.name;
-
-      if (walletName === "MetaMask") {
-        setActiveWallet("MetaMask");
-      } else if (walletName === "Coinbase Wallet") {
-        setActiveWallet("Coinbase Wallet");
-      } else {
-        setActiveWallet("WalletConnect");
-      }
-    } else if (isDisconnected) {
-      setAddress(undefined);
-    }
-  }, [
-    isConnected,
-    wagmiAddress,
-    setAddress,
-    isDisconnected,
-    connector,
-    setActiveWallet,
-    location,
-  ]);
-
   return (
     <>
-      {walletLoading && <Spinner />}
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <Sidebar
         isOpen={isSidebarOpen}
@@ -110,36 +70,30 @@ function UsersRoutes() {
   const { isGameLoading } = useGame();
 
   return (
-    <WalletProvider>
-      <WagmiProvider config={wagmiConfig}>
-        <QueryClientProvider client={queryClient}>
-          {(isUserLoading || isGameLoading) && <Spinner />}
+    <ThirdwebProvider>
+      {(isUserLoading || isGameLoading) && <Spinner />}
 
-          <Routes location={background || location}>
-            <Route
-              path="/*"
-              element={
-                <div
-                  className={`transition-opacity duration-300 ${
-                    path === "/create-game"
-                      ? "opacity-30 pointer-events-none"
-                      : ""
-                  }`}>
-                  <RoutesLayout />
-                </div>
-              }
-            />
-          </Routes>
+      <Routes location={background || location}>
+        <Route
+          path="/*"
+          element={
+            <div
+              className={`transition-opacity duration-300 ${
+                path === "/create-game" ? "opacity-30 pointer-events-none" : ""
+              }`}>
+              <RoutesLayout />
+            </div>
+          }
+        />
+      </Routes>
 
-          {path === "/create-game" && (
-            <CreateGame
-              isOpen={true}
-              onClose={() => navigate(-1)}
-            />
-          )}
-        </QueryClientProvider>
-      </WagmiProvider>
-    </WalletProvider>
+      {path === "/create-game" && (
+        <CreateGame
+          isOpen={true}
+          onClose={() => navigate(-1)}
+        />
+      )}
+    </ThirdwebProvider>
   );
 }
 

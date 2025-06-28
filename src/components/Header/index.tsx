@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { PiWalletFill } from "react-icons/pi";
 import { FaArrowLeft } from "react-icons/fa";
@@ -6,15 +7,13 @@ import { BiSolidUpArrow } from "react-icons/bi";
 import { IoCreateOutline } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import icon from "../../assets/logo.png";
 import noProfile from "../../assets/no-profile.png";
-import HeaderWallet from "./wallet";
-//import { useWallet } from "../../context/Wallet";
-import { useUser, useWallet } from "../../store";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useUser } from "../../store";
+import { client } from "../../config/third-web";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -22,9 +21,8 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
-  const [showWallets, setshowWallets] = useState(false);
 
-  const { address } = useWallet();
+  const account = useActiveAccount();
   const { user } = useUser();
 
   const location = useLocation();
@@ -36,26 +34,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     });
   };
 
-  useEffect(() => {
-    if (showWallets) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, [showWallets]);
-
   return (
     <nav className="flex justify-between items-center fixed top-0 z-40 gap-[50px] lg:gap-32 left-0 right-0 p-4 bg-[#0e0e13] shadow-md">
-      {!mobileSearchVisible && address && (
+      {!mobileSearchVisible && account?.address && (
         <div className="absolute right-2 -bottom-6 md:-bottom-4 bg-[#30B943] px-2 md:px-4 py-1 rounded-md font-bold text-[10px] md:text-xs">
-          {`${address.slice(0, 6)}...${address.slice(-6)}`}
+          {`${account?.address.slice(0, 6)}...${account?.address.slice(-6)}`}
         </div>
       )}
       <div className="flex items-center gap-4">
@@ -91,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           />
         </div>
 
-        {address && (
+        {account?.address && (
           <div
             onClick={handleCreateGameClick}
             className="flex items-center gap-2 bg-[#30B9B1] px-2 md:px-4 cursor-pointer py-1 md:py-[6px] 
@@ -110,47 +93,62 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           </div>
           <MdOutlineKeyboardArrowDown className="text-sm" />
         </div>
-        {!address && (
-          <div className="relative">
-            <PiWalletFill
-              onClick={() => setshowWallets(true)}
-              color="#8A939B"
-              className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-3xl md:text-[40px]"
-            />
-            {showWallets ? (
-              <HeaderWallet onCloseWallet={() => setshowWallets(false)} />
-            ) : (
-              <div className="lg:block absolute -bottom-17 -right-[10px] md:-bottom-26 md:-right-2">
-                <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
-                <div className="bg-[#31323E] py-2 px-2 md:py-3 rounded-lg w-[100px] md:w-[170px] md:px-4">
-                  <h3 className="font-semibold text-center text-[7px] md:text-[11px]">
-                    Welcome to Yommex Genesis!
-                  </h3>
-                  <p className="mt-1 md:mt-2 text-[6px] md:text-[9px]">
-                    To create or play games, <br />
-                    please{" "}
-                    <span className="text-[#CCE919] font-semibold">
-                      Connect your wallet
-                    </span>
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {address && (
-          <div className="relative">
-            <PiWalletFill
-              onClick={() => setshowWallets(true)}
-              color="#8A939B"
-              className="bg-[#262831] p-1 md:p-2 rounded-full cursor-pointer text-3xl md:text-[40px]"
-            />
 
-            {showWallets && (
-              <HeaderWallet onCloseWallet={() => setshowWallets(false)} />
-            )}
-          </div>
-        )}
+        <div className="relative">
+          <ConnectButton
+            client={client}
+            theme="dark"
+            connectButton={{
+              label: (
+                <PiWalletFill
+                  color="#8A939B"
+                  className="text-3xl md:text-[40px] p-1 md:p-2 bg-[#262831] rounded-full cursor-pointer"
+                />
+              ),
+              style: {
+                all: "unset",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "transparent",
+                padding: 0,
+                cursor: "pointer",
+              },
+            }}
+            appMetadata={{
+              name: "Yommex Genesis",
+              url: "https://example.com",
+            }}
+            detailsButton={{
+              render() {
+                return (
+                  <PiWalletFill
+                    color="#8A939B"
+                    className="text-3xl md:text-[40px] p-1 md:p-2 bg-[#262831] rounded-full cursor-pointer"
+                  />
+                );
+              },
+            }}
+          />
+
+          {!account?.address && (
+            <div className="lg:block absolute -bottom-17 -right-[10px] md:-bottom-26 md:-right-2">
+              <BiSolidUpArrow className="text-[#31323E] absolute -top-3 right-4" />
+              <div className="bg-[#31323E] py-2 px-2 md:py-3 rounded-lg w-[100px] md:w-[170px] md:px-4">
+                <h3 className="font-semibold text-center text-[7px] md:text-[11px]">
+                  Welcome to Yommex Genesis!
+                </h3>
+                <p className="mt-1 md:mt-2 text-[6px] md:text-[9px]">
+                  To create or play games, <br />
+                  please{" "}
+                  <span className="text-[#CCE919] font-semibold">
+                    Connect your wallet
+                  </span>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       <AnimatePresence>
         {mobileSearchVisible && (
@@ -170,7 +168,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               autoFocus
               type="text"
               placeholder="Search..."
-              className="w-full rounded-md border-[#34343F] bg-[#19191E] px-4 py-3 text-sm text-white focus:border focus:border-gray-600 focus:outline-none"
+              className="w-full rounded-md border-[#34343F] bg-[#19191E] px-4 py-3 
+              text-sm text-white focus:border focus:border-gray-600 focus:outline-none"
             />
             <CiSearch
               size={28}
