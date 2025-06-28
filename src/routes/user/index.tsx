@@ -7,7 +7,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { ThirdwebProvider } from "thirdweb/react";
+import { ThirdwebProvider, useIsAutoConnecting } from "thirdweb/react";
 
 import { Dashboard, Games, Profile, Settings } from "../../pages";
 import { Header, Sidebar, Spinner } from "../../components";
@@ -16,9 +16,11 @@ import CreateGame from "../../modals/Game/Create";
 
 function RoutesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isWalletLoading = useIsAutoConnecting();
 
   return (
     <>
+      {isWalletLoading && <Spinner />}
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <Sidebar
         isOpen={isSidebarOpen}
