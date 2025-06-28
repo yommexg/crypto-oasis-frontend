@@ -18,14 +18,12 @@ function AppContent() {
   const location = useLocation();
 
   const { isAuthLoading, accessToken } = useAuth();
-  const { isUserLoading } = useUser();
+  const { isUserLoading, user } = useUser();
   const { isGameLoading } = useGame();
 
   const { setFingerprint } = useFingerPrint();
 
   const loadUserData = useLoadUserData();
-
-  const user = true;
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedCookies, setAcceptedCookies] = useState(false);
