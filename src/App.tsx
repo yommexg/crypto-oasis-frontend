@@ -4,7 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { VerifyEmail } from "./modals";
 import AppContent from "./AppContent";
-import { FingerprintProvider } from "./context/Fingerprint";
 
 function App() {
   return (
@@ -12,11 +11,7 @@ function App() {
       <Routes>
         <Route
           path="*"
-          element={
-            <FingerprintProvider>
-              <AppContent />
-            </FingerprintProvider>
-          }
+          element={<AppContent />}
         />
         <Route
           path="/verify-email"

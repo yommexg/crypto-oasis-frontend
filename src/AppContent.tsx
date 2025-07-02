@@ -8,9 +8,8 @@ import { LandingPage } from "./pages";
 import { TermsOfService } from "./modals";
 import { isAuthModalPath } from "./modals/Auth";
 
-import { useAuth, useGame, useUser } from "./store";
+import { useAuth, useFingerprint, useGame, useUser } from "./store";
 import { AuthRoutes, UserRoutes } from "./routes";
-import { useFingerPrint } from "./context/Fingerprint";
 import { getFingerprint } from "./config/fingerprint";
 import { useLoadUserData } from "./utils/loadUserData";
 
@@ -21,7 +20,7 @@ function AppContent() {
   const { isUserLoading, user } = useUser();
   const { isGameLoading } = useGame();
 
-  const { setFingerprint } = useFingerPrint();
+  const { setFingerprint } = useFingerprint();
 
   const loadUserData = useLoadUserData();
 

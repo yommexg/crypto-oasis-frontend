@@ -1,4 +1,3 @@
-// import { useWallet } from "../context/Wallet";
 import { useUser, useGame } from "../store";
 
 export const useLoadUserData = () => {

@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CenteredModal from "../CentralModal";
-import { useAuth } from "../../store";
-import { useFingerPrint } from "../../context/Fingerprint";
+import { useAuth, useFingerprint } from "../../store";
 import { useLoadUserData } from "../../utils/loadUserData";
 
 interface LoginProps {
@@ -22,7 +21,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate();
 
-  const { fingerprint } = useFingerPrint();
+  const { fingerprint } = useFingerprint();
 
   const { login } = useAuth();
   const loadUserData = useLoadUserData();
