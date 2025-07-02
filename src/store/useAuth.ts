@@ -14,7 +14,7 @@ interface AuthState {
   login: (
     email: string,
     password: string,
-    fingerprint: string
+    fingerprint: string | null
   ) => Promise<{
     status: "success" | "otp_required" | "error";
     message: string;
@@ -23,7 +23,7 @@ interface AuthState {
   newDevicelogin: (
     email: string,
     otp: string,
-    fingerprint: string
+    fingerprint: string | null
   ) => Promise<{
     status: "success" | "error";
     message: string;
