@@ -88,7 +88,7 @@ const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       header={
         <div className="text-center py-2 text-lg md:text-xl font-semibold text-white">
-          New Device Login
+          Verify and Login
         </div>
       }
       body={

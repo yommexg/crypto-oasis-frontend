@@ -56,7 +56,7 @@ const GeneralSettings: React.FC = () => {
               onChange={(e) => setUsername(e.target.value)}
               required
               className="md:w-[450px] lg:w-[600px] bg-[#19191E] px-4 py-3 rounded-lg text-white text-[10px] md:text-xs border
-               border-[#34343F] focus:outline-none focus:border focus:border-[#30B943]"
+               border-[#34343F] focus:outline-none focus:border focus:border-[#30B943] capitalize"
               placeholder="Enter Game Name"
             />
           </div>

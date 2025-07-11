@@ -96,7 +96,7 @@ const CreateGameStepOne: React.FC<GameStepOneProps> = ({
                   className="h-full w-full object-cover"
                 />
               </div>
-              <p className="capitalize font-semibold text-sm mt-2">
+              <p className="capitalize font-semibold text-sm mt-2 text-center">
                 {item.type}
               </p>
             </div>
