@@ -34,7 +34,7 @@ const ProfileInfo: React.FC = () => {
               href={user.discordUrl}
               target="_blank"
               rel="noopener noreferrer">
-              <FaDiscord className="w-4 h-4 md:w-6 md:h-6 text-[#9FA0AF] bg-[#2A2B35] p-1 cursor-pointer border border-[#66697E] rounded-sm" />
+              <FaDiscord className="w-5 h-5 md:w-6 md:h-6 text-[#9FA0AF] bg-[#2A2B35] p-1 cursor-pointer border border-[#66697E] rounded-sm" />
             </a>
           )}
 
@@ -43,7 +43,7 @@ const ProfileInfo: React.FC = () => {
               href={user.XUrl}
               target="_blank"
               rel="noopener noreferrer">
-              <FaXTwitter className="w-4 h-4 md:w-6 md:h-6 text-[#9FA0AF] bg-[#2A2B35] p-1 cursor-pointer border border-[#66697E] rounded-sm" />
+              <FaXTwitter className="w-5 h-5 md:w-6 md:h-6 text-[#9FA0AF] bg-[#2A2B35] p-1 cursor-pointer border border-[#66697E] rounded-sm" />
             </a>
           )}
 
@@ -52,7 +52,7 @@ const ProfileInfo: React.FC = () => {
               href={user.websiteUrl}
               target="_blank"
               rel="noopener noreferrer">
-              <FaGlobe className="w-4 h-4 md:w-6 md:h-6 text-[#9FA0AF] bg-[#2A2B35] p-1 cursor-pointer border border-[#66697E] rounded-sm" />
+              <FaGlobe className="w-5 h-5 md:w-6 md:h-6 text-[#9FA0AF] bg-[#2A2B35] p-1 cursor-pointer border border-[#66697E] rounded-sm" />
             </a>
           )}
         </div>

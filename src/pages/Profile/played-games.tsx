@@ -17,7 +17,7 @@ const ProfilePlayedGames: React.FC = () => {
           <div
             key={game.id + "desktop"}
             className="bg-[#292932] mb-2 pl-4 py-4 md:flex justify-between rounded-md hidden">
-            <div className="w-[50%] border-r border-[#4B4C59] flex items-center gap-4">
+            <div className="w-[40%] border-r border-[#4B4C59] flex items-center gap-4">
               <div className="w-20 h-20">
                 <img
                   src={game.image}
@@ -43,6 +43,18 @@ const ProfilePlayedGames: React.FC = () => {
               className="border-r border-[#4B4C59] w-[20%] flex flex-col 
           items-center justify-center gap-1">
               <p className="text-[#9FA0AF] uppercase font-semibold text-[10px] xl:text-xs">
+                Host:
+              </p>
+              <p
+                className="capitalize text-[#DADADA] text-xs xl:text-sm font-semibold
+             truncate whitespace-nowrap max-w-2/3">
+                {game.creatorName}
+              </p>
+            </div>
+            <div
+              className="border-r border-[#4B4C59] w-[20%] flex flex-col 
+          items-center justify-center gap-1">
+              <p className="text-[#9FA0AF] uppercase font-semibold text-[10px] xl:text-xs">
                 Collection:
               </p>
               <p
@@ -57,7 +69,7 @@ const ProfilePlayedGames: React.FC = () => {
               <p className="text-[#9FA0AF] uppercase font-semibold text-[10px] xl:text-xs">
                 Date:
               </p>
-              <p className="uppercase text-[#DADADA] text-xs xl:text-sm font-semibold">
+              <p className="text-[#DADADA] text-xs xl:text-sm font-semibold">
                 {formatDate(game.startDate.toString())}
               </p>
             </div>
@@ -99,6 +111,17 @@ const ProfilePlayedGames: React.FC = () => {
               overflow-hidden w-[80px] text-sm">
                 {game.title}
               </h2>
+
+              <div className="flex gap-2">
+                <p className="text-[#9FA0AF] font-semibold text-[10px]">
+                  Host:
+                </p>
+                <p
+                  className="capitalize text-[#DADADA]  text-xs xl:text-sm font-semibold
+                truncate whitespace-nowrap max-w-2/3">
+                  {game.creatorName}
+                </p>
+              </div>
 
               <div className="flex gap-2">
                 <p className="text-[#9FA0AF] font-semibold text-[10px]">
