@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 
 import CenteredModal from "../CentralModal";
 import { Spinner } from "../../components";
-import { useAuth, useFingerprint, useUser } from "../../store";
+import { useAuth, useFingerprint } from "../../store";
+import { useLoadUserData } from "../../utils/loadUserData";
 
 interface NewDeviceLoginProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const { newDevicelogin } = useAuth();
-  const { getUser } = useUser();
+  const loadUserData = useLoadUserData();
   const { fingerprint } = useFingerprint();
 
   const location = useLocation();
@@ -71,7 +72,7 @@ const NewDeviceLogin: React.FC<NewDeviceLoginProps> = ({ isOpen, onClose }) => {
 
     if (status === "success") {
       toast.success(message);
-      getUser();
+      await loadUserData();
       navigate("/");
     } else {
       toast.error(message);

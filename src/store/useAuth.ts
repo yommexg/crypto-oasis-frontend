@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axiosInstance from "./axiosinstance";
 import { isAxiosError } from "axios";
+import useUser from "./useUser";
 
 const ACCESS_TOKEN_KEY = "accessToken";
 
@@ -9,7 +10,7 @@ interface AuthState {
   accessToken: string | null;
 
   setAccessToken: (token: string | null) => void;
-  logout: () => void;
+  logout: (fingerprint: string | null) => void;
 
   login: (
     email: string,
@@ -93,21 +94,22 @@ const useAuth = create<AuthState>((set) => ({
     set({ accessToken: token });
   },
 
-  logout: () => {
+  logout: async (fingerprint) => {
     set({ isAuthLoading: true });
 
-    if (typeof window !== "undefined") {
-      localStorage.removeItem(ACCESS_TOKEN_KEY);
-    }
-
-    set({ accessToken: null, isAuthLoading: false });
-
-    axiosInstance
-      .get("/auth/logout")
-      .catch(() => {})
-      .finally(() => {
-        set({ isAuthLoading: false });
+    try {
+      await axiosInstance.post("/auth/logout", {
+        fingerprint,
       });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem(ACCESS_TOKEN_KEY);
+      }
+      set({ accessToken: null, isAuthLoading: false });
+      useUser.getState().removeUser();
+    }
   },
 
   login: async (email, password, fingerprint) => {

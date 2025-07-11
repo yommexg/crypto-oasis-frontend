@@ -25,6 +25,8 @@ interface UserState {
 
   getUser: () => void;
 
+  removeUser: () => void;
+
   updateUserInfo: (
     username: string,
     bio?: string | null,
@@ -48,6 +50,10 @@ interface UserState {
 const useUser = create<UserState>((set) => ({
   isUserLoading: false,
   user: null,
+
+  removeUser: () => {
+    set({ user: null });
+  },
 
   getUser: async () => {
     set({ isUserLoading: true });

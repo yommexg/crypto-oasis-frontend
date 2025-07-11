@@ -1,12 +1,12 @@
-import { useAuth, useUser } from "../../store";
+import { useAuth, useFingerprint, useUser } from "../../store";
 
 const DashboardMock: React.FC = () => {
   const { logout } = useAuth();
-  const { user, getUser } = useUser();
+  const { fingerprint } = useFingerprint();
+  const { user } = useUser();
 
   const handleLogout = () => {
-    logout();
-    getUser();
+    logout(fingerprint);
   };
 
   return (
