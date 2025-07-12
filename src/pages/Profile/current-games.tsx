@@ -1,7 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import { useGame } from "../../store";
 
 const ProfileCurrentGames: React.FC = () => {
-  const { currentGames } = useGame();
+  const navigate = useNavigate();
+  const { currentGames, getIndividualGameData } = useGame();
+
+  const handleGameClick = async (gameId: string) => {
+    await getIndividualGameData(gameId);
+    navigate(`/game/${gameId}`);
+  };
 
   return (
     <div className="px-4 md:px-10 xl:px-24 py-10">
@@ -15,6 +22,7 @@ const ProfileCurrentGames: React.FC = () => {
         {currentGames.map((game) => (
           <div
             key={game.id}
+            onClick={() => handleGameClick(game.id)}
             className="bg-[#292932] p-4 rounded-md">
             <div className="flex gap-4">
               <div className="w-20 h-20 md:w-24 md:h-24">

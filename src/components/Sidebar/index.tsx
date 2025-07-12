@@ -1,5 +1,6 @@
+import { useEffect } from "react";
+import { FaGamepad } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
-import { GrAppsRounded } from "react-icons/gr";
 import { IoSettings } from "react-icons/io5";
 import { MdPerson } from "react-icons/md";
 import { NavLink } from "react-router-dom";
@@ -7,21 +8,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiX } from "react-icons/fi";
 
 import icon from "../../assets/logo.png";
-import { useEffect } from "react";
+import { useGame } from "../../store";
 
 type SidebarProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const pages = [
-  { name: "Dashboard", icon: <GoHomeFill />, path: "/" },
-  { name: "Profile", icon: <MdPerson />, path: "/profile" },
-  { name: "Games", icon: <GrAppsRounded />, path: "/host-games" },
-  { name: "Settings", icon: <IoSettings />, path: "/settings" },
-];
-
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
+  const { currentGameId } = useGame();
+
+  const pages = [
+    { name: "Dashboard", icon: <GoHomeFill />, path: "/" },
+    { name: "Profile", icon: <MdPerson />, path: "/profile" },
+    { name: "Settings", icon: <IoSettings />, path: "/settings" },
+    {
+      name: "Game",
+      icon: <FaGamepad size={24} />,
+      path: `/game/${currentGameId}`,
+    },
+  ];
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -88,7 +95,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
       <NavLink
         to={pages[3].path}
         className={({ isActive }) =>
-          `relative text-xl cursor-pointer p-2 rounded-lg bg-[#464956] flex justify-center items-center group md:relative
+          `relative text-xl pointer-events-none p-2 rounded-lg bg-[#464956] 
+        flex justify-center items-center group md:relative
           ${isActive ? "text-white" : "text-[#C4C4C4]"}`
         }
         onClick={() => setIsOpen(false)}>

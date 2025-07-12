@@ -9,7 +9,7 @@ import {
 
 import { ThirdwebProvider, useIsAutoConnecting } from "thirdweb/react";
 
-import { Dashboard, Games, Profile, Settings } from "../../pages";
+import { Dashboard, IndividualGame, Profile, Settings } from "../../pages";
 import { Header, Sidebar, Spinner } from "../../components";
 import { useGame, useUser } from "../../store";
 import CreateGame from "../../modals/Game/Create";
@@ -38,8 +38,8 @@ function RoutesLayout() {
         />
 
         <Route
-          path="/host-games"
-          element={<Games />}
+          path="/game/:gameId"
+          element={<IndividualGame />}
         />
 
         <Route

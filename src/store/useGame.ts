@@ -33,6 +33,7 @@ interface GameState {
   currentGames: Game[];
   hostedGames: Game[];
   playedGames: Game[];
+  currentGameId: string | null;
 
   createGame: (
     title: string,
@@ -51,6 +52,7 @@ interface GameState {
   getCurrentGames: () => void;
   getHostedGames: () => void;
   getPlayedGames: () => void;
+  getIndividualGameData: (gameId: string) => void;
 }
 
 const useGame = create<GameState>((set) => ({
@@ -59,6 +61,7 @@ const useGame = create<GameState>((set) => ({
   currentGames: [],
   hostedGames: [],
   playedGames: [],
+  currentGameId: null,
 
   createGame: async (
     title,
@@ -179,6 +182,10 @@ const useGame = create<GameState>((set) => ({
     } finally {
       set({ isGameLoading: false });
     }
+  },
+
+  getIndividualGameData: async (gameId) => {
+    set({ currentGameId: gameId });
   },
 }));
 
