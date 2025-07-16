@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../../store";
+import { toast } from "react-toastify";
 
 const ProfileCurrentGames: React.FC = () => {
   const navigate = useNavigate();
   const { currentGames, getIndividualGameData } = useGame();
 
   const handleGameClick = async (gameId: string) => {
-    await getIndividualGameData(gameId);
-    navigate(`/game/${gameId}`);
+    const { status } = await getIndividualGameData(gameId);
+    if (status === "success") {
+      navigate(`/game/${gameId}`);
+    } else {
+      toast.error("Failed to fetch Game Data");
+    }
   };
 
   return (
@@ -22,7 +27,6 @@ const ProfileCurrentGames: React.FC = () => {
         {currentGames.map((game) => (
           <div
             key={game.id}
-            onClick={() => handleGameClick(game.id)}
             className="bg-[#292932] p-4 rounded-md">
             <div className="flex gap-4">
               <div className="w-20 h-20 md:w-24 md:h-24">
@@ -78,6 +82,7 @@ const ProfileCurrentGames: React.FC = () => {
             </div>
             <div>
               <button
+                onClick={() => handleGameClick(game.id)}
                 className="bg-[#444553] text-xs md:text-base border-2 border-[#64677C] w-full mt-2 md:mt-4 font-semibold py-1 
               rounded-lg cursor-pointer transition-opacity hover:opacity-40">
                 {game.status === "hosting" ? "Go to dashboard" : "Continue"}

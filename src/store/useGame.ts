@@ -25,6 +25,7 @@ interface Game {
   creatorName: string | null;
   winnerName: string | null;
   playersNames: string[];
+  currentRound: number;
 }
 
 interface GameState {
@@ -34,6 +35,7 @@ interface GameState {
   hostedGames: Game[];
   playedGames: Game[];
   currentGameId: string | null;
+  currentGame: Game | null;
 
   createGame: (
     title: string,
@@ -52,7 +54,9 @@ interface GameState {
   getCurrentGames: () => void;
   getHostedGames: () => void;
   getPlayedGames: () => void;
-  getIndividualGameData: (gameId: string) => void;
+  getIndividualGameData: (gameId: string) => Promise<{
+    status: "success" | "error";
+  }>;
 }
 
 const useGame = create<GameState>((set) => ({
@@ -62,6 +66,7 @@ const useGame = create<GameState>((set) => ({
   hostedGames: [],
   playedGames: [],
   currentGameId: null,
+  currentGame: null,
 
   createGame: async (
     title,
@@ -144,7 +149,7 @@ const useGame = create<GameState>((set) => ({
       set({ currentGames: gameData });
     } catch (err) {
       set({ currentGames: [] });
-      console.error("Failed to fetch Games", err);
+      console.error("Failed to fetch User`s Current Games", err);
     } finally {
       set({ isGameLoading: false });
     }
@@ -161,7 +166,7 @@ const useGame = create<GameState>((set) => ({
       set({ hostedGames: gameData });
     } catch (err) {
       set({ hostedGames: [] });
-      console.error("Failed to fetch Games", err);
+      console.error("Failed to fetch User` hosted Games", err);
     } finally {
       set({ isGameLoading: false });
     }
@@ -178,14 +183,32 @@ const useGame = create<GameState>((set) => ({
       set({ playedGames: gameData });
     } catch (err) {
       set({ playedGames: [] });
-      console.error("Failed to fetch Games", err);
+      console.error("Failed to fetch User`s Played Games", err);
     } finally {
       set({ isGameLoading: false });
     }
   },
 
   getIndividualGameData: async (gameId) => {
-    set({ currentGameId: gameId });
+    set({ isGameLoading: true });
+
+    try {
+      const res = await axiosInstance.get(`/games/${gameId}`);
+
+      const gameData: Game = res.data.game;
+      set({ currentGame: gameData, currentGameId: gameId });
+      return {
+        status: "success",
+      };
+    } catch (err) {
+      set({ currentGame: null });
+      console.error(`Failed to fetch Game with ${gameId} Data`, err);
+      return {
+        status: "error",
+      };
+    } finally {
+      set({ isGameLoading: false });
+    }
   },
 }));
 
