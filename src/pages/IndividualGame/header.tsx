@@ -38,7 +38,6 @@ const IndividualGameHeader = () => {
             className="capitalize mt-1 text-lg font-bold truncate whitespace-nowrap 
           overflow-hidden max-w-[120px] md:max-w-[250px] lg:max-w-[500px] xl:max-w-[650px]">
             {currentGame.title}
-            bjkgbkjdbkjbkjfgiierilreiuggugeukigoueqkjgigbilbjbbgfv5fjkgbfjkgvb5fjlkgligbilagbilgbilklgbilgbjlgblbglgbil
           </h2>
           <p className="font-medium text-[#9FA0AF] text-[10px]">
             {formatDate2(currentGame.startDate.toString())}
